@@ -1,0 +1,1826 @@
+{
+  "bwh_mace_death_30": {
+    "cohort": "BWH ED-ECG: 30-Day MACE or Death (All + Untested)",
+    "target": "macetrop_pos_or_death_030",
+    "tau_star": 0.0625,
+    "budget": 2.4,
+    "n_train": 39050,
+    "n_cal": 6329,
+    "n_test": 5779,
+    "test_prevalence": 0.06679,
+    "stage1_test_auroc": 0.8121,
+    "stage1_test_auprc": 0.2338,
+    "discovery": {
+      "global_cmi": [
+        "ch_sameday_troponin"
+      ],
+      "cz_schervish": [
+        "ch_sameday_troponin"
+      ],
+      "policy_aware": {
+        "selected_channels": [
+          "ch_sameday_troponin"
+        ],
+        "spent_budget": 1.15,
+        "history": [
+          {
+            "step": 0,
+            "selected": "ch_sameday_troponin",
+            "delta_nb": 5.4902,
+            "se": 1.4587,
+            "p_value": 8e-05,
+            "query_rate": 0.4414,
+            "cost": 1.15
+          },
+          {
+            "step": 1,
+            "action": "stop",
+            "best_delta": 0.9924
+          }
+        ]
+      },
+      "channel_ranking_changed_vs_global": false,
+      "null_selected_global": false,
+      "null_selected_cz": false,
+      "null_selected_policy": false
+    },
+    "arms": {
+      "global_cmi": {
+        "arm": "Global-CMI + Global S2",
+        "selected_channels": [
+          "ch_sameday_troponin"
+        ],
+        "beta_cz": 0.0,
+        "nb_stage1_0pct": 32.9469,
+        "nb_voi_auto": 40.0536,
+        "nb_100pct_query": 40.6025,
+        "auto_query_rate": 0.4958,
+        "auroc_s2_full": 0.9047,
+        "auprc_s2_full": 0.5664,
+        "auroc_routed": 0.8764,
+        "auprc_routed": 0.4249,
+        "skipped_case_certificate": {
+          "n_total": 5779,
+          "n_skipped": 2914,
+          "skip_rate": 0.5042394878006575,
+          "flip_count": 51,
+          "flip_rate": 0.017501715854495538,
+          "flip_rate_ub95": 0.02204991898787827,
+          "missed_tp_rescue_count": 9,
+          "missed_tp_rescue_rate": 0.0030885380919698007,
+          "missed_tp_rescue_ub95": 0.005383372882645652,
+          "forgone_nb_per_1k_all": 1.5573628655476726
+        }
+      },
+      "cz_fluid": {
+        "arm": "CZ-Fluid (Schervish + KL Backbone)",
+        "selected_channels": [
+          "ch_sameday_troponin"
+        ],
+        "beta_cz": 0.442,
+        "nb_stage1_0pct": 32.9469,
+        "nb_voi_auto": 39.8342,
+        "nb_100pct_query": 40.5333,
+        "auto_query_rate": 0.4843,
+        "auroc_s2_full": 0.9074,
+        "auprc_s2_full": 0.576,
+        "auroc_routed": 0.8775,
+        "auprc_routed": 0.4202,
+        "skipped_case_certificate": {
+          "n_total": 5779,
+          "n_skipped": 2980,
+          "skip_rate": 0.5156601488146738,
+          "flip_count": 66,
+          "flip_rate": 0.02214765100671141,
+          "flip_rate_ub95": 0.02711512859576598,
+          "missed_tp_rescue_count": 9,
+          "missed_tp_rescue_rate": 0.0030201342281879194,
+          "missed_tp_rescue_ub95": 0.0052642780914922025,
+          "forgone_nb_per_1k_all": 1.7304031839418585
+        }
+      },
+      "policy_aware_fluid": {
+        "arm": "Policy-Aware Delta_m + Fluid Backbone",
+        "selected_channels": [
+          "ch_sameday_troponin"
+        ],
+        "beta_cz": 0.442,
+        "nb_stage1_0pct": 32.9469,
+        "nb_voi_auto": 39.8342,
+        "nb_100pct_query": 40.5333,
+        "auto_query_rate": 0.4843,
+        "auroc_s2_full": 0.9074,
+        "auprc_s2_full": 0.576,
+        "auroc_routed": 0.8775,
+        "auprc_routed": 0.4202,
+        "skipped_case_certificate": {
+          "n_total": 5779,
+          "n_skipped": 2980,
+          "skip_rate": 0.5156601488146738,
+          "flip_count": 66,
+          "flip_rate": 0.02214765100671141,
+          "flip_rate_ub95": 0.02711512859576598,
+          "missed_tp_rescue_count": 9,
+          "missed_tp_rescue_rate": 0.0030201342281879194,
+          "missed_tp_rescue_ub95": 0.0052642780914922025,
+          "forgone_nb_per_1k_all": 1.7304031839418585
+        }
+      }
+    },
+    "paired_bootstrap": {
+      "cz_fluid_vs_global_cmi": {
+        "diff_mean": -0.21941512372382774,
+        "boot_se": 0.47425507568204434,
+        "ci95_low": -1.10813001095922,
+        "ci95_high": 0.7385072388533195,
+        "p_two_sided": 0.664
+      },
+      "policy_aware_vs_global_cmi": {
+        "diff_mean": -0.21941512372382774,
+        "boot_se": 0.4785989366651975,
+        "ci95_low": -1.1530830016727232,
+        "ci95_high": 0.6912643479264002,
+        "p_two_sided": 0.606
+      },
+      "policy_aware_vs_stage1": {
+        "diff_mean": 6.8873507527253865,
+        "boot_se": 1.5315726392702376,
+        "ci95_low": 3.706881236661476,
+        "ci95_high": 9.694243525408087,
+        "p_two_sided": 0.0
+      }
+    },
+    "murphy_diagrams": {
+      "policy_aware_vs_global_cmi": {
+        "taus": [
+          0.025,
+          0.0414,
+          0.0578,
+          0.0742,
+          0.0906,
+          0.107,
+          0.1234,
+          0.1398,
+          0.1562
+        ],
+        "murphy_gain_per_1k": [
+          -0.2725385014708427,
+          0.7015400588337083,
+          0.6411835957778164,
+          0.11555632462363734,
+          -0.17127530714656516,
+          -0.46859318221145524,
+          -0.6575186018342273,
+          -0.9118532618100016,
+          -0.6759993078387264
+        ]
+      },
+      "cz_fluid_vs_global_cmi": {
+        "taus": [
+          0.025,
+          0.0414,
+          0.0578,
+          0.0742,
+          0.0906,
+          0.107,
+          0.1234,
+          0.1398,
+          0.1562
+        ],
+        "murphy_gain_per_1k": [
+          -0.2725385014708427,
+          0.7015400588337083,
+          0.6411835957778164,
+          0.11555632462363734,
+          -0.17127530714656516,
+          -0.46859318221145524,
+          -0.6575186018342273,
+          -0.9118532618100016,
+          -0.6759993078387264
+        ]
+      }
+    },
+    "selective_label_audit": {
+      "selective_label_tested_only_model": {
+        "all_encounters": {
+          "n": 5779,
+          "events": 386,
+          "prevalence": 0.06679356290015574,
+          "auroc": 0.8546455825965149,
+          "auprc": 0.5071251186782965,
+          "nb_per_1k": 25.16006229451462,
+          "flag_rate": 0.6165426544384842,
+          "sensitivity_at_tau": 0.9300518134715026,
+          "rescued_events_at_tau": 359
+        },
+        "clinician_tested": {
+          "n": 480,
+          "events": 116,
+          "prevalence": 0.24166666666666667,
+          "auroc": 0.8434065934065933,
+          "auprc": 0.6861237611128522,
+          "nb_per_1k": 191.5277777777778,
+          "flag_rate": 0.69375,
+          "sensitivity_at_tau": 0.9224137931034483,
+          "rescued_events_at_tau": 107
+        },
+        "clinician_untested": {
+          "n": 5299,
+          "events": 270,
+          "prevalence": 0.05095301000188715,
+          "auroc": 0.849850864983098,
+          "auprc": 0.43142624767443594,
+          "nb_per_1k": 10.089954079386048,
+          "flag_rate": 0.6095489715040574,
+          "sensitivity_at_tau": 0.9333333333333333,
+          "rescued_events_at_tau": 252
+        }
+      },
+      "stage1_base": {
+        "all_encounters": {
+          "n": 5779,
+          "events": 386,
+          "prevalence": 0.06679356290015574,
+          "auroc": 0.8120697622805997,
+          "auprc": 0.23375928336552992,
+          "nb_per_1k": 32.94687662225299,
+          "flag_rate": 0.3862259906558228,
+          "sensitivity_at_tau": 0.8238341968911918,
+          "rescued_events_at_tau": 318
+        },
+        "clinician_tested": {
+          "n": 480,
+          "events": 116,
+          "prevalence": 0.24166666666666667,
+          "auroc": 0.6591511936339522,
+          "auprc": 0.42396301855888113,
+          "nb_per_1k": 152.22222222222223,
+          "flag_rate": 0.5833333333333334,
+          "sensitivity_at_tau": 0.7413793103448276,
+          "rescued_events_at_tau": 86
+        },
+        "clinician_untested": {
+          "n": 5299,
+          "events": 270,
+          "prevalence": 0.05095301000188715,
+          "auroc": 0.8383663639778176,
+          "auprc": 0.20159789985069668,
+          "nb_per_1k": 22.142542618104045,
+          "flag_rate": 0.3683713908284582,
+          "sensitivity_at_tau": 0.8592592592592593,
+          "rescued_events_at_tau": 232
+        }
+      },
+      "global_cmi": {
+        "all_encounters": {
+          "n": 5779,
+          "events": 386,
+          "prevalence": 0.06679356290015574,
+          "auroc": 0.8764085856834181,
+          "auprc": 0.4249470117188836,
+          "nb_per_1k": 40.0536424987022,
+          "flag_rate": 0.24260252638864854,
+          "sensitivity_at_tau": 0.8031088082901554,
+          "rescued_events_at_tau": 310
+        },
+        "clinician_tested": {
+          "n": 480,
+          "events": 116,
+          "prevalence": 0.24166666666666667,
+          "auroc": 0.8157919666540356,
+          "auprc": 0.6313443967329258,
+          "nb_per_1k": 177.2888888888889,
+          "flag_rate": 0.45625,
+          "sensitivity_at_tau": 0.8103448275862069,
+          "rescued_events_at_tau": 94
+        },
+        "clinician_untested": {
+          "n": 5299,
+          "events": 270,
+          "prevalence": 0.05095301000188715,
+          "auroc": 0.88069714176296,
+          "auprc": 0.3483220301461693,
+          "nb_per_1k": 27.62244448638108,
+          "flag_rate": 0.22324966974900926,
+          "sensitivity_at_tau": 0.8,
+          "rescued_events_at_tau": 216
+        }
+      },
+      "cz_fluid": {
+        "all_encounters": {
+          "n": 5779,
+          "events": 386,
+          "prevalence": 0.06679356290015574,
+          "auroc": 0.8774553273337439,
+          "auprc": 0.42016491408949563,
+          "nb_per_1k": 39.83422737497837,
+          "flag_rate": 0.25454230835784736,
+          "sensitivity_at_tau": 0.810880829015544,
+          "rescued_events_at_tau": 313
+        },
+        "clinician_tested": {
+          "n": 480,
+          "events": 116,
+          "prevalence": 0.24166666666666667,
+          "auroc": 0.8176155740810912,
+          "auprc": 0.6471332498990899,
+          "nb_per_1k": 178.02083333333334,
+          "flag_rate": 0.4791666666666667,
+          "sensitivity_at_tau": 0.8189655172413793,
+          "rescued_events_at_tau": 95
+        },
+        "clinician_untested": {
+          "n": 5299,
+          "events": 270,
+          "prevalence": 0.05095301000188715,
+          "auroc": 0.8817642856616807,
+          "auprc": 0.3305152663246012,
+          "nb_per_1k": 27.316852236270993,
+          "flag_rate": 0.23419513115682203,
+          "sensitivity_at_tau": 0.8074074074074075,
+          "rescued_events_at_tau": 218
+        }
+      },
+      "policy_aware_fluid": {
+        "all_encounters": {
+          "n": 5779,
+          "events": 386,
+          "prevalence": 0.06679356290015574,
+          "auroc": 0.8774553273337439,
+          "auprc": 0.42016491408949563,
+          "nb_per_1k": 39.83422737497837,
+          "flag_rate": 0.25454230835784736,
+          "sensitivity_at_tau": 0.810880829015544,
+          "rescued_events_at_tau": 313
+        },
+        "clinician_tested": {
+          "n": 480,
+          "events": 116,
+          "prevalence": 0.24166666666666667,
+          "auroc": 0.8176155740810912,
+          "auprc": 0.6471332498990899,
+          "nb_per_1k": 178.02083333333334,
+          "flag_rate": 0.4791666666666667,
+          "sensitivity_at_tau": 0.8189655172413793,
+          "rescued_events_at_tau": 95
+        },
+        "clinician_untested": {
+          "n": 5299,
+          "events": 270,
+          "prevalence": 0.05095301000188715,
+          "auroc": 0.8817642856616807,
+          "auprc": 0.3305152663246012,
+          "nb_per_1k": 27.316852236270993,
+          "flag_rate": 0.23419513115682203,
+          "sensitivity_at_tau": 0.8074074074074075,
+          "rescued_events_at_tau": 218
+        }
+      }
+    },
+    "fairness_audit": {
+      "race_str:White": {
+        "n": 3457,
+        "prevalence": 0.0833,
+        "nb_stage1": 44.316,
+        "nb_policy_fluid": 51.399,
+        "delta_nb_gain": 7.083,
+        "query_rate": 0.5178
+      },
+      "race_str:Black": {
+        "n": 993,
+        "prevalence": 0.0413,
+        "nb_stage1": 13.427,
+        "nb_policy_fluid": 20.714,
+        "delta_nb_gain": 7.286,
+        "query_rate": 0.4522
+      },
+      "race_str:Hispanic": {
+        "n": 800,
+        "prevalence": 0.0262,
+        "nb_stage1": 8.417,
+        "nb_policy_fluid": 12.283,
+        "delta_nb_gain": 3.867,
+        "query_rate": 0.4
+      },
+      "race_str:Other": {
+        "n": 529,
+        "prevalence": 0.0681,
+        "nb_stage1": 32.388,
+        "nb_policy_fluid": 41.815,
+        "delta_nb_gain": 9.427,
+        "query_rate": 0.4537
+      },
+      "agi_str:>200k": {
+        "n": 5779,
+        "prevalence": 0.0668,
+        "nb_stage1": 32.947,
+        "nb_policy_fluid": 39.834,
+        "delta_nb_gain": 6.887,
+        "query_rate": 0.4843
+      }
+    },
+    "elapsed_sec": 17.8
+  },
+  "bwh_stent_cabg_10": {
+    "cohort": "BWH ED-ECG: 10-Day Stent or CABG (Revascularization)",
+    "target": "stent_or_cabg_010_day",
+    "tau_star": 0.030003000300030006,
+    "budget": 2.4,
+    "n_train": 39050,
+    "n_cal": 6329,
+    "n_test": 5779,
+    "test_prevalence": 0.01505,
+    "stage1_test_auroc": 0.7889,
+    "stage1_test_auprc": 0.0476,
+    "discovery": {
+      "global_cmi": [
+        "ch_sameday_troponin",
+        "ch_ecg_ischemia_flags"
+      ],
+      "cz_schervish": [
+        "ch_sameday_troponin",
+        "ch_ecg_ischemia_flags"
+      ],
+      "policy_aware": {
+        "selected_channels": [
+          "ch_sameday_troponin"
+        ],
+        "spent_budget": 1.15,
+        "history": [
+          {
+            "step": 0,
+            "selected": "ch_sameday_troponin",
+            "delta_nb": 3.2934,
+            "se": 0.9578,
+            "p_value": 0.00029,
+            "query_rate": 0.572,
+            "cost": 1.15
+          },
+          {
+            "step": 1,
+            "action": "stop",
+            "best_delta": 0.3215
+          }
+        ]
+      },
+      "channel_ranking_changed_vs_global": true,
+      "null_selected_global": false,
+      "null_selected_cz": false,
+      "null_selected_policy": false
+    },
+    "arms": {
+      "global_cmi": {
+        "arm": "Global-CMI + Global S2",
+        "selected_channels": [
+          "ch_sameday_troponin",
+          "ch_ecg_ischemia_flags"
+        ],
+        "beta_cz": 0.0,
+        "nb_stage1_0pct": 2.9306,
+        "nb_voi_auto": 4.7956,
+        "nb_100pct_query": 5.0515,
+        "auto_query_rate": 0.476,
+        "auroc_s2_full": 0.8495,
+        "auprc_s2_full": 0.2649,
+        "auroc_routed": 0.8174,
+        "auprc_routed": 0.2425,
+        "skipped_case_certificate": {
+          "n_total": 5779,
+          "n_skipped": 3028,
+          "skip_rate": 0.5239660840975947,
+          "flip_count": 32,
+          "flip_rate": 0.010568031704095112,
+          "flip_rate_ub95": 0.014169222558627084,
+          "missed_tp_rescue_count": 5,
+          "missed_tp_rescue_rate": 0.0016512549537648614,
+          "missed_tp_rescue_ub95": 0.0034687803099775812,
+          "forgone_nb_per_1k_all": 0.7420983651516816
+        }
+      },
+      "cz_fluid": {
+        "arm": "CZ-Fluid (Schervish + KL Backbone)",
+        "selected_channels": [
+          "ch_sameday_troponin",
+          "ch_ecg_ischemia_flags"
+        ],
+        "beta_cz": 0.3522,
+        "nb_stage1_0pct": 2.9306,
+        "nb_voi_auto": 4.9893,
+        "nb_100pct_query": 5.2353,
+        "auto_query_rate": 0.4653,
+        "auroc_s2_full": 0.8587,
+        "auprc_s2_full": 0.2653,
+        "auroc_routed": 0.8216,
+        "auprc_routed": 0.2337,
+        "skipped_case_certificate": {
+          "n_total": 5779,
+          "n_skipped": 3090,
+          "skip_rate": 0.5346945838380343,
+          "flip_count": 36,
+          "flip_rate": 0.011650485436893204,
+          "flip_rate_ub95": 0.015356576104305918,
+          "missed_tp_rescue_count": 5,
+          "missed_tp_rescue_rate": 0.0016181229773462784,
+          "missed_tp_rescue_ub95": 0.0033992423024782658,
+          "forgone_nb_per_1k_all": 0.7420983651516816
+        }
+      },
+      "policy_aware_fluid": {
+        "arm": "Policy-Aware Delta_m + Fluid Backbone",
+        "selected_channels": [
+          "ch_sameday_troponin"
+        ],
+        "beta_cz": 0.2921,
+        "nb_stage1_0pct": 2.9306,
+        "nb_voi_auto": 4.2732,
+        "nb_100pct_query": 4.3433,
+        "auto_query_rate": 0.4681,
+        "auroc_s2_full": 0.8353,
+        "auprc_s2_full": 0.2398,
+        "auroc_routed": 0.812,
+        "auprc_routed": 0.2139,
+        "skipped_case_certificate": {
+          "n_total": 5779,
+          "n_skipped": 3074,
+          "skip_rate": 0.5319259387437273,
+          "flip_count": 38,
+          "flip_rate": 0.01236174365647365,
+          "flip_rate_ub95": 0.016171971022973814,
+          "missed_tp_rescue_count": 4,
+          "missed_tp_rescue_rate": 0.0013012361743656475,
+          "missed_tp_rescue_ub95": 0.0029752271520833923,
+          "forgone_nb_per_1k_all": 0.5637057325479633
+        }
+      }
+    },
+    "paired_bootstrap": {
+      "cz_fluid_vs_global_cmi": {
+        "diff_mean": 0.1937002512429813,
+        "boot_se": 0.30239665344227634,
+        "ci95_low": -0.3969637498998448,
+        "ci95_high": 0.8555553836867991,
+        "p_two_sided": 0.474
+      },
+      "policy_aware_vs_global_cmi": {
+        "diff_mean": -0.5224393899924676,
+        "boot_se": 0.45504269762138555,
+        "ci95_low": -1.5227454353189689,
+        "ci95_high": 0.2722949711743085,
+        "p_two_sided": 0.232
+      },
+      "policy_aware_vs_stage1": {
+        "diff_mean": 1.3426280194612288,
+        "boot_se": 1.0498661068033521,
+        "ci95_low": -0.6175005045894216,
+        "ci95_high": 3.3778669068928013,
+        "p_two_sided": 0.236
+      }
+    },
+    "murphy_diagrams": {
+      "policy_aware_vs_global_cmi": {
+        "taus": [
+          0.012,
+          0.0199,
+          0.0278,
+          0.0356,
+          0.0435,
+          0.0514,
+          0.0593,
+          0.0671,
+          0.075
+        ],
+        "murphy_gain_per_1k": [
+          -0.6437099844263715,
+          -0.9512891503720365,
+          -0.49987887177712403,
+          -0.2906385187748745,
+          -0.5642844782834401,
+          -0.10188613947049663,
+          -0.2332064370998442,
+          -0.4030109015400588,
+          -0.4931649074234297
+        ]
+      },
+      "cz_fluid_vs_global_cmi": {
+        "taus": [
+          0.012,
+          0.0199,
+          0.0278,
+          0.0356,
+          0.0435,
+          0.0514,
+          0.0593,
+          0.0671,
+          0.075
+        ],
+        "murphy_gain_per_1k": [
+          0.2360269942896694,
+          0.11450077868143273,
+          -0.024052604256791794,
+          0.09240353002249528,
+          -0.15798581069389164,
+          0.39944627098113866,
+          0.13339678145007786,
+          0.32398338812943417,
+          0.31579858106938913
+        ]
+      }
+    },
+    "selective_label_audit": {
+      "selective_label_tested_only_model": {
+        "all_encounters": {
+          "n": 5779,
+          "events": 87,
+          "prevalence": 0.015054507700294168,
+          "auroc": 0.8343450376006655,
+          "auprc": 0.21666545036866874,
+          "nb_per_1k": -6.238764488915279,
+          "flag_rate": 0.6976985637653573,
+          "sensitivity_at_tau": 0.9885057471264368,
+          "rescued_events_at_tau": 86
+        },
+        "clinician_tested": {
+          "n": 480,
+          "events": 87,
+          "prevalence": 0.18125,
+          "auroc": 0.7245766429762217,
+          "auprc": 0.4288719368579471,
+          "nb_per_1k": 156.4194762346634,
+          "flag_rate": 0.9145833333333333,
+          "sensitivity_at_tau": 0.9885057471264368,
+          "rescued_events_at_tau": 86
+        },
+        "clinician_untested": {
+          "n": 5299,
+          "events": 0,
+          "auroc": null,
+          "auprc": null,
+          "nb": null
+        }
+      },
+      "stage1_base": {
+        "all_encounters": {
+          "n": 5779,
+          "events": 87,
+          "prevalence": 0.015054507700294168,
+          "auroc": 0.7889051784719026,
+          "auprc": 0.04757573205230674,
+          "nb_per_1k": 2.930552599145332,
+          "flag_rate": 0.1417200207648382,
+          "sensitivity_at_tau": 0.47126436781609193,
+          "rescued_events_at_tau": 41
+        },
+        "clinician_tested": {
+          "n": 480,
+          "events": 87,
+          "prevalence": 0.18125,
+          "auroc": 0.6697084027960575,
+          "auprc": 0.2799291188374919,
+          "nb_per_1k": 79.29490153624083,
+          "flag_rate": 0.2833333333333333,
+          "sensitivity_at_tau": 0.47126436781609193,
+          "rescued_events_at_tau": 41
+        },
+        "clinician_untested": {
+          "n": 5299,
+          "events": 0,
+          "auroc": null,
+          "auprc": null,
+          "nb": null
+        }
+      },
+      "global_cmi": {
+        "all_encounters": {
+          "n": 5779,
+          "events": 87,
+          "prevalence": 0.015054507700294168,
+          "auroc": 0.8173580988845002,
+          "auprc": 0.24246720162269894,
+          "nb_per_1k": 4.795620008599029,
+          "flag_rate": 0.08444367537636269,
+          "sensitivity_at_tau": 0.5057471264367817,
+          "rescued_events_at_tau": 44
+        },
+        "clinician_tested": {
+          "n": 480,
+          "events": 87,
+          "prevalence": 0.18125,
+          "auroc": 0.6759673598315346,
+          "auprc": 0.41826303055907427,
+          "nb_per_1k": 84.86635220125787,
+          "flag_rate": 0.28958333333333336,
+          "sensitivity_at_tau": 0.5057471264367817,
+          "rescued_events_at_tau": 44
+        },
+        "clinician_untested": {
+          "n": 5299,
+          "events": 0,
+          "auroc": null,
+          "auprc": null,
+          "nb": null
+        }
+      },
+      "cz_fluid": {
+        "all_encounters": {
+          "n": 5779,
+          "events": 87,
+          "prevalence": 0.015054507700294168,
+          "auroc": 0.8216270466312873,
+          "auprc": 0.23371629854667803,
+          "nb_per_1k": 4.989320259842009,
+          "flag_rate": 0.0842706350579685,
+          "sensitivity_at_tau": 0.5172413793103449,
+          "rescued_events_at_tau": 45
+        },
+        "clinician_tested": {
+          "n": 480,
+          "events": 87,
+          "prevalence": 0.18125,
+          "auroc": 0.6736275628089263,
+          "auprc": 0.40767549531980396,
+          "nb_per_1k": 86.90651098051346,
+          "flag_rate": 0.29375,
+          "sensitivity_at_tau": 0.5172413793103449,
+          "rescued_events_at_tau": 45
+        },
+        "clinician_untested": {
+          "n": 5299,
+          "events": 0,
+          "auroc": null,
+          "auprc": null,
+          "nb": null
+        }
+      },
+      "policy_aware_fluid": {
+        "all_encounters": {
+          "n": 5779,
+          "events": 87,
+          "prevalence": 0.015054507700294168,
+          "auroc": 0.811974459010832,
+          "auprc": 0.21389595278187024,
+          "nb_per_1k": 4.273180618606561,
+          "flag_rate": 0.0842706350579685,
+          "sensitivity_at_tau": 0.47126436781609193,
+          "rescued_events_at_tau": 41
+        },
+        "clinician_tested": {
+          "n": 480,
+          "events": 87,
+          "prevalence": 0.18125,
+          "auroc": 0.6579801702202335,
+          "auprc": 0.39352919328380864,
+          "nb_per_1k": 78.51260439220538,
+          "flag_rate": 0.2875,
+          "sensitivity_at_tau": 0.47126436781609193,
+          "rescued_events_at_tau": 41
+        },
+        "clinician_untested": {
+          "n": 5299,
+          "events": 0,
+          "auroc": null,
+          "auprc": null,
+          "nb": null
+        }
+      }
+    },
+    "fairness_audit": {
+      "race_str:White": {
+        "n": 3457,
+        "prevalence": 0.0202,
+        "nb_stage1": 4.452,
+        "nb_policy_fluid": 6.695,
+        "delta_nb_gain": 2.243,
+        "query_rate": 0.5334
+      },
+      "race_str:Black": {
+        "n": 993,
+        "prevalence": 0.005,
+        "nb_stage1": -0.156,
+        "nb_policy_fluid": 2.07,
+        "delta_nb_gain": 2.226,
+        "query_rate": 0.3988
+      },
+      "race_str:Hispanic": {
+        "n": 800,
+        "prevalence": 0.0063,
+        "nb_stage1": 0.966,
+        "nb_policy_fluid": -0.365,
+        "delta_nb_gain": -1.331,
+        "query_rate": 0.3237
+      },
+      "race_str:Other": {
+        "n": 529,
+        "prevalence": 0.0132,
+        "nb_stage1": 1.754,
+        "nb_policy_fluid": -0.401,
+        "delta_nb_gain": -2.154,
+        "query_rate": 0.3894
+      },
+      "agi_str:>200k": {
+        "n": 5779,
+        "prevalence": 0.0151,
+        "nb_stage1": 2.931,
+        "nb_policy_fluid": 4.273,
+        "delta_nb_gain": 1.343,
+        "query_rate": 0.4681
+      }
+    },
+    "elapsed_sec": 20.0
+  },
+  "mcmed_critical_icu_death": {
+    "cohort": "Stanford MC-MED: Critical Decompensation (ICU or In-Hospital Death)",
+    "target": "y_critical_icu_death",
+    "tau_star": 0.05,
+    "budget": 3.0,
+    "n_train": 81588,
+    "n_cal": 11770,
+    "n_test": 12020,
+    "test_prevalence": 0.02612,
+    "stage1_test_auroc": 0.8879,
+    "stage1_test_auprc": 0.355,
+    "discovery": {
+      "global_cmi": [
+        "ch_monitor_numerics_2h",
+        "ch_lab_renal_elyte",
+        "ch_hie_meds",
+        "ch_lab_lft_coag"
+      ],
+      "cz_schervish": [
+        "ch_lab_renal_elyte"
+      ],
+      "policy_aware": {
+        "selected_channels": [],
+        "spent_budget": 0.0,
+        "history": [
+          {
+            "step": 0,
+            "action": "stop",
+            "best_delta": 0.7529
+          }
+        ]
+      },
+      "channel_ranking_changed_vs_global": true,
+      "null_selected_global": false,
+      "null_selected_cz": false,
+      "null_selected_policy": false
+    },
+    "arms": {
+      "global_cmi": {
+        "arm": "Global-CMI + Global S2",
+        "selected_channels": [
+          "ch_monitor_numerics_2h",
+          "ch_lab_renal_elyte",
+          "ch_hie_meds",
+          "ch_lab_lft_coag"
+        ],
+        "beta_cz": 0.0,
+        "nb_stage1_0pct": 12.4223,
+        "nb_voi_auto": 14.092,
+        "nb_100pct_query": 13.5318,
+        "auto_query_rate": 0.2542,
+        "auroc_s2_full": 0.9285,
+        "auprc_s2_full": 0.4721,
+        "auroc_routed": 0.9094,
+        "auprc_routed": 0.4238,
+        "skipped_case_certificate": {
+          "n_total": 12020,
+          "n_skipped": 8964,
+          "skip_rate": 0.745757071547421,
+          "flip_count": 71,
+          "flip_rate": 0.007920571173583222,
+          "flip_rate_ub95": 0.009641581180672347,
+          "missed_tp_rescue_count": 10,
+          "missed_tp_rescue_rate": 0.0011155734047300313,
+          "missed_tp_rescue_ub95": 0.0018915252247596825,
+          "forgone_nb_per_1k_all": 0.6173920658551536
+        }
+      },
+      "cz_fluid": {
+        "arm": "CZ-Fluid (Schervish + KL Backbone)",
+        "selected_channels": [
+          "ch_lab_renal_elyte"
+        ],
+        "beta_cz": 0.0,
+        "nb_stage1_0pct": 12.4223,
+        "nb_voi_auto": 13.2205,
+        "nb_100pct_query": 12.7568,
+        "auto_query_rate": 0.1462,
+        "auroc_s2_full": 0.9065,
+        "auprc_s2_full": 0.3969,
+        "auroc_routed": 0.8941,
+        "auprc_routed": 0.371,
+        "skipped_case_certificate": {
+          "n_total": 12020,
+          "n_skipped": 10263,
+          "skip_rate": 0.8538269550748752,
+          "flip_count": 120,
+          "flip_rate": 0.01169248757673195,
+          "flip_rate_ub95": 0.013593480082271658,
+          "missed_tp_rescue_count": 13,
+          "missed_tp_rescue_rate": 0.0012666861541459611,
+          "missed_tp_rescue_ub95": 0.0020131391340049124,
+          "forgone_nb_per_1k_all": 0.8844907610123479
+        }
+      },
+      "policy_aware_fluid": {
+        "arm": "Policy-Aware Delta_m + Fluid Backbone",
+        "selected_channels": [],
+        "beta_cz": 0.0,
+        "nb_stage1_0pct": 12.4223,
+        "nb_voi_auto": 12.4223,
+        "nb_100pct_query": 10.8433,
+        "auto_query_rate": 0.0,
+        "auroc_s2_full": 0.8879,
+        "auprc_s2_full": 0.355,
+        "auroc_routed": 0.8879,
+        "auprc_routed": 0.355,
+        "skipped_case_certificate": {
+          "n_total": 12020,
+          "n_skipped": 12020,
+          "skip_rate": 1.0,
+          "flip_count": 0,
+          "flip_rate": 0.0,
+          "flip_rate_ub95": 0.0002491979195444427,
+          "missed_tp_rescue_count": 0,
+          "missed_tp_rescue_rate": 0.0,
+          "missed_tp_rescue_ub95": 0.0002491979195444427,
+          "forgone_nb_per_1k_all": 0.0
+        }
+      }
+    },
+    "paired_bootstrap": {
+      "cz_fluid_vs_global_cmi": {
+        "diff_mean": -0.8714861196251861,
+        "boot_se": 0.44964638546531144,
+        "ci95_low": -1.7802751992293542,
+        "ci95_high": 0.024922278658376377,
+        "p_two_sided": 0.054
+      },
+      "policy_aware_vs_global_cmi": {
+        "diff_mean": -1.6696733514318238,
+        "boot_se": 0.5222565671437506,
+        "ci95_low": -2.6691457220422103,
+        "ci95_high": -0.6629170680444875,
+        "p_two_sided": 0.002
+      },
+      "policy_aware_vs_stage1": {
+        "diff_mean": 0.0,
+        "boot_se": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "p_two_sided": 1.0
+      }
+    },
+    "murphy_diagrams": {
+      "policy_aware_vs_global_cmi": {
+        "taus": [
+          0.02,
+          0.0331,
+          0.0462,
+          0.0594,
+          0.0725,
+          0.0856,
+          0.0988,
+          0.1119,
+          0.125
+        ],
+        "murphy_gain_per_1k": [
+          -1.5191347753743765,
+          -2.154908485856905,
+          -1.7826788685524124,
+          -2.2560399334442596,
+          -2.291181364392679,
+          -2.0724126455906817,
+          -2.3879866888519135,
+          -2.2171464226289515,
+          -2.579034941763727
+        ]
+      },
+      "cz_fluid_vs_global_cmi": {
+        "taus": [
+          0.02,
+          0.0331,
+          0.0462,
+          0.0594,
+          0.0725,
+          0.0856,
+          0.0988,
+          0.1119,
+          0.125
+        ],
+        "murphy_gain_per_1k": [
+          -1.3643926788685525,
+          -1.5056073211314476,
+          -0.9592845257903494,
+          -1.0353244592346087,
+          -1.1133527454242929,
+          -1.2488519134775373,
+          -1.521630615640599,
+          -1.533702163061564,
+          -2.007071547420965
+        ]
+      }
+    },
+    "selective_label_audit": null,
+    "fairness_audit": {
+      "Race:White": {
+        "n": 4905,
+        "prevalence": 0.0277,
+        "nb_stage1": 12.071,
+        "nb_policy_fluid": 12.071,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Race:Other": {
+        "n": 3961,
+        "prevalence": 0.0225,
+        "nb_stage1": 11.055,
+        "nb_policy_fluid": 11.055,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Race:Asian": {
+        "n": 2234,
+        "prevalence": 0.0282,
+        "nb_stage1": 15.431,
+        "nb_policy_fluid": 15.431,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Race:Black or African American": {
+        "n": 591,
+        "prevalence": 0.0271,
+        "nb_stage1": 11.132,
+        "nb_policy_fluid": 11.132,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Payor_class:Missing": {
+        "n": 7651,
+        "prevalence": 0.021,
+        "nb_stage1": 9.349,
+        "nb_policy_fluid": 9.349,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Payor_class:Medicare": {
+        "n": 2902,
+        "prevalence": 0.04,
+        "nb_stage1": 19.95,
+        "nb_policy_fluid": 19.95,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Payor_class:Medicaid": {
+        "n": 1467,
+        "prevalence": 0.0252,
+        "nb_stage1": 13.562,
+        "nb_policy_fluid": 13.562,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      }
+    },
+    "elapsed_sec": 28.1
+  },
+  "mcmed_admission": {
+    "cohort": "Stanford MC-MED: Hospital Admission (Inpatient or ICU)",
+    "target": "y_admit",
+    "tau_star": 0.14992503748125938,
+    "budget": 3.0,
+    "n_train": 81588,
+    "n_cal": 11770,
+    "n_test": 12020,
+    "test_prevalence": 0.28078,
+    "stage1_test_auroc": 0.797,
+    "stage1_test_auprc": 0.6149,
+    "discovery": {
+      "global_cmi": [
+        "ch_hie_pmh",
+        "ch_lab_lft_coag",
+        "ch_lab_lactate_cardiac"
+      ],
+      "cz_schervish": [
+        "ch_hie_pmh",
+        "ch_lab_lft_coag",
+        "ch_lab_lactate_cardiac",
+        "ch_hie_meds"
+      ],
+      "policy_aware": {
+        "selected_channels": [
+          "ch_hie_pmh",
+          "ch_lab_renal_elyte",
+          "ch_lab_lactate_cardiac"
+        ],
+        "spent_budget": 2.47,
+        "history": [
+          {
+            "step": 0,
+            "selected": "ch_hie_pmh",
+            "delta_nb": 9.4027,
+            "se": 1.407,
+            "p_value": 0.0,
+            "query_rate": 0.4598,
+            "cost": 0.4
+          },
+          {
+            "step": 1,
+            "selected": "ch_lab_renal_elyte",
+            "delta_nb": 5.8816,
+            "se": 1.1614,
+            "p_value": 0.0,
+            "query_rate": 0.563,
+            "cost": 0.92
+          },
+          {
+            "step": 2,
+            "selected": "ch_lab_lactate_cardiac",
+            "delta_nb": 2.5634,
+            "se": 0.9421,
+            "p_value": 0.00325,
+            "query_rate": 0.6036,
+            "cost": 1.15
+          },
+          {
+            "step": 3,
+            "action": "stop",
+            "best_delta": 0.3349
+          }
+        ]
+      },
+      "channel_ranking_changed_vs_global": true,
+      "null_selected_global": false,
+      "null_selected_cz": false,
+      "null_selected_policy": false
+    },
+    "arms": {
+      "global_cmi": {
+        "arm": "Global-CMI + Global S2",
+        "selected_channels": [
+          "ch_hie_pmh",
+          "ch_lab_lft_coag",
+          "ch_lab_lactate_cardiac"
+        ],
+        "beta_cz": 0.0,
+        "nb_stage1_0pct": 185.7332,
+        "nb_voi_auto": 199.4486,
+        "nb_100pct_query": 197.4309,
+        "auto_query_rate": 0.5704,
+        "auroc_s2_full": 0.8348,
+        "auprc_s2_full": 0.6393,
+        "auroc_routed": 0.8214,
+        "auprc_routed": 0.6154,
+        "skipped_case_certificate": {
+          "n_total": 12020,
+          "n_skipped": 5164,
+          "skip_rate": 0.42961730449251245,
+          "flip_count": 163,
+          "flip_rate": 0.031564678543764525,
+          "flip_rate_ub95": 0.03586529209516742,
+          "missed_tp_rescue_count": 0,
+          "missed_tp_rescue_rate": 0.0,
+          "missed_tp_rescue_ub95": 0.0005799503295127934,
+          "forgone_nb_per_1k_all": -0.12339809899432753
+        }
+      },
+      "cz_fluid": {
+        "arm": "CZ-Fluid (Schervish + KL Backbone)",
+        "selected_channels": [
+          "ch_hie_pmh",
+          "ch_lab_lft_coag",
+          "ch_lab_lactate_cardiac",
+          "ch_hie_meds"
+        ],
+        "beta_cz": 0.3784,
+        "nb_stage1_0pct": 185.7332,
+        "nb_voi_auto": 199.1666,
+        "nb_100pct_query": 197.3482,
+        "auto_query_rate": 0.5634,
+        "auroc_s2_full": 0.8343,
+        "auprc_s2_full": 0.6347,
+        "auroc_routed": 0.8207,
+        "auprc_routed": 0.6118,
+        "skipped_case_certificate": {
+          "n_total": 12020,
+          "n_skipped": 5248,
+          "skip_rate": 0.43660565723793676,
+          "flip_count": 160,
+          "flip_rate": 0.03048780487804878,
+          "flip_rate_ub95": 0.034685903825561575,
+          "missed_tp_rescue_count": 1,
+          "missed_tp_rescue_rate": 0.00019054878048780488,
+          "missed_tp_rescue_ub95": 0.0009036152333294404,
+          "forgone_nb_per_1k_all": 0.10667112719248041
+        }
+      },
+      "policy_aware_fluid": {
+        "arm": "Policy-Aware Delta_m + Fluid Backbone",
+        "selected_channels": [
+          "ch_hie_pmh",
+          "ch_lab_renal_elyte",
+          "ch_lab_lactate_cardiac"
+        ],
+        "beta_cz": 0.5214,
+        "nb_stage1_0pct": 185.7332,
+        "nb_voi_auto": 198.1192,
+        "nb_100pct_query": 196.3601,
+        "auto_query_rate": 0.5757,
+        "auroc_s2_full": 0.8301,
+        "auprc_s2_full": 0.6342,
+        "auroc_routed": 0.8173,
+        "auprc_routed": 0.6069,
+        "skipped_case_certificate": {
+          "n_total": 12020,
+          "n_skipped": 5100,
+          "skip_rate": 0.4242928452579035,
+          "flip_count": 137,
+          "flip_rate": 0.026862745098039216,
+          "flip_rate_ub95": 0.030892054837633826,
+          "missed_tp_rescue_count": 0,
+          "missed_tp_rescue_rate": 0.0,
+          "missed_tp_rescue_ub95": 0.0005872260002945634,
+          "forgone_nb_per_1k_all": 0.11165987316846993
+        }
+      }
+    },
+    "paired_bootstrap": {
+      "cz_fluid_vs_global_cmi": {
+        "diff_mean": -0.28201087546622755,
+        "boot_se": 0.5625147597078873,
+        "ci95_low": -1.3525865914246393,
+        "ci95_high": 0.8551095763380846,
+        "p_two_sided": 0.592
+      },
+      "policy_aware_vs_global_cmi": {
+        "diff_mean": -1.3293540747783674,
+        "boot_se": 0.9368390487853456,
+        "ci95_low": -3.237798847893136,
+        "ci95_high": 0.4164887591814937,
+        "p_two_sided": 0.156
+      },
+      "policy_aware_vs_stage1": {
+        "diff_mean": 12.386029163622068,
+        "boot_se": 1.3649965708773317,
+        "ci95_low": 9.786342280795974,
+        "ci95_high": 15.128546411477641,
+        "p_two_sided": 0.0
+      }
+    },
+    "murphy_diagrams": {
+      "policy_aware_vs_global_cmi": {
+        "taus": [
+          0.06,
+          0.0962,
+          0.1325,
+          0.1687,
+          0.205,
+          0.2412,
+          0.2775,
+          0.3137,
+          0.35
+        ],
+        "murphy_gain_per_1k": [
+          -0.03327787021630619,
+          -0.8976539101497504,
+          -0.3797836938435939,
+          -1.8414475873544092,
+          -2.2046589018302827,
+          -1.660965058236273,
+          -0.18947587354409318,
+          -0.3214891846921797,
+          0.03743760399334422
+        ]
+      },
+      "cz_fluid_vs_global_cmi": {
+        "taus": [
+          0.06,
+          0.0962,
+          0.1325,
+          0.1687,
+          0.205,
+          0.2412,
+          0.2775,
+          0.3137,
+          0.35
+        ],
+        "murphy_gain_per_1k": [
+          0.15806988352745427,
+          0.3251747088186355,
+          0.415973377703827,
+          -0.18651414309484188,
+          0.42096505823627306,
+          1.0100499168053247,
+          0.027870216306156402,
+          -0.2332861896838603,
+          0.45757071547420963
+        ]
+      }
+    },
+    "selective_label_audit": null,
+    "fairness_audit": {
+      "Race:White": {
+        "n": 4905,
+        "prevalence": 0.3201,
+        "nb_stage1": 219.906,
+        "nb_policy_fluid": 232.336,
+        "delta_nb_gain": 12.43,
+        "query_rate": 0.5331
+      },
+      "Race:Other": {
+        "n": 3961,
+        "prevalence": 0.2244,
+        "nb_stage1": 137.318,
+        "nb_policy_fluid": 150.567,
+        "delta_nb_gain": 13.249,
+        "query_rate": 0.6276
+      },
+      "Race:Asian": {
+        "n": 2234,
+        "prevalence": 0.3026,
+        "nb_stage1": 210.347,
+        "nb_policy_fluid": 219.934,
+        "delta_nb_gain": 9.586,
+        "query_rate": 0.5595
+      },
+      "Race:Black or African American": {
+        "n": 591,
+        "prevalence": 0.2572,
+        "nb_stage1": 143.967,
+        "nb_policy_fluid": 161.75,
+        "delta_nb_gain": 17.783,
+        "query_rate": 0.6159
+      },
+      "Race:Native Hawaiian or Other Pacific Islander": {
+        "n": 179,
+        "prevalence": 0.2514,
+        "nb_stage1": 145.626,
+        "nb_policy_fluid": 154.666,
+        "delta_nb_gain": 9.04,
+        "query_rate": 0.6313
+      },
+      "Payor_class:Missing": {
+        "n": 7651,
+        "prevalence": 0.2279,
+        "nb_stage1": 133.203,
+        "nb_policy_fluid": 147.396,
+        "delta_nb_gain": 14.193,
+        "query_rate": 0.621
+      },
+      "Payor_class:Medicare": {
+        "n": 2902,
+        "prevalence": 0.4325,
+        "nb_stage1": 337.649,
+        "nb_policy_fluid": 341.709,
+        "delta_nb_gain": 4.06,
+        "query_rate": 0.4108
+      },
+      "Payor_class:Medicaid": {
+        "n": 1467,
+        "prevalence": 0.2563,
+        "nb_stage1": 159.183,
+        "nb_policy_fluid": 178.616,
+        "delta_nb_gain": 19.432,
+        "query_rate": 0.666
+      }
+    },
+    "elapsed_sec": 49.4
+  },
+  "mcmed_bounce72_admit": {
+    "cohort": "Stanford MC-MED: 72h Discharged ED Bounceback w/ Hospitalization",
+    "target": "y_bounce72_admit",
+    "tau_star": 0.030003000300030006,
+    "budget": 3.0,
+    "n_train": 48855,
+    "n_cal": 6950,
+    "n_test": 7255,
+    "test_prevalence": 0.01585,
+    "stage1_test_auroc": 0.7026,
+    "stage1_test_auprc": 0.0484,
+    "discovery": {
+      "global_cmi": [
+        "ch_hie_pmh"
+      ],
+      "cz_schervish": [
+        "ch_hie_pmh",
+        "ch_hie_meds"
+      ],
+      "policy_aware": {
+        "selected_channels": [],
+        "spent_budget": 0.0,
+        "history": [
+          {
+            "step": 0,
+            "action": "stop",
+            "best_delta": 1.9922
+          }
+        ]
+      },
+      "channel_ranking_changed_vs_global": true,
+      "null_selected_global": false,
+      "null_selected_cz": false,
+      "null_selected_policy": false
+    },
+    "arms": {
+      "global_cmi": {
+        "arm": "Global-CMI + Global S2",
+        "selected_channels": [
+          "ch_hie_pmh"
+        ],
+        "beta_cz": 0.0,
+        "nb_stage1_0pct": 1.2433,
+        "nb_voi_auto": 3.0865,
+        "nb_100pct_query": 2.6964,
+        "auto_query_rate": 0.5875,
+        "auroc_s2_full": 0.7933,
+        "auprc_s2_full": 0.0824,
+        "auroc_routed": 0.7714,
+        "auprc_routed": 0.0825,
+        "skipped_case_certificate": {
+          "n_total": 7255,
+          "n_skipped": 2993,
+          "skip_rate": 0.41254307374224675,
+          "flip_count": 50,
+          "flip_rate": 0.01670564650851988,
+          "flip_rate_ub95": 0.02109797648322969,
+          "missed_tp_rescue_count": 1,
+          "missed_tp_rescue_rate": 0.0003341129301703976,
+          "missed_tp_rescue_ub95": 0.0015839955109324686,
+          "forgone_nb_per_1k_all": -0.0710710085496249
+        }
+      },
+      "cz_fluid": {
+        "arm": "CZ-Fluid (Schervish + KL Backbone)",
+        "selected_channels": [
+          "ch_hie_pmh",
+          "ch_hie_meds"
+        ],
+        "beta_cz": 0.311,
+        "nb_stage1_0pct": 1.2433,
+        "nb_voi_auto": 4.5828,
+        "nb_100pct_query": 4.2979,
+        "auto_query_rate": 0.6739,
+        "auroc_s2_full": 0.8065,
+        "auprc_s2_full": 0.0903,
+        "auroc_routed": 0.7861,
+        "auprc_routed": 0.0901,
+        "skipped_case_certificate": {
+          "n_total": 7255,
+          "n_skipped": 2366,
+          "skip_rate": 0.3261199172984149,
+          "flip_count": 41,
+          "flip_rate": 0.017328825021132713,
+          "flip_rate_ub95": 0.022426021444531475,
+          "missed_tp_rescue_count": 1,
+          "missed_tp_rescue_rate": 0.00042265426880811494,
+          "missed_tp_rescue_ub95": 0.0020034289602949406,
+          "forgone_nb_per_1k_all": -0.032700338066924
+        }
+      },
+      "policy_aware_fluid": {
+        "arm": "Policy-Aware Delta_m + Fluid Backbone",
+        "selected_channels": [],
+        "beta_cz": 0.0,
+        "nb_stage1_0pct": 1.2433,
+        "nb_voi_auto": 1.2433,
+        "nb_100pct_query": 0.47,
+        "auto_query_rate": 0.0,
+        "auroc_s2_full": 0.7026,
+        "auprc_s2_full": 0.0484,
+        "auroc_routed": 0.7026,
+        "auprc_routed": 0.0484,
+        "skipped_case_certificate": {
+          "n_total": 7255,
+          "n_skipped": 7255,
+          "skip_rate": 1.0,
+          "flip_count": 0,
+          "flip_rate": 0.0,
+          "flip_rate_ub95": 0.0004128344397340285,
+          "missed_tp_rescue_count": 0,
+          "missed_tp_rescue_rate": 0.0,
+          "missed_tp_rescue_ub95": 0.0004128344397340285,
+          "forgone_nb_per_1k_all": 0.0
+        }
+      }
+    },
+    "paired_bootstrap": {
+      "cz_fluid_vs_global_cmi": {
+        "diff_mean": 1.4962642954729217,
+        "boot_se": 0.5492555119896141,
+        "ci95_low": 0.49004728758796207,
+        "ci95_high": 2.6052768625070155,
+        "p_two_sided": 0.004
+      },
+      "policy_aware_vs_global_cmi": {
+        "diff_mean": -1.843199107754009,
+        "boot_se": 0.8137342906395643,
+        "ci95_low": -3.4253017906526066,
+        "ci95_high": -0.24730909685460725,
+        "p_two_sided": 0.026
+      },
+      "policy_aware_vs_stage1": {
+        "diff_mean": 0.0,
+        "boot_se": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "p_two_sided": 1.0
+      }
+    },
+    "murphy_diagrams": {
+      "policy_aware_vs_global_cmi": {
+        "taus": [
+          0.012,
+          0.0199,
+          0.0278,
+          0.0356,
+          0.0435,
+          0.0514,
+          0.0593,
+          0.0671,
+          0.075
+        ],
+        "murphy_gain_per_1k": [
+          -0.962095106822881,
+          -2.413177119228118,
+          -2.5669745003445894,
+          -2.6227980702963483,
+          -2.2461061337008963,
+          -2.2711509303928326,
+          -1.3311509303928324,
+          -1.350006891798759,
+          -0.9131633356305997
+        ]
+      },
+      "cz_fluid_vs_global_cmi": {
+        "taus": [
+          0.012,
+          0.0199,
+          0.0278,
+          0.0356,
+          0.0435,
+          0.0514,
+          0.0593,
+          0.0671,
+          0.075
+        ],
+        "murphy_gain_per_1k": [
+          0.680358373535493,
+          0.02399724328049622,
+          1.3438731909028256,
+          0.9951757408683667,
+          0.14362508614748448,
+          -0.6369951757408684,
+          0.10290833907649902,
+          -0.3699517574086837,
+          -0.05513439007580965
+        ]
+      }
+    },
+    "selective_label_audit": null,
+    "fairness_audit": {
+      "Race:Other": {
+        "n": 2723,
+        "prevalence": 0.0121,
+        "nb_stage1": 0.534,
+        "nb_policy_fluid": 0.534,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Race:White": {
+        "n": 2662,
+        "prevalence": 0.0177,
+        "nb_stage1": 0.984,
+        "nb_policy_fluid": 0.984,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Race:Asian": {
+        "n": 1296,
+        "prevalence": 0.017,
+        "nb_stage1": 2.49,
+        "nb_policy_fluid": 2.49,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Race:Black or African American": {
+        "n": 367,
+        "prevalence": 0.0191,
+        "nb_stage1": -0.59,
+        "nb_policy_fluid": -0.59,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Payor_class:Missing": {
+        "n": 5175,
+        "prevalence": 0.0131,
+        "nb_stage1": 1.05,
+        "nb_policy_fluid": 1.05,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Payor_class:Medicare": {
+        "n": 1133,
+        "prevalence": 0.0291,
+        "nb_stage1": 3.494,
+        "nb_policy_fluid": 3.494,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      },
+      "Payor_class:Medicaid": {
+        "n": 947,
+        "prevalence": 0.0148,
+        "nb_stage1": -0.392,
+        "nb_policy_fluid": -0.392,
+        "delta_nb_gain": 0.0,
+        "query_rate": 0.0
+      }
+    },
+    "elapsed_sec": 22.8
+  },
+  "ntuh_pre_arrest": {
+    "cohort": "NTUH Arrest-ECG: Impending Sudden Cardiac Arrest (2015-2017 -> 2019)",
+    "target": "y_pre_arrest",
+    "tau_star": 0.14992503748125938,
+    "budget": 1.8,
+    "n_train": 9289,
+    "n_cal": 3530,
+    "n_test": 3567,
+    "test_prevalence": 0.40566,
+    "stage1_test_auroc": 0.5772,
+    "stage1_test_auprc": 0.4626,
+    "discovery": {
+      "global_cmi": [
+        "ch_avr"
+      ],
+      "cz_schervish": [],
+      "policy_aware": {
+        "selected_channels": [],
+        "spent_budget": 0.0,
+        "history": [
+          {
+            "step": 0,
+            "action": "stop",
+            "best_delta": 0.0
+          }
+        ]
+      },
+      "channel_ranking_changed_vs_global": true,
+      "null_selected_global": false,
+      "null_selected_cz": false,
+      "null_selected_policy": false
+    },
+    "arms": {
+      "global_cmi": {
+        "arm": "Global-CMI + Global S2",
+        "selected_channels": [
+          "ch_avr"
+        ],
+        "beta_cz": 0.0,
+        "nb_stage1_0pct": 301.5008,
+        "nb_voi_auto": 301.4385,
+        "nb_100pct_query": 297.8909,
+        "auto_query_rate": 0.0036,
+        "auroc_s2_full": 0.5817,
+        "auprc_s2_full": 0.469,
+        "auroc_routed": 0.5772,
+        "auprc_routed": 0.4626,
+        "skipped_case_certificate": {
+          "n_total": 3567,
+          "n_skipped": 3554,
+          "skip_rate": 0.9963554807961873,
+          "flip_count": 8,
+          "flip_rate": 0.0022509848058525606,
+          "flip_rate_ub95": 0.004057845742854195,
+          "missed_tp_rescue_count": 0,
+          "missed_tp_rescue_rate": 0.0,
+          "missed_tp_rescue_ub95": 0.0008425633227867849,
+          "forgone_nb_per_1k_all": -0.03312749785042094
+        }
+      },
+      "cz_fluid": {
+        "arm": "CZ-Fluid (Schervish + KL Backbone)",
+        "selected_channels": [],
+        "beta_cz": 0.0,
+        "nb_stage1_0pct": 301.5008,
+        "nb_voi_auto": 301.5008,
+        "nb_100pct_query": 297.9734,
+        "auto_query_rate": 0.0,
+        "auroc_s2_full": 0.5772,
+        "auprc_s2_full": 0.4626,
+        "auroc_routed": 0.5772,
+        "auprc_routed": 0.4626,
+        "skipped_case_certificate": {
+          "n_total": 3567,
+          "n_skipped": 3567,
+          "skip_rate": 1.0,
+          "flip_count": 0,
+          "flip_rate": 0.0,
+          "flip_rate_ub95": 0.0008394938738709133,
+          "missed_tp_rescue_count": 0,
+          "missed_tp_rescue_rate": 0.0,
+          "missed_tp_rescue_ub95": 0.0008394938738709133,
+          "forgone_nb_per_1k_all": 0.0
+        }
+      },
+      "policy_aware_fluid": {
+        "arm": "Policy-Aware Delta_m + Fluid Backbone",
+        "selected_channels": [],
+        "beta_cz": 0.0,
+        "nb_stage1_0pct": 301.5008,
+        "nb_voi_auto": 301.5008,
+        "nb_100pct_query": 297.9734,
+        "auto_query_rate": 0.0,
+        "auroc_s2_full": 0.5772,
+        "auprc_s2_full": 0.4626,
+        "auroc_routed": 0.5772,
+        "auprc_routed": 0.4626,
+        "skipped_case_certificate": {
+          "n_total": 3567,
+          "n_skipped": 3567,
+          "skip_rate": 1.0,
+          "flip_count": 0,
+          "flip_rate": 0.0,
+          "flip_rate_ub95": 0.0008394938738709133,
+          "missed_tp_rescue_count": 0,
+          "missed_tp_rescue_rate": 0.0,
+          "missed_tp_rescue_ub95": 0.0008394938738709133,
+          "forgone_nb_per_1k_all": 0.0
+        }
+      }
+    },
+    "paired_bootstrap": {
+      "cz_fluid_vs_global_cmi": {
+        "diff_mean": 0.062299473569448316,
+        "boot_se": 0.08357242115327104,
+        "ci95_low": -0.08603260635780963,
+        "ci95_high": 0.2610644606719739,
+        "p_two_sided": 0.316
+      },
+      "policy_aware_vs_global_cmi": {
+        "diff_mean": 0.062299473569448316,
+        "boot_se": 0.08961918388187129,
+        "ci95_low": -0.08998812848920315,
+        "ci95_high": 0.2620533412048223,
+        "p_two_sided": 0.4
+      },
+      "policy_aware_vs_stage1": {
+        "diff_mean": 0.0,
+        "boot_se": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "p_two_sided": 1.0
+      }
+    },
+    "murphy_diagrams": {
+      "policy_aware_vs_global_cmi": {
+        "taus": [
+          0.06,
+          0.0962,
+          0.1325,
+          0.1687,
+          0.205,
+          0.2412,
+          0.2775,
+          0.3137,
+          0.35
+        ],
+        "murphy_gain_per_1k": [
+          0.0,
+          0.0,
+          -0.1485842444631343,
+          0.0945892907204934,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "cz_fluid_vs_global_cmi": {
+        "taus": [
+          0.06,
+          0.0962,
+          0.1325,
+          0.1687,
+          0.205,
+          0.2412,
+          0.2775,
+          0.3137,
+          0.35
+        ],
+        "murphy_gain_per_1k": [
+          0.0,
+          0.0,
+          -0.1485842444631343,
+          0.0945892907204934,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "selective_label_audit": null,
+    "fairness_audit": {},
+    "elapsed_sec": 5.5
+  }
+}

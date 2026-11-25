@@ -1,0 +1,247 @@
+{
+  "schema_version": "paper3_v2_audited_cohorts",
+  "bwh_ed_ecg": {
+    "platform_provenance": "Nightingale Open Science DUA (`ed-bwh-ecg`, Mullainathan & Obermeyer 2022 QJE)",
+    "split_design": "Patient-disjoint holdout split (70/15/15 unique patients; `start_datetime` is patient-shifted 2109-2115, NOT calendar chronology)",
+    "waveform_tensor_spec": "ecg-waveform.npy physical shape [112900, 3, 1000] (3 recorded waveform leads x 1000 samples @ 100 Hz; 100% present) + automated 12-lead Muse scalar intervals/flags in ecg-metadata.csv",
+    "parquet_path": "/Users/o2satz/.gemini/antigravity/brain/5be51496-dafb-4e38-a543-75823c062544/scratch/paper3_v2_rebuild/data/bwh_ed_ecg_v2.parquet",
+    "n_raw_encounters": 71460,
+    "n_modeling_encounters": 51158,
+    "n_unique_patients": 35595,
+    "splits_encounters": {
+      "train": 39050,
+      "cal": 6329,
+      "test": 5779
+    },
+    "splits_patients": {
+      "train": 24916,
+      "cal": 5339,
+      "test": 5340
+    },
+    "ecg_recorded_rate": 1.0,
+    "ecg_waveform_present_rate": 1.0,
+    "ecg_before_ed_end_rate": 1.0,
+    "ecg_lag_hours_median_iqr": [
+      0.226,
+      0.391,
+      1.014
+    ],
+    "endpoints_overall": {
+      "death_030_day_rate": 0.01961,
+      "death_030_day_events": 1003,
+      "stent_or_cabg_010_day_rate": 0.01396,
+      "stent_or_cabg_010_day_events": 714,
+      "macetrop_pos_or_death_030_rate": 0.09279,
+      "macetrop_pos_or_death_030_events": 4747
+    },
+    "endpoints_test": {
+      "n_test": 5779,
+      "n_test_patients": 5340,
+      "death_030_day_rate": 0.02405,
+      "death_030_day_events": 139,
+      "stent_or_cabg_010_day_rate": 0.01505,
+      "stent_or_cabg_010_day_events": 87,
+      "macetrop_pos_or_death_030_rate": 0.06679
+    },
+    "subgroups": {
+      "no_10d_stress_or_cath_all": 46549,
+      "no_10d_stress_or_cath_test": 5299,
+      "no_sameday_troponin_all": 31076,
+      "no_sameday_troponin_test": 4104,
+      "complete_sameday_troponin_all": 20082,
+      "complete_sameday_troponin_splits": {
+        "train": 16285,
+        "cal": 2122,
+        "test": 1675
+      },
+      "complete_troponin_death_030_test_rate": 0.03463,
+      "complete_troponin_stent_cabg_010_test_rate": 0.03224
+    },
+    "elapsed_sec": 18.4
+  },
+  "mcmed_stanford": {
+    "platform_provenance": "Released on both Nightingale Open Science (`mcmed-stanford-multi/v1`) and PhysioNet (Kansal et al., 2025, Scientific Data 12:1094); monitored ED beds at Stanford Health Care",
+    "split_design": "Official `split_chrono` patient-disjoint chronological split (zero MRN overlap across train/cal/test)",
+    "parquet_2h_path": "/Users/o2satz/.gemini/antigravity/brain/5be51496-dafb-4e38-a543-75823c062544/scratch/paper3_v2_rebuild/data/mcmed_stanford_2h_v2.parquet",
+    "parquet_discharged_sensitivity_path": "/Users/o2satz/.gemini/antigravity/brain/5be51496-dafb-4e38-a543-75823c062544/scratch/paper3_v2_rebuild/data/mcmed_discharged_sensitivity_v2.parquet",
+    "cohort_flow": {
+      "n_raw_visits_csv": 118385,
+      "n_official_split_chrono": 105378,
+      "n_excluded_dispo_or_admit_le_2h": 15983,
+      "n_strict_2h_landmark": 89395,
+      "n_strict_2h_unique_mrns": 61144,
+      "splits_2h_visits": {
+        "train": 69022,
+        "test": 10486,
+        "cal": 9887
+      },
+      "splits_2h_mrns": {
+        "train": 44504,
+        "cal": 8072,
+        "test": 8568
+      },
+      "n_strict_2h_discharged": 51736,
+      "splits_2h_discharged": {
+        "train": 39864,
+        "test": 6165,
+        "cal": 5707
+      },
+      "n_all_discharged_sensitivity": 63060,
+      "splits_all_discharged_sensitivity": {
+        "train": 48855,
+        "test": 7255,
+        "cal": 6950
+      }
+    },
+    "leakage_remediation_counts": {
+      "pmh_unique_mrns_unfiltered": 65315,
+      "visits_with_strict_prior_pmh_2h": 82020,
+      "visits_with_strict_prior_meds_2h": 50691,
+      "lab_rows_order_le_2h": 4235558,
+      "lab_rows_result_le_2h": 3121912,
+      "rad_rows_order_le_2h": 101892,
+      "rad_rows_result_le_2h": 28039,
+      "wf_dur_columns_retained": 0
+    },
+    "endpoints_2h_test": {
+      "n_test": 10486,
+      "n_test_mrns": 8568,
+      "y_critical_icu_death_rate": 0.02184,
+      "y_critical_icu_death_events": 229,
+      "y_admit_rate": 0.28762,
+      "y_admit_events": 3016,
+      "n_test_discharged_2h": 6165,
+      "y_bounce72_admit_2h_rate": 0.01671,
+      "y_bounce72_admit_2h_events": 103
+    },
+    "cdw_prior_ehr_coverage_by_payor": {
+      "Medicaid": {
+        "n_visits": 11250,
+        "has_prior_cdw_pmh_rate": 0.8695,
+        "has_prior_cdw_meds_rate": 0.3044,
+        "has_any_prior_cdw_rate": 0.877
+      },
+      "Medicare": {
+        "n_visits": 24217,
+        "has_prior_cdw_pmh_rate": 0.9633,
+        "has_prior_cdw_meds_rate": 0.796,
+        "has_any_prior_cdw_rate": 0.9699
+      },
+      "Unspecified_or_Commercial": {
+        "n_visits": 53928,
+        "has_prior_cdw_pmh_rate": 0.907,
+        "has_prior_cdw_meds_rate": 0.519,
+        "has_any_prior_cdw_rate": 0.9165
+      }
+    },
+    "cdw_prior_ehr_coverage_by_race": {
+      "Asian": {
+        "n_visits": 14937,
+        "has_prior_cdw_pmh_rate": 0.92,
+        "has_prior_cdw_meds_rate": 0.5845,
+        "has_any_prior_cdw_rate": 0.929
+      },
+      "Black or African American": {
+        "n_visits": 5510,
+        "has_prior_cdw_pmh_rate": 0.9321,
+        "has_prior_cdw_meds_rate": 0.5693,
+        "has_any_prior_cdw_rate": 0.9392
+      },
+      "Native Hawaiian or Other Pacific Islander": {
+        "n_visits": 1767,
+        "has_prior_cdw_pmh_rate": 0.9264,
+        "has_prior_cdw_meds_rate": 0.571,
+        "has_any_prior_cdw_rate": 0.9366
+      },
+      "Other_or_Unknown": {
+        "n_visits": 30697,
+        "has_prior_cdw_pmh_rate": 0.8897,
+        "has_prior_cdw_meds_rate": 0.4493,
+        "has_any_prior_cdw_rate": 0.8978
+      },
+      "White": {
+        "n_visits": 36484,
+        "has_prior_cdw_pmh_rate": 0.9372,
+        "has_prior_cdw_meds_rate": 0.6584,
+        "has_any_prior_cdw_rate": 0.946
+      }
+    },
+    "elapsed_sec": 22.9
+  },
+  "ntuh_arrest_ecg": {
+    "platform_provenance": "Nightingale Open Science DUA (`arrest-ntuh-ecg/v1`, Obermeyer et al. 2026 Nature)",
+    "pre_arrest_case_control_2015_2019": {
+      "parquet_path": "/Users/o2satz/.gemini/antigravity/brain/5be51496-dafb-4e38-a543-75823c062544/scratch/paper3_v2_rebuild/data/ntuh_pre_arrest_case_control_v2.parquet",
+      "design": "2015-2019 case-control pre-arrest SCA cohort (`study-group [0]pre` strictly prior to `rosc_datetime_offset` vs `control-group` non-arrest patients; zero patient overlap)",
+      "n_total_ecgs": 16771,
+      "n_total_patients": 10359,
+      "n_case_ecgs": 385,
+      "n_case_patients": 383,
+      "n_excluded_post_rosc_timestamp_in_0pre": 1,
+      "case_lead_hours_median_iqr": [
+        4.24,
+        521.72,
+        4465.46
+      ],
+      "n_control_ecgs": 16386,
+      "n_control_patients": 9976,
+      "patient_overlap_cases_vs_controls": 0,
+      "splits": {
+        "train": {
+          "n_ecgs": 9525,
+          "n_patients": 5971,
+          "n_case_ecgs": 236,
+          "n_case_patients": 235,
+          "n_control_ecgs": 9289,
+          "case_fraction_sample": 0.02478
+        },
+        "cal": {
+          "n_ecgs": 3595,
+          "n_patients": 2185,
+          "n_case_ecgs": 65,
+          "n_case_patients": 65,
+          "n_control_ecgs": 3530,
+          "case_fraction_sample": 0.01808
+        },
+        "test": {
+          "n_ecgs": 3651,
+          "n_patients": 2203,
+          "n_case_ecgs": 84,
+          "n_case_patients": 83,
+          "n_control_ecgs": 3567,
+          "case_fraction_sample": 0.02301
+        }
+      }
+    },
+    "supplementary_post_rosc": {
+      "parquet_path": "/Users/o2satz/.gemini/antigravity/brain/5be51496-dafb-4e38-a543-75823c062544/scratch/paper3_v2_rebuild/data/ntuh_post_rosc_v2.parquet",
+      "design": "Strictly `[1]ROSC` post-arrest ECGs with hyphenated years (`2011-14`, `2015-16`, `2017` -> train; `2018` -> cal; `2019` -> test)",
+      "n_raw_1rosc_traces": 838,
+      "n_raw_1rosc_patients": 835,
+      "n_analyzed_traces": 818,
+      "n_analyzed_patients": 815,
+      "splits": {
+        "train": {
+          "n_traces": 567,
+          "n_patients": 565,
+          "survival_rate": 0.3527,
+          "cpc12_rate": 0.2363
+        },
+        "cal": {
+          "n_traces": 121,
+          "n_patients": 121,
+          "survival_rate": 0.3388,
+          "cpc12_rate": 0.281
+        },
+        "test": {
+          "n_traces": 130,
+          "n_patients": 129,
+          "survival_rate": 0.4462,
+          "cpc12_rate": 0.3538
+        }
+      }
+    },
+    "elapsed_sec": 7.1
+  },
+  "total_elapsed_sec": 48.4
+}

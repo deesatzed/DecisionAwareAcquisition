@@ -1,0 +1,36 @@
+# Python environments & caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Raw or derived patient-level clinical datasets (NEVER commit DUA/EHR records)
+data/
+*.parquet
+*.csv
+*.psv
+*.hea
+*.dat
+*.mat
+*.wfdb
+*.RData
+*.rds
+*.zip
+*.tar.gz
+
+# LaTeX build intermediates & local gate state (keep sealed main.tex, references.bib, main.pdf, figures)
+manuscript/*.aux
+manuscript/*.bbl
+manuscript/*.blg
+manuscript/*.log
+manuscript/*.out
+manuscript/*.fls
+manuscript/*.fdb_latexmk
+manuscript/.preprint_gate/
+
+# macOS metadata
+.DS_Store

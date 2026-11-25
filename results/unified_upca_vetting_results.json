@@ -1,0 +1,514 @@
+{
+  "synthetic_e5_identifiability": {
+    "n_reps": 30,
+    "stage_a_pick_identifiable_rate": 1.0,
+    "stage_a_pick_unidentifiable_rate": 1.0,
+    "upca_pick_identifiable_rate": 0.9667,
+    "upca_pick_unidentifiable_rate": 0.6,
+    "upca_null_fwer": 0.0,
+    "nb_stage_a_b2_mean": 4.142,
+    "nb_upca_b2_mean": 3.394,
+    "nb_stage_a_b1_mean": 0.113,
+    "nb_upca_b1_mean": 1.598,
+    "nb_upca_minus_stage_a_b1_mean": 1.484,
+    "nb_upca_minus_stage_a_b1_se": 0.418
+  },
+  "bwh_mace_death_30": {
+    "name": "BWH 30d MACE/Death",
+    "prevalence": 0.06679,
+    "tau_star": 0.0625,
+    "stage1": {
+      "nb": 32.9469,
+      "auprc_full": 0.2338,
+      "auroc_secondary": 0.8121
+    },
+    "global_cmi": {
+      "selected": [
+        "ch_sameday_troponin"
+      ],
+      "nb_auto": 39.7523,
+      "nb_100pct": 40.6025,
+      "auprc_full": 0.5664,
+      "auroc_secondary": 0.9047,
+      "query_rate": 0.4791,
+      "skip_flip_ub95": 0.0268
+    },
+    "old_cz_starved_pilot": {
+      "selected": [
+        "ch_sameday_troponin"
+      ],
+      "nb_auto": 39.7823,
+      "nb_100pct": 40.5333,
+      "auprc_full": 0.576,
+      "auroc_secondary": 0.9074,
+      "query_rate": 0.4757,
+      "skip_flip_ub95": 0.0288
+    },
+    "unified_upca": {
+      "selected": [
+        "ch_sameday_troponin"
+      ],
+      "nb_auto": 39.7823,
+      "nb_100pct": 40.5333,
+      "auprc_full": 0.576,
+      "auroc_secondary": 0.9074,
+      "query_rate": 0.4757,
+      "skip_flip_ub95": 0.0288
+    },
+    "upca_stage_a_candidates": [
+      "ch_sameday_troponin"
+    ],
+    "upca_prune_log": [
+      {
+        "tested_drop": "ch_sameday_troponin",
+        "active_size": 1,
+        "solo_routed_gain": 6.6139,
+        "marginal_bundle_gain": 6.6139,
+        "z_marg": 12.038,
+        "pruned_candidate": false
+      }
+    ],
+    "null_selected_upca": false,
+    "boot_upca_vs_global_cmi": {
+      "diff_mean": 0.029993655188325582,
+      "boot_se": 0.49093429944344924,
+      "ci95_low": -0.9057334025494607,
+      "ci95_high": 1.0249149218434563,
+      "p_two_sided": 0.96
+    },
+    "boot_upca_vs_stage1": {
+      "diff_mean": 6.8354386572071295,
+      "boot_se": 1.5449798309581984,
+      "ci95_low": 3.844840514506547,
+      "ci95_high": 9.905770894618446,
+      "p_two_sided": 0.0
+    }
+  },
+  "bwh_stent_cabg_10": {
+    "name": "BWH 10d Stent/CABG",
+    "prevalence": 0.01505,
+    "tau_star": 0.030003000300030006,
+    "stage1": {
+      "nb": 2.9306,
+      "auprc_full": 0.0476,
+      "auroc_secondary": 0.7889
+    },
+    "global_cmi": {
+      "selected": [
+        "ch_sameday_troponin",
+        "ch_ecg_ischemia_flags"
+      ],
+      "nb_auto": 4.8193,
+      "nb_100pct": 5.0515,
+      "auprc_full": 0.2649,
+      "auroc_secondary": 0.8495,
+      "query_rate": 0.462,
+      "skip_flip_ub95": 0.0145
+    },
+    "old_cz_starved_pilot": {
+      "selected": [
+        "ch_sameday_troponin",
+        "ch_ecg_ischemia_flags"
+      ],
+      "nb_auto": 5.0265,
+      "nb_100pct": 5.2353,
+      "auprc_full": 0.2653,
+      "auroc_secondary": 0.8587,
+      "query_rate": 0.4368,
+      "skip_flip_ub95": 0.016
+    },
+    "unified_upca": {
+      "selected": [
+        "ch_sameday_troponin",
+        "ch_ecg_ischemia_flags"
+      ],
+      "nb_auto": 5.0265,
+      "nb_100pct": 5.2353,
+      "auprc_full": 0.2653,
+      "auroc_secondary": 0.8587,
+      "query_rate": 0.4368,
+      "skip_flip_ub95": 0.016
+    },
+    "upca_stage_a_candidates": [
+      "ch_sameday_troponin",
+      "ch_ecg_ischemia_flags",
+      "ch_ecg_rhythm_struct"
+    ],
+    "upca_prune_log": [
+      {
+        "tested_drop": "ch_sameday_troponin",
+        "active_size": 3,
+        "solo_routed_gain": 3.5767,
+        "marginal_bundle_gain": 3.8268,
+        "z_marg": 10.713,
+        "pruned_candidate": false
+      },
+      {
+        "tested_drop": "ch_ecg_ischemia_flags",
+        "active_size": 3,
+        "solo_routed_gain": 0.6661,
+        "marginal_bundle_gain": 0.5166,
+        "z_marg": 3.099,
+        "pruned_candidate": false
+      },
+      {
+        "tested_drop": "ch_ecg_rhythm_struct",
+        "active_size": 3,
+        "solo_routed_gain": -0.367,
+        "marginal_bundle_gain": 0.1008,
+        "z_marg": 0.675,
+        "pruned_candidate": true
+      },
+      {
+        "tested_drop": "ch_sameday_troponin",
+        "active_size": 2,
+        "solo_routed_gain": 3.5767,
+        "marginal_bundle_gain": 3.5165,
+        "z_marg": 10.415,
+        "pruned_candidate": false
+      },
+      {
+        "tested_drop": "ch_ecg_ischemia_flags",
+        "active_size": 2,
+        "solo_routed_gain": 0.6661,
+        "marginal_bundle_gain": 0.606,
+        "z_marg": 3.121,
+        "pruned_candidate": false
+      }
+    ],
+    "null_selected_upca": false,
+    "boot_upca_vs_global_cmi": {
+      "diff_mean": 0.20718808305100314,
+      "boot_se": 0.30207359693276936,
+      "ci95_low": -0.39830049037367554,
+      "ci95_high": 0.864454944138699,
+      "p_two_sided": 0.438
+    },
+    "boot_upca_vs_stage1": {
+      "diff_mean": 2.0959662444529292,
+      "boot_se": 1.094655767720205,
+      "ci95_low": -0.07583426387776102,
+      "ci95_high": 4.206637972196547,
+      "p_two_sided": 0.062
+    }
+  },
+  "mcmed_critical_icu_death": {
+    "name": "Stanford MC-MED Critical ICU/Death",
+    "prevalence": 0.02612,
+    "tau_star": 0.05,
+    "stage1": {
+      "nb": 12.4223,
+      "auprc_full": 0.355,
+      "auroc_secondary": 0.8879
+    },
+    "global_cmi": {
+      "selected": [
+        "ch_monitor_numerics_2h",
+        "ch_lab_renal_elyte",
+        "ch_hie_meds",
+        "ch_lab_lft_coag"
+      ],
+      "nb_auto": 14.262,
+      "nb_100pct": 13.5318,
+      "auprc_full": 0.4721,
+      "auroc_secondary": 0.9285,
+      "query_rate": 0.2519,
+      "skip_flip_ub95": 0.0096
+    },
+    "old_cz_starved_pilot": {
+      "selected": [
+        "ch_lab_renal_elyte"
+      ],
+      "nb_auto": 13.2734,
+      "nb_100pct": 12.7568,
+      "auprc_full": 0.3969,
+      "auroc_secondary": 0.9065,
+      "query_rate": 0.1487,
+      "skip_flip_ub95": 0.0137
+    },
+    "unified_upca": {
+      "selected": [
+        "ch_lab_renal_elyte",
+        "ch_monitor_numerics_2h"
+      ],
+      "nb_auto": 14.5255,
+      "nb_100pct": 13.7727,
+      "auprc_full": 0.4452,
+      "auroc_secondary": 0.9223,
+      "query_rate": 0.2015,
+      "skip_flip_ub95": 0.0125
+    },
+    "upca_stage_a_candidates": [
+      "ch_lab_renal_elyte",
+      "ch_monitor_numerics_2h"
+    ],
+    "upca_prune_log": [
+      {
+        "tested_drop": "ch_lab_renal_elyte",
+        "active_size": 2,
+        "solo_routed_gain": 0.7018,
+        "marginal_bundle_gain": 0.5035,
+        "z_marg": 3.173,
+        "pruned_candidate": false
+      },
+      {
+        "tested_drop": "ch_monitor_numerics_2h",
+        "active_size": 2,
+        "solo_routed_gain": 0.4648,
+        "marginal_bundle_gain": 0.2664,
+        "z_marg": 1.603,
+        "pruned_candidate": false
+      }
+    ],
+    "null_selected_upca": false,
+    "boot_upca_vs_global_cmi": {
+      "diff_mean": 0.26350818810754006,
+      "boot_se": 0.3228603756356719,
+      "ci95_low": -0.35557404326123127,
+      "ci95_high": 0.8881392854015234,
+      "p_two_sided": 0.394
+    },
+    "boot_upca_vs_stage1": {
+      "diff_mean": 2.1032489710132234,
+      "boot_se": 0.4752693212664732,
+      "ci95_low": 1.1884917681057885,
+      "ci95_high": 3.0145656362203335,
+      "p_two_sided": 0.0
+    }
+  },
+  "mcmed_admission": {
+    "name": "Stanford MC-MED Hospital Admission",
+    "prevalence": 0.28078,
+    "tau_star": 0.14992503748125938,
+    "stage1": {
+      "nb": 185.7332,
+      "auprc_full": 0.6149,
+      "auroc_secondary": 0.797
+    },
+    "global_cmi": {
+      "selected": [
+        "ch_hie_pmh",
+        "ch_lab_lft_coag",
+        "ch_lab_lactate_cardiac"
+      ],
+      "nb_auto": 199.3862,
+      "nb_100pct": 197.4309,
+      "auprc_full": 0.6393,
+      "auroc_secondary": 0.8348,
+      "query_rate": 0.5357,
+      "skip_flip_ub95": 0.0396
+    },
+    "old_cz_starved_pilot": {
+      "selected": [
+        "ch_hie_pmh",
+        "ch_lab_lft_coag",
+        "ch_lab_lactate_cardiac",
+        "ch_hie_meds"
+      ],
+      "nb_auto": 199.1771,
+      "nb_100pct": 197.3482,
+      "auprc_full": 0.6347,
+      "auroc_secondary": 0.8343,
+      "query_rate": 0.5377,
+      "skip_flip_ub95": 0.0379
+    },
+    "unified_upca": {
+      "selected": [
+        "ch_hie_pmh",
+        "ch_lab_lft_coag",
+        "ch_lab_lactate_cardiac"
+      ],
+      "nb_auto": 199.483,
+      "nb_100pct": 197.5149,
+      "auprc_full": 0.6377,
+      "auroc_secondary": 0.8343,
+      "query_rate": 0.5305,
+      "skip_flip_ub95": 0.0377
+    },
+    "upca_stage_a_candidates": [
+      "ch_hie_pmh",
+      "ch_lab_lft_coag",
+      "ch_lab_lactate_cardiac"
+    ],
+    "upca_prune_log": [
+      {
+        "tested_drop": "ch_hie_pmh",
+        "active_size": 3,
+        "solo_routed_gain": 7.5448,
+        "marginal_bundle_gain": 5.8792,
+        "z_marg": 12.574,
+        "pruned_candidate": false
+      },
+      {
+        "tested_drop": "ch_lab_lft_coag",
+        "active_size": 3,
+        "solo_routed_gain": 6.1644,
+        "marginal_bundle_gain": 4.2697,
+        "z_marg": 9.217,
+        "pruned_candidate": false
+      },
+      {
+        "tested_drop": "ch_lab_lactate_cardiac",
+        "active_size": 3,
+        "solo_routed_gain": 2.5618,
+        "marginal_bundle_gain": 1.9725,
+        "z_marg": 5.458,
+        "pruned_candidate": false
+      }
+    ],
+    "null_selected_upca": false,
+    "boot_upca_vs_global_cmi": {
+      "diff_mean": 0.0968403630633248,
+      "boot_se": 0.5192732917303008,
+      "ci95_low": -0.886714749374206,
+      "ci95_high": 1.1142785979863072,
+      "p_two_sided": 0.928
+    },
+    "boot_upca_vs_stage1": {
+      "diff_mean": 13.74979091285248,
+      "boot_se": 1.4027448655265355,
+      "ci95_low": 10.94650633717467,
+      "ci95_high": 16.323756408337665,
+      "p_two_sided": 0.0
+    }
+  },
+  "mcmed_bounce72_admit": {
+    "name": "Stanford MC-MED 72h Bounceback w/ Hospitalization",
+    "prevalence": 0.01585,
+    "tau_star": 0.030003000300030006,
+    "stage1": {
+      "nb": 1.2433,
+      "auprc_full": 0.0484,
+      "auroc_secondary": 0.7026
+    },
+    "global_cmi": {
+      "selected": [
+        "ch_hie_pmh"
+      ],
+      "nb_auto": 3.0946,
+      "nb_100pct": 2.6964,
+      "auprc_full": 0.0824,
+      "auroc_secondary": 0.7933,
+      "query_rate": 0.4852,
+      "skip_flip_ub95": 0.0315
+    },
+    "old_cz_starved_pilot": {
+      "selected": [
+        "ch_hie_pmh",
+        "ch_hie_meds"
+      ],
+      "nb_auto": 4.7068,
+      "nb_100pct": 4.2979,
+      "auprc_full": 0.0903,
+      "auroc_secondary": 0.8065,
+      "query_rate": 0.6292,
+      "skip_flip_ub95": 0.0284
+    },
+    "unified_upca": {
+      "selected": [
+        "ch_hie_pmh",
+        "ch_hie_meds"
+      ],
+      "nb_auto": 4.7068,
+      "nb_100pct": 4.2979,
+      "auprc_full": 0.0903,
+      "auroc_secondary": 0.8065,
+      "query_rate": 0.6292,
+      "skip_flip_ub95": 0.0284
+    },
+    "upca_stage_a_candidates": [
+      "ch_hie_pmh",
+      "ch_hie_meds"
+    ],
+    "upca_prune_log": [
+      {
+        "tested_drop": "ch_hie_pmh",
+        "active_size": 2,
+        "solo_routed_gain": 1.7853,
+        "marginal_bundle_gain": 1.1753,
+        "z_marg": 4.109,
+        "pruned_candidate": false
+      },
+      {
+        "tested_drop": "ch_hie_meds",
+        "active_size": 2,
+        "solo_routed_gain": 0.9931,
+        "marginal_bundle_gain": 0.3831,
+        "z_marg": 1.736,
+        "pruned_candidate": false
+      }
+    ],
+    "null_selected_upca": false,
+    "boot_upca_vs_global_cmi": {
+      "diff_mean": 1.6122716225656208,
+      "boot_se": 0.5758639232674071,
+      "ci95_low": 0.5057920527093637,
+      "ci95_high": 2.8082033509106528,
+      "p_two_sided": 0.0
+    },
+    "boot_upca_vs_stage1": {
+      "diff_mean": 3.463528571120997,
+      "boot_se": 0.9299316507999322,
+      "ci95_low": 1.654617387925134,
+      "ci95_high": 5.336037541864001,
+      "p_two_sided": 0.0
+    }
+  },
+  "ntuh_pre_arrest": {
+    "name": "NTUH Pre-Arrest SCA",
+    "prevalence": 0.40566,
+    "tau_star": 0.14992503748125938,
+    "stage1": {
+      "nb": 301.5008,
+      "auprc_full": 0.4626,
+      "auroc_secondary": 0.5772
+    },
+    "global_cmi": {
+      "selected": [
+        "ch_avr"
+      ],
+      "nb_auto": 301.3861,
+      "nb_100pct": 297.8909,
+      "auprc_full": 0.469,
+      "auroc_secondary": 0.5817,
+      "query_rate": 0.0045,
+      "skip_flip_ub95": 0.0037
+    },
+    "old_cz_starved_pilot": {
+      "selected": [],
+      "nb_auto": 301.5008,
+      "nb_100pct": 297.9734,
+      "auprc_full": 0.4626,
+      "auroc_secondary": 0.5772,
+      "query_rate": 0.0,
+      "skip_flip_ub95": 0.0008
+    },
+    "unified_upca": {
+      "selected": [],
+      "nb_auto": 301.5008,
+      "nb_100pct": 297.9734,
+      "auprc_full": 0.4626,
+      "auroc_secondary": 0.5772,
+      "query_rate": 0.0,
+      "skip_flip_ub95": 0.0008
+    },
+    "upca_stage_a_candidates": [],
+    "upca_prune_log": [],
+    "null_selected_upca": false,
+    "boot_upca_vs_global_cmi": {
+      "diff_mean": 0.11471014181041278,
+      "boot_se": 0.09702636217956405,
+      "ci95_low": -0.04066771191338991,
+      "ci95_high": 0.31748009507097436,
+      "p_two_sided": 0.14
+    },
+    "boot_upca_vs_stage1": {
+      "diff_mean": 0.0,
+      "boot_se": 0.0,
+      "ci95_low": 0.0,
+      "ci95_high": 0.0,
+      "p_two_sided": 1.0
+    }
+  },
+  "elapsed_sec": 956.5
+}

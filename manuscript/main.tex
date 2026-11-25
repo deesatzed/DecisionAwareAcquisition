@@ -1,0 +1,488 @@
+\documentclass[11pt]{article}
+
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+\fi
+\usepackage[margin=0.90in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{microtype}
+\usepackage{array}
+\usepackage{multirow}
+\emergencystretch=3em
+\hbadness=2500
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\title{\textbf{Decision-Aware Clinical Feature Acquisition with Two-Phase Sampling and Pre-Purchase Policy Screening}}
+
+\author{
+  Wayne A. Satz, MD$^*$\\
+  \small Department of Emergency Medicine, Lewis Katz School of Medicine at Temple University,\\
+  \small Philadelphia, PA 19140, USA\\
+  \small $^*$Correspondence: \texttt{satzwa@temple.edu}
+}
+
+\date{November 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Selective clinical feature acquisition---deciding which recorded diagnostic panels, physiological waveform streams, or longitudinal electronic health record (EHR) histories to compute or query when triage covariates leave risk ambiguous near a clinical action threshold $\tau^*$---must balance decision-threshold alignment, two-phase pilot efficiency, and pre-purchase routability under per-encounter query cost $c_{\text{query}} = \gamma C_{\text{FN}} > 0$. We study a prespecified, zero-dataset-tuning pipeline (\texttt{UPCA-Fluid}) that pairs: (i) Breslow--Cain case--control log-odds offset adjustment inside unweighted boosted-tree two-phase pilots with Schervish Beta-kernel Holm discovery; (ii) nested out-of-fold (OOF) pre-purchase policy screening ($z_{0.90}=1.282$) using out-of-sample dispersion-stratified empirical martingale Value-of-Information (VOI) routing; and (iii) directional patient-cluster skipped-case action-disagreement and risk-difference upper bounds. Across $1{,}000$ synthetic martingale replicates, \texttt{UPCA-Fluid} maintains $0.10\%$ null family-wise error ($95\%$ Clopper--Pearson CI $[0.003\%, 0.56\%]$), retains $88.6\%$ ($[86.5\%, 90.5\%]$) of baseline-identifiable channels without cue hints, and improves tight single-channel ($B=1.0$) deployed Net Benefit by $+0.47$ per $1{,}000$ ($[+0.34, +0.61]$, $p=1.4\times 10^{-11}$), while a $72$-cell ($3{,}600$-run) four-dimensional operating-envelope grid maps where dispersion stratification succeeds versus breaks down. Across three de-identified hospital repositories ($157{,}324$ primary encounters across six task evaluations plus $818$ supplementary post-arrest traces from Brigham and Women's Hospital [\texttt{ed-bwh-ecg}] and National Taiwan University Hospital [\texttt{arrest-ntuh-ecg}] via Nightingale Open Science, and Stanford Health Care monitored emergency beds [\texttt{mcmed-stanford-multi}] via Nightingale Open Science and PhysioNet), holding the Stage-2 learner fixed (\texttt{FluidCollisionBackboneClassifier}) reveals regime-specific behavior rather than universal dominance. On our prespecified primary rare multi-channel endpoint (Stanford $2$-hour ICU/mortality, $2.18\%$ prevalence), \texttt{UPCA-Fluid} improves Net Benefit over Stage-1 ($+9.45$ vs.\ $+8.36$, $\Delta\operatorname{NB}=+1.09$ $[+0.15, +2.05]$, $p=0.0252$, $p_{\text{Holm}}=0.1008$ across six tasks) and $100\%$ unselective querying ($+8.50$, $p=0.00060$), showing a directional $+0.47$ ($[-0.11, +1.10]$) gain over weighted-pilot collision-zone discovery ($88\%$ vs.\ $72\%$ repeated-pilot oracle top-$1$ concordance; $36.4\%$ parametric variance reduction over inverse-probability weighting) while tying \texttt{Global-CMI + Fluid} ($+0.01$). Across the remaining five tasks, \texttt{UPCA-Fluid} significantly improves Stanford admission ($+8.83$, $p_{\text{Holm}}=0.0012$, $\operatorname{AUPRC}_{\text{full}}=0.6654$) and $72$-hour bounceback ($+2.24$, $p_{\text{Holm}}=0.0290$) over Stage-1, avoids raw inverse-probability pilot degradation on common admission, ties \texttt{Weighted-Pilot CZ + Fluid} on four tasks (including safe $0$-channel abstention on case--control-adjusted NTUH pre-arrest ECGs), flags $76.8\%$ of $30$-day deaths among encounters without $10$-day stress testing or catheterization ($+5.64$ over selective-label modeling, $p=0.00020$), and retains zero noise channels in every task.
+\end{abstract}
+
+\vspace{4pt}
+\noindent\textbf{Keywords:} Active feature acquisition; Value of Information; Decision Curve Analysis; calibration; two-phase case--control sampling; Breslow--Cain offset; emergency medicine.
+
+\section{Introduction}
+\label{sec:intro}
+
+Acute-care diagnostic workflows operate sequentially under asymmetric clinical loss and severe true-negative abundance \citep{vickers2006decision,mullainathan2022diagnosing,kansal2025mcmed}. Across unselected emergency department (ED) arrivals, $96\%\text{--}98.5\%$ of patients do not experience $30$-day mortality, $10$-day coronary revascularization, intensive care unit (ICU) transfer, or $72$-hour post-discharge readmission. When baseline intake covariates $X_{\text{base}}$ (demographics, triage vital signs, chief complaint, or automated resting electrocardiogram [ECG] intervals) leave posterior risk $\hat{p}_1(X_{\text{base}})$ near the clinical decision threshold $\tau^* = C_{\text{FP}} / (C_{\text{FP}} + C_{\text{FN}})$, selective acquisition systems can compute or access higher-cost Stage-2 clinical channels $Z_1, \dots, Z_M$---such as resulted laboratory panels, continuous bedside monitor streams, complex waveform morphologies, or institutional clinical data warehouse (CDW) prior histories \citep{saartsechansky2009active,covert2023learning,vonkleist2025evaluation}.
+
+Standard global conditional mutual information (\texttt{Global-CMI}, i.e., expected Bernoulli log-likelihood gain) and Receiver Operating Characteristic area ($\operatorname{AUROC}$) optimize rank or global probability separation across the entire $[0,1]$ unit interval \citep{gneiting2007strictly,saito2015precision}. Neither metric is defective; rather, global scoring rules answer a different statistical question than threshold-aligned clinical decision support. Under Schervish's integral representation \citep{schervish1989general,ehm2016quantiles}, log-loss weights threshold errors by $[\tau(1-\tau)]^{-1}$, giving heavy influence to probability refinements among deep true negatives ($\hat{p} \ll \tau^*$) that never alter clinical action at $\tau^*$. In companion methodological work \citep{satz2026collision}, we introduced a smooth strictly proper Schervish Beta-kernel score $S_{\tau^*,\kappa}$ concentrated at $\tau^*$, High-Signal False Positive two-phase Neyman pilot allocation, and a KL-gated Stage-2 residual estimator (\texttt{FluidCollisionBackboneClassifier}).
+
+Rigorous leak-free stress-testing across three heterogeneous hospital registries from Nightingale Open Science and PhysioNet \citep{nightingale2024platform,mullainathan2022diagnosing,kansal2025mcmed,goldberger2000physionet,obermeyer2026ecg}, however, reveals three methodological regimes and evaluation subtleties that require careful statistical characterization:
+\begin{enumerate}
+  \item \textbf{Decision-Aligned Evaluation and Routed Precision--Recall Behavior:} Under selective routing $\hat{p}_{\text{route}} = Q\hat{p}_2 + (1-Q)\hat{p}_1$, coherent VOI policies intentionally skip suprathreshold arrivals ($\hat{p}_1 \gg \tau^*$) whose positive treatment action will not reverse, saving query cost $c_{\text{query}}$ with zero decision loss while clamping $\hat{p}_{\text{route}}$ below queried borderline false positives ($\hat{p}_2 > \hat{p}_1 > \tau^*$; Proposition~\ref{prop:auprc_inversion}). Reporting both full-cohort $\operatorname{AUPRC}_{\text{full}}$ and routed $\operatorname{AUPRC}_{\text{routed}}$ alongside Net Benefit ($\operatorname{NB}_{\mathcal{K}}$), Standardized Net Benefit ($\operatorname{sNB}$), flexible calibration curves \citep{vancalster2019calibration,austin2019integrated}, Vickers Decision Curves \citep{vickers2006decision}, and directional skipped-case action-disagreement bounds (Proposition~\ref{prop:skip_safety}) makes this trade-off fully transparent.
+  \item \textbf{Regime-Specific Two-Phase Pilot Weighting Trade-Offs:} Inside $20\%$ two-phase Collision-Zone pilots $\mathcal{P} \subset \mathcal{D}_{\text{train}}$, fitting pilot gradient-boosted decision trees (GBDTs; \citealp{ke2017lightgbm}) with downweighted non-collision relevance weights ($0.05$ floor; \texttt{Weighted-Pilot CZ}) reduces effective leaf sample size specifically in the rare-outcome, multi-candidate regime, whereas raw inverse-probability Horvitz--Thompson sample weights ($w_i = \pi_{\mathcal{P}}(Y_i, b_i)^{-1} \approx 20$ on sparse controls; \texttt{IPW-Pilot CZ}) inflate split-gain variance on common outcomes. Conversely, on single-dominant-channel or moderate-candidate tasks, pilot weighting choices often select the exact same channel subset. Adapting \citet{breslow1988logistic} case--control log-odds offsets to unweighted pilot GBDTs (Proposition~\ref{prop:breslow_cain}; cf.\ \citealp{tao2017efficient}) removes both failure modes while acting as an exact tie elsewhere.
+  \item \textbf{Population vs.\ Finite-Sample Operating Envelope of Pre-Purchase Screening:} Post-purchase proper scoring rules evaluate candidate channels conditional on $Z_m$ already being observed on every arrival. When $c_{\text{query}} \in (\rho g, g)$, a channel active only on a latent subgroup unrecognizable from $X_{\text{base}}$ has positive post-purchase score gain yet zero population VOI-routed policy value (Proposition~\ref{prop:prepurchase}). Whether out-of-sample dispersion stratification $\hat{u}(X_{\text{base}})$ and nested OOF policy screening recover this theoretical separation in finite samples depends systematically on active prevalence $\rho$, signal dispersion $\sigma$, relative query cost $c_{\text{query}}/g$, and collision-zone mass $\pi_{\text{CZ}}$.
+\end{enumerate}
+
+\subsection{Contributions}
+
+We formulate and audit \emph{Unified Policy-Guided Clinical Acquisition} (\texttt{UPCA-Fluid}), a prespecified pipeline applied with identical constants across all synthetic and clinical evaluations:
+\begin{itemize}
+  \item \textbf{Evaluation Framework and Directional Action-Disagreement Bounds (Section~\ref{sec:metrics}, Propositions~\ref{prop:auprc_inversion}--\ref{prop:skip_safety}):} We characterize the continuous-score mechanism behind $\operatorname{AUPRC}_{\text{routed}}$ vs.\ $\operatorname{AUPRC}_{\text{full}}$ divergence, decompose skipped-case disagreements into missed escalations ($\text{Neg}\to\text{Pos}$) versus missed de-escalations ($\text{Pos}\to\text{Neg}$) with patient-cluster-robust $95\%$ upper bounds, and prove an algebraic decision risk-difference bound $|R_{\text{route}}(\tau^*) - R_{\text{full}}(\tau^*)| \le \allowbreak \max(C_{\text{FN}}, C_{\text{FP}})\,\mathbb{P}(Q=0)\,p_{\text{flip}}$.
+  \item \textbf{Offset-Adjusted Two-Phase Pilot Discovery and Efficiency Characterization (Section~\ref{sec:breslow_cain}, Proposition~\ref{prop:breslow_cain}):} Under exact stratum-uniform pilot sampling $I_i \perp Z_i \mid (Y_i, b_i)$ (verified empirically via covariance-adjusted Mahalanobis Wald tests across all six tasks), unweighted Bernoulli GBDTs with Breslow--Cain log-odds offsets recover population posteriors consistently, improving repeated-pilot top-$1$ oracle concordance on rare ICU/mortality ($88\%$ vs.\ $72\%$ \texttt{Weighted-Pilot CZ}) and reducing parametric slope variance by $36.4\%$ relative to IPW \citep{tao2017efficient}.
+  \item \textbf{Pre-Purchase Policy Screening and Four-Dimensional Operating Envelope (Section~\ref{sec:stage_b}, Proposition~\ref{prop:prepurchase}):} Across $1{,}000$ synthetic replicates and a $72$-cell ($3{,}600$-evaluation) grid over $(\rho, \sigma, c_{\text{query}}/g, \pi_{\text{CZ}})$, we quantify exact Clopper--Pearson FWER bounds, tight-budget ($B=1.0$) policy gains, panel-bundling trade-offs ($B=2.0$), and the finite-sample breakdown boundary as $c_{\text{query}}/g \to 0.90$ or $\rho \to 0.10$.
+  \item \textbf{Leak-Free Multi-Hospital Clinical Audit with Unconfounded Ablations (Sections~\ref{sec:cohorts}--\ref{sec:results}):} Rebuilding all three hospital cohorts to enforce strict $2.0$-hour disposition/result landmarks, pre-arrival institutional CDW timestamps, zero biomarker outcome incorporation, and exact case--control prior-odds prevalence adjustment \citep{prentice1979logistic}, we hold the downstream learner identical (\texttt{FluidCollisionBackboneClassifier}) across five single-factor ablations and $10{,}000$-replicate patient-cluster bootstraps \citep{davison1997bootstrap}, reporting significant gains, directional trends, exact ties, calibration curves, Vickers Decision Curves, and subgroup heterogeneity tests transparently \citep{collins2024tripodai}.
+\end{itemize}
+
+\section{Methodology and Regime Theory (\texorpdfstring{\texttt{UPCA-Fluid}}{UPCA-Fluid})}
+\label{sec:methods}
+
+Consider an encounter $(X_{\text{base}}, Z_1, \dots, Z_M, Y) \sim \mathbb{P}$ with baseline covariates $X_{\text{base}} \in \mathcal{X}$ available at zero marginal cost, $M$ candidate Stage-2 channels $Z_m \in \mathcal{Z}_m$ with onboarding costs $c_m > 0$ under panel budget $\sum_{m \in \mathcal{S}} c_m \le B$, and binary outcome $Y \in \{0,1\}$. A clinical decision contract $\mathcal{K} = (C_{\text{FP}}, C_{\text{FN}}, c_{\text{query}})$ specifies false-positive cost $C_{\text{FP}} > 0$, false-negative cost $C_{\text{FN}} > 0$---inducing the Bayes threshold $\tau^* = C_{\text{FP}} / (C_{\text{FP}} + C_{\text{FN}})$ \citep{vickers2006decision}---and per-encounter panel query cost $c_{\text{query}} = \gamma C_{\text{FN}} \ge 0$. Complete proofs appear in Appendix~\ref{app:proofs}, and self-contained equations for all imported backbone and preprocessing primitives appear in Appendix~\ref{app:self_contained}.
+
+\subsection{Decision Utility, Precision--Recall Behavior, and Skipped-Case Disagreement Bounds}
+\label{sec:metrics}
+
+For a selective routing policy $(Q_i, \hat{p}_{\text{route},i})$ where $Q_i \in \{0,1\}$ indicates whether onboarded panel $\mathcal{S}$ is accessed on encounter $i$ and $\hat{p}_{\text{route},i} = Q_i \hat{p}_{2,i} + (1 - Q_i)\hat{p}_{1,i}$, Net Benefit per $1{,}000$ encounters (with optional target-population weights $w_i > 0$, $w_i \equiv 1$ under cohort sampling) is
+\begin{equation}
+  \operatorname{NB}_{\mathcal{K}}(Q, \hat{p}_{\text{route}}) = \frac{1000}{\sum_{i=1}^{N_{\text{test}}} w_i} \sum_{i=1}^{N_{\text{test}}} w_i \left[ \mathbb{I}\{\hat{p}_{\text{route},i} \ge \tau^*, Y_i = 1\} - \frac{C_{\text{FP}}}{C_{\text{FN}}} \mathbb{I}\{\hat{p}_{\text{route},i} \ge \tau^*, Y_i = 0\} - \gamma Q_i \right],
+  \label{eq:nb}
+\end{equation}
+with prevalence-normalized Standardized Net Benefit $\operatorname{sNB}_{\mathcal{K}} = \operatorname{NB}_{\mathcal{K}} / (1000\pi) \le 1$, where $\pi = \sum_i w_i Y_i / \sum_i w_i$.
+
+\begin{proposition}[Rank-Order Inversion of Routed $\operatorname{AUPRC}$ Under Coherent VOI Skipping]
+\label{prop:auprc_inversion}
+Let $\eta_1 = \mathbb{P}(Y=1 \mid X_{\text{base}})$ and $\eta_2 = \mathbb{P}(Y=1 \mid X_{\text{base}}, Z_{\mathcal{S}})$ be continuous posteriors on $(0,1)$ satisfying the tower property $\mathbb{E}[\eta_2 \mid X_{\text{base}}] = \eta_1$ with $\mathbb{P}(Y=1) \in (0,1)$. Suppose there exists a suprathreshold region $\mathcal{A}_+ = \{x : \eta_1(x) \in [p_{\text{lo}}, p_{\text{hi}}]\} \subset (\tau^*, 1)$ ($p_{\text{lo}} < p_{\text{hi}}$, $\mathbb{P}(X_{\text{base}} \in \mathcal{A}_+) > 0$) on which $\mathbb{P}(\eta_2 \ge \tau^* \mid X_{\text{base}} \in \mathcal{A}_+) = 1$, and a queried collision region $\mathcal{A}_{\text{CZ}}$ ($Q=1$ on $\mathcal{A}_{\text{CZ}}$, $Q=0$ on $\mathcal{A}_+$). Then:
+\begin{enumerate}
+  \item \emph{Zero Bayes VOI and Strictly Higher Net Benefit of Skipping:} For every $x \in \mathcal{A}_+$, conditional Bayes Value of Information is $\operatorname{VOI}(x) = 0$, binary decisions satisfy $\mathbb{I}\{\eta_{\text{route}} \ge \tau^*\} = \mathbb{I}\{\eta_2 \ge \tau^*\} = 1$ almost surely on $\{X_{\text{base}} \in \mathcal{A}_+\}$, and skipping $\mathcal{A}_+$ strictly increases $\operatorname{NB}_{\mathcal{K}}$ by $+1000\gamma\,\mathbb{P}(X_{\text{base}} \in \mathcal{A}_+) > 0$ whenever $c_{\text{query}} > 0$.
+  \item \emph{Strict Global Rank Inversion Above $\tau^*$:} Suppose $\eta_2$ has no point masses on $[p_{\text{lo}}, 1)$, $\mathbb{P}(X_{\text{base}} \in \mathcal{A}_+, \eta_2 > p_{\text{top}}) > 0$ for some $p_{\text{top}} > p_{\text{hi}}$, and queried encounters satisfy $\mathbb{P}(X_{\text{base}} \in \mathcal{A}_{\text{CZ}}, Y=0, \eta_2 \in (p_{\text{hi}}, p_{\text{top}})) > 0$ while $\mathbb{P}(\eta_2 > p_{\text{top}}, Y=0) = 0$. Then Average Precision ($\operatorname{AUPRC}$) satisfies $\operatorname{AUPRC}(\eta_{\text{route}}) < \operatorname{AUPRC}(\eta_2)$ strictly, despite identical threshold-$\tau^*$ decisions.
+\end{enumerate}
+\end{proposition}
+
+Proposition~\ref{prop:auprc_inversion} explains why $\operatorname{AUPRC}_{\text{routed}}$ and $\operatorname{AUPRC}_{\text{full}}$ measure complementary properties: $\operatorname{AUPRC}_{\text{full}} = \operatorname{AUPRC}(Y, \hat{p}_2)$ quantifies physiological discrimination of the Stage-2 model across all encounters, whereas $\operatorname{AUPRC}_{\text{routed}} = \operatorname{AUPRC}(Y, \hat{p}_{\text{route}})$ reflects rank order of the hybrid probabilities after intentional suprathreshold skipping. We report both metrics side-by-side across every clinical task.
+
+\begin{proposition}[Skipped-Case Action-Disagreement and Risk-Difference Bounds]
+\label{prop:skip_safety}
+Let $\mathcal{I}_{\text{skip}} = \{i \in \{1,\dots,N_{\text{test}}\} : Q_i = 0\}$ ($n_{\text{skip}} = |\mathcal{I}_{\text{skip}}| \ge 1$) denote skipped test encounters, with binary Stage-1 and full Stage-2 actions $a_{1,i} = \mathbb{I}\{\hat{p}_{1,i} \ge \tau^*\}$ and $a_{2,i} = \mathbb{I}\{\hat{p}_{2,i} \ge \tau^*\}$. Decompose total action disagreements $K_{\text{flip}} = \sum_{i \in \mathcal{I}_{\text{skip}}} \mathbb{I}\{a_{1,i} \ne a_{2,i}\} = K_{0\to 1} + K_{1\to 0}$ into missed escalations $K_{0\to 1} = \sum_{i \in \mathcal{I}_{\text{skip}}} \mathbb{I}\{a_{1,i}=0, a_{2,i}=1\}$ and missed de-escalations $K_{1\to 0} = \sum_{i \in \mathcal{I}_{\text{skip}}} \mathbb{I}\{a_{1,i}=1, a_{2,i}=0\}$. Then:
+\begin{enumerate}
+  \item \emph{Conservative Finite-Sample Binomial Coverage:} Under independent test encounters conditional on $n_{\text{skip}}$, for any disagreement indicator with conditional probability $p_\star \in [0,1]$ and count $K_\star \sim \operatorname{Binomial}(n_{\text{skip}}, p_\star)$, the one-sided Clopper--Pearson bound
+  \begin{equation}
+    U_{1-\alpha}^{\text{CP}}(K_\star, n_{\text{skip}}) =
+    \begin{cases}
+      1, & K_\star = n_{\text{skip}},\\
+      1 - \alpha^{1/n_{\text{skip}}}, & K_\star = 0,\\
+      F_{\operatorname{Beta}(K_\star+1,\, n_{\text{skip}}-K_\star)}^{-1}(1 - \alpha), & 1 \le K_\star < n_{\text{skip}},
+    \end{cases}
+    \label{eq:clopper_pearson}
+  \end{equation}
+  guarantees conservative coverage $\mathbb{P}(p_\star \le U_{1-\alpha}^{\text{CP}}(K_\star, n_{\text{skip}}) \mid n_{\text{skip}}) \ge 1 - \alpha$ \citep{clopper1934use}. When patients contribute clustered repeat encounters ($G_{\text{skip}}$ unique skipped patients), patient-cluster bootstrap upper bounds (with $1 - \alpha^{1/G_{\text{skip}}}$ at $K_\star = 0$) account for within-patient dependence.
+  \item \emph{Decision Risk-Difference Bound:} Let $R_{\text{dec}}(a) = \mathbb{E}[C_{\text{FN}} Y \mathbb{I}\{a=0\} + C_{\text{FP}}(1-Y)\mathbb{I}\{a=1\}]$ denote population decision risk (excluding query fees). For any routing policy $Q \in \{0,1\}$ with $a_{\text{route}} = Q a_2 + (1-Q)a_1$ and $p_{\text{flip}} = \mathbb{P}(a_1 \ne a_2 \mid Q=0)$,
+  \begin{equation}
+    \big|R_{\text{dec}}(a_{\text{route}}) - R_{\text{dec}}(a_2)\big| \;\le\; \max(C_{\text{FN}}, C_{\text{FP}})\,\mathbb{P}(Q = 0)\,p_{\text{flip}},
+    \label{eq:risk_diff_bound}
+  \end{equation}
+  and in Net Benefit units per $1{,}000$ arrivals (at $c_{\text{query}}=0$), $|\operatorname{NB}_{\text{dec}}(a_{\text{route}}) - \operatorname{NB}_{\text{dec}}(a_2)| \le 1000\max(1, C_{\text{FP}}/C_{\text{FN}})\,\mathbb{P}(Q=0)\,p_{\text{flip}}$.
+\end{enumerate}
+\end{proposition}
+
+\subsection{Stage A: Offset-Adjusted Two-Phase Pilot Discovery}
+\label{sec:breslow_cain}
+
+Let $\hat{p}_{1,i}$ denote leak-free $3$-fold OOF Stage-1 probabilities on $\mathcal{D}_{\text{train}}$ ($N$ encounters). Partition $\operatorname{logit}(\hat{p}_{1,i})$ at empirical $B_{\text{score}}=8$ quantile cutpoints into bins $b_i \in \{0,\dots,B_{\text{score}}-1\}$, forming $H = 2 B_{\text{score}} = 16$ Phase-1 strata $h_i = B_{\text{score}} Y_i + b_i$ with population counts $N_{y,b}$ ($N = \sum_{y,b} N_{y,b}$). Constrained Collision-Zone Neyman water-filling (\citealp{satz2026collision,tao2020optimal}; Eq.~\ref{eq:neyman_disp}) allocates $n_{y,b} \ge 2$ pilot samples ($\sum_{y,b} n_{y,b} = n_{\text{pilot}} = \lfloor \rho_{\text{pilot}} N \rceil$, $\rho_{\text{pilot}} = 0.20$), and \texttt{sample\_pilot} draws $n_{y,b}$ indices uniformly without replacement inside each stratum $\mathcal{U}_{y,b} = \{i : Y_i = y, b_i = b\}$, setting $I_i \in \{0,1\}$, $\pi_{\mathcal{P}}(y,b) = n_{y,b}/N_{y,b}$, and HT weights $w_i = \pi_{\mathcal{P}}(Y_i, b_i)^{-1}$.
+
+\begin{proposition}[Population Posterior Recovery Under Offset-Adjusted Two-Phase Sampling]
+\label{prop:breslow_cain}
+Because \texttt{sample\_pilot} draws Phase-2 indices uniformly without replacement within each stratum $(Y_i, b_i)$ independently of Stage-2 features $Z_i$, pilot inclusion satisfies $I_i \perp Z_i \mid (Y_i, X_{\text{base},i})$ by design, with $\pi_{\mathcal{P}}(y,b) > 0$ for all $(y,b)$. Consequently, for every $(x,z)$ in the support of $(X_{\text{base}}, Z_{\mathcal{S}})$ with $b = b(x)$:
+\begin{enumerate}
+  \item \emph{Exact Stratum Log-Odds Shift:} Conditional log-odds inside the Phase-2 pilot satisfies
+  \begin{equation}
+    \operatorname{logit}\mathbb{P}(Y_i = 1 \mid X_{\text{base},i} = x, Z_{\mathcal{S},i} = z, I_i = 1) = \operatorname{logit}\mathbb{P}(Y_i = 1 \mid X_{\text{base},i} = x, Z_{\mathcal{S},i} = z) + \delta_{\mathcal{P}}(b),
+    \label{eq:bc_shift}
+  \end{equation}
+  where $\delta_{\mathcal{P}}(b) = \log\!\big(\pi_{\mathcal{P}}(1,b) / \pi_{\mathcal{P}}(0,b)\big)$ depends solely on $b(x)$ and is invariant to $Z_{\mathcal{S}}$ \citep{breslow1988logistic}.
+  \item \emph{Population Risk Minimizer Under Unweighted Bernoulli Fitting:} Parameterizing pilot log-odds as $f_{\mathcal{P}}(x,z) = \operatorname{logit}(\hat{p}_1(x)) + \delta_{\mathcal{P}}(b(x)) + g_{\text{tree}}(x,z)$ under unweighted ($\text{weight}_i \equiv 1$) Bernoulli log-loss on $\mathcal{P}$ yields unique population risk minimizer $g_{\text{tree}}^*(x,z) = \operatorname{logit}\mathbb{P}(Y=1 \mid x,z) - \operatorname{logit}(\hat{p}_1(x))$, so subtracting $\delta_{\mathcal{P}}(b(x))$ at evaluation recovers $\sigma(\operatorname{logit}(\hat{p}_1(x)) + g_{\text{tree}}^*(x,z)) = \mathbb{P}(Y=1 \mid x,z)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{remark}[Finite-Tree Regularization and Semiparametric Efficiency Context]
+\label{rem:finite_tree}
+Proposition~\ref{prop:breslow_cain} is a population Fisher-consistency result: in finite samples with depth-limited, $L_2$-regularized trees, unweighted offset fitting approximates $g_{\text{tree}}^*$ without suffering leaf sample starvation from $0.05$ relevance floors or split-gain domination from $20\times$ inverse-probability weights on sparse controls. Unlike full semiparametric two-phase maximum likelihood \citep{tao2017efficient}, which jointly updates the nuisance distribution of $Z \mid X_{\text{base}}$ across Phase-1 unmeasured rows, Stage A uses the offset-recovered $4$-fold OOF pilot posteriors strictly inside design-consistent two-phase Horvitz--Thompson scoring of the smooth Schervish Beta-kernel rule $S_{\tau^*,\kappa_{\text{eff}}}(Y_i, \hat{p}_{2,i})$ (Eq.~\ref{eq:schervish_app}) with variance $\widehat{V}_{\text{I}} + \widehat{V}_{\text{II}}$ and sequential Holm step-down control ($\alpha = 0.05$; \citealp{holm1979simple,williamson2021nonparametric}), yielding candidate set $\mathcal{C}_{\text{Holm}}$.
+\end{remark}
+
+\subsection{Stage B: OOF Pre-Purchase Policy Screening and Deployment}
+\label{sec:stage_b}
+
+\begin{proposition}[Population Pre-Purchase Identifiability Separation and Subset FWER Preservation]
+\label{prop:prepurchase}
+Fix contract $\mathcal{K} = (C_{\text{FP}}, C_{\text{FN}}, c_{\text{query}})$ with $\tau^* = C_{\text{FP}}/(C_{\text{FP}}+C_{\text{FN}})$. Suppose collision-zone encounters ($\eta_1(X_{\text{base}}) = \tau^*$, probability $\pi_{\text{CZ}} > 0$) contain binary indicators $U_{\text{id}}, U_{\text{unid}} \sim \operatorname{Bern}(\rho)$ ($\rho \in (0,1)$) where $U_{\text{id}}$ is $X_{\text{base}}$-measurable whereas $(U_{\text{unid}}, Z_{m_{\text{unid}}}) \perp X_{\text{base}} \mid \eta_1(X_{\text{base}})$, and active status ($U=1$) induces identical conditional posterior laws with point-$\tau^*$ Bayes VOI $g > 0$ ($\eta_2 = \eta_1$ otherwise). Then:
+\begin{enumerate}
+  \item \emph{Post-Purchase Equivalence vs.\ Pre-Purchase Separation:} Both channels yield identical post-purchase conditional mutual information and Schervish Bregman gain $\Delta_{\tau^*,\kappa} > 0$, yet whenever $\rho g < c_{\text{query}} < g$, population optimal pre-purchase policy gain (in cost units per arrival) satisfies
+  \begin{equation}
+    \Delta V^*(m_{\text{id}}) = \pi_{\text{CZ}}\,\rho\,(g - c_{\text{query}}) > 0, \qquad \Delta V^*(m_{\text{unid}}) = \pi_{\text{CZ}} \max\{0,\, \rho g - c_{\text{query}}\} = 0.
+    \label{eq:p3_sep}
+  \end{equation}
+  \item \emph{Unconditional Subset FWER Preservation:} For pure-noise channels $\mathcal{H}_0 \subset \{1,\dots,M\}$, if $\mathbb{P}(\mathcal{C}_{\text{Holm}} \cap \mathcal{H}_0 \ne \emptyset) \le \alpha$, then any Stage-B screening operator returning $\hat{\mathcal{S}}_{\text{UPCA}} \subseteq \mathcal{C}_{\text{Holm}}$ satisfies $\mathbb{P}(\hat{\mathcal{S}}_{\text{UPCA}} \cap \mathcal{H}_0 \ne \emptyset) \le \alpha$.
+\end{enumerate}
+\end{proposition}
+
+\textbf{Out-of-Sample Dispersion-Stratified VOI and Nested OOF Screening:} To estimate pre-purchase routability without subgroup hints, a shallow GBDT regressor ($25$ trees, $7$ leaves) fits $\hat{u}(X_{\text{base}}) \approx \mathbb{E}[|\operatorname{logit}(\hat{p}_2) - \operatorname{logit}(\hat{p}_1)| \mid X_{\text{base}}]$ on training predictions. On a disjoint calibration fold, encounters are partitioned into $12$ quantile bins of $\hat{p}_1$ crossed with $[0, q_{\text{disp}}]$ vs.\ $(q_{\text{disp}}, 1]$ ($q_{\text{disp}}=0.75$) out-of-sample $\hat{u}(X_{\text{base}})$ whenever a bin has $\ge 60$ calibration rows (reverting to $12$-bin quantiles otherwise), centering $33$ empirical log-odds update quantiles via martingale offset $\mu_i^*$ (Eq.~\ref{eq:emp_voi_app}) to trigger queries iff $\widehat{\operatorname{VOI}}_i > c_{\text{query}}$. On $\mathcal{D}_{\text{train}}$ alone ($0\%$ access to $\mathcal{D}_{\text{cal}}$, $\mathcal{D}_{\text{test}}$, or rejected channels), Stage B runs $3$-fold outer cross-validation (inner $75\%/25\%$ fit/calibration split) with \texttt{FluidCollisionBackboneClassifier} (Eq.~\ref{eq:fluid_backbone_app}) and prunes $m \in \mathcal{A}$ backward if $z_{\text{marg}}(m \mid \mathcal{A}) < -1.282$ or $\max\{z_{\text{solo}}(m), z_{\text{marg}}(m \mid \mathcal{A})\} < 1.282$ (nominal one-sided $\alpha_{\text{pol}} = 0.10$). Stage C refits on $\mathcal{D}_{\text{train}}$ with $\hat{\mathcal{S}}_{\text{UPCA}}$, calibrates Platt scaling \citep{platt1999probabilistic} and $12\times 2$ VOI quantiles on $\mathcal{D}_{\text{cal}}$, and evaluates once on locked $\mathcal{D}_{\text{test}}$.
+
+\section{Study Design, Cohorts, and Evaluation Protocol}
+\label{sec:cohorts}
+
+To eliminate retrospective landmark, timestamp, incorporation, and label confounders, we rebuilt all three hospital cohorts from raw tables prior to modeling (Table~\ref{tab:cohorts}), framing all clinical benchmarks strictly as \emph{selective computation or access to recorded clinical channels} rather than prospective interventional assay ordering:
+
+\begin{enumerate}
+  \item \textbf{Stanford Health Care Monitored ED Cohort (\texttt{mcmed-stanford-multi/v1}; released on both Nightingale Open Science and PhysioNet; \citealp{kansal2025mcmed,goldberger2000physionet}):} Comprising adult visits to monitored ED beds at Stanford Health Care across the official patient-disjoint (\texttt{MRN}) chronological split (\texttt{split\_chrono}: $105{,}378$ visits across $70{,}545$ patients), we strictly enforce $\text{Dispo\_time} > \text{Arrival\_time} + 2.0\text{h}$ (and $\text{Admit\_time}, \text{Departure\_time} > \text{Arrival\_time} + 2.0\text{h}$ when present), excluding $15{,}983$ rapid-disposition visits so zero analyzed patients ($N=89{,}395$; $61{,}144$ unique \texttt{MRN}s; $69{,}022$ train / $9{,}887$ cal / $10{,}486$ test) have been admitted, discharged, or transferred prior to the $2.0\text{h}$ prediction landmark. Every feature table enforces strict per-visit causal timestamps: institutional CDW problem lists (\texttt{ch\_cdw\_prior\_pmh}, $c=0.40$) require $\text{Noted\_date} < \text{Arrival\_time}$ (top-$16$ CCS categories fit strictly on $\mathcal{D}_{\text{train}}$); institutional CDW prior medications (\texttt{ch\_cdw\_prior\_meds}, $c=0.40$) require $\text{Entry\_date} < \text{Arrival\_time}$; laboratory panels (\texttt{ch\_lab\_cbc} [$0.78$], \texttt{ch\_lab\_renal\_elyte} [$0.92$], \texttt{ch\_lab\_lft\_coag} [$0.95$], \texttt{ch\_lab\_lactate\_cardiac} [$1.15$]) require $\text{Result\_time} \le \text{Arrival\_time} + 2.0\text{h}$ ($3.12\text{M}$ resulted vs.\ $4.24\text{M}$ ordered rows); diagnostic radiology (\texttt{ch\_rads\_2h}, $c=1.50$) requires $\text{Result\_time} \le \text{Arrival\_time} + 2.0\text{h}$ ($28{,}039$ resulted vs.\ $101{,}892$ ordered studies); and streamed $2.57\text{ GiB}$ continuous bedside vitals (\texttt{ch\_monitor\_numerics\_2h}, $c=0.60$) require $\text{Time} \le \text{Arrival\_time} + 2.0\text{h}$, with whole-visit waveform duration (\texttt{wf\_dur\_*}) completely excluded to prevent length-of-stay leakage. Under budget $B=3.00$, we evaluate: (i) \textbf{Critical ICU or In-Hospital Mortality} ($2.18\%$ test prevalence, $\tau^*=0.0500$, $c_{\text{query}}=0.030$, prespecified primary multi-channel rare-outcome endpoint), (ii) \textbf{Inpatient Hospital Admission} ($28.76\%$, $\tau^*=0.1500$, $c_{\text{query}}=0.025$), and (iii) \textbf{$72$-Hour Return ED Visit with Hospitalization} among $2.0\text{h}$-active visits subsequently discharged ($N=51{,}736$; $N_{\text{test}}=6{,}165$, $1.67\%$ prevalence, $\tau^*=0.0300$, $c_{\text{query}}=0.025$; plus complete-CDW, $0\text{h}$-arrival, and discharge-landmark sensitivities on all $63{,}060$ discharged visits).
+  \item \textbf{Brigham and Women's Hospital ED-ECG (\texttt{ed-bwh-ecg}; Nightingale Open Science DUA; \citealp{mullainathan2022diagnosing}):} Because \texttt{start\_datetime} ($2109\text{--}2115$) is randomly patient-shifted for de-identification, partitioning the $51{,}158$ modeling encounters (\texttt{exclude\_modeling == 0}; $35{,}595$ unique patients) by patient earliest shifted date yields a strictly \textbf{patient-disjoint holdout split} ($39{,}050$ train / $6{,}329$ cal / $5{,}779$ test across $24{,}916$ / $5{,}339$ / $5{,}340$ patients), not calendar chronology. To eliminate both troponin outcome-incorporation bias in \texttt{macetrop\_pos\_or\_death\_030} and counterfactual imputation of unmeasured troponin ($60.7\%$ unmeasured), our primary BWH Arrival-ECG Information-Access benchmark ($N=51{,}158$, $100\%$ physically recorded ED ECGs with median arrival-to-ECG lag $0.39\text{h}$, $\text{IQR }[0.23\text{h}, 1.01\text{h}]$, $100\%$ prior to ED departure) uses zero troponin predictors. Baseline $X_{\text{base}}$ comprises age, sex, and automated $12$-lead Muse scalar intervals/axes; three physically recorded ECG channels compete under $B=1.80$: structured $12$-lead ischemia flags (\texttt{ch\_ecg\_ischemia\_flags}, $c=0.40$), rhythm/conduction flags (\texttt{ch\_ecg\_rhythm\_struct}, $c=0.40$), and $55$ spectral, beat-dispersion, and vectorcardiographic morphology features extracted via \texttt{mmap} across all three $10$-second ($100\text{ Hz}$, $3\times 1{,}000$) waveform leads in \texttt{ecg-waveform.npy} (\texttt{ch\_ecg\_waveform}, $c=0.85$). Primary non-incorporated endpoints are: (iv) \textbf{$30$-Day All-Cause Mortality} (\texttt{death\_030\_day}, $2.41\%$ test prevalence, $\tau^*=0.0300$, $c_{\text{query}}=0.020$) and (v) \textbf{$10$-Day Coronary Revascularization} (\texttt{stent\_or\_cabg\_010\_day}, $1.51\%$ test prevalence, $\tau^*=0.0300$, $c_{\text{query}}=0.020$). Separate subgroup audits examine encounters without $10$-day stress testing or catheterization (\texttt{test\_010\_day == 0}, $N_{\text{test}}=5{,}299$), encounters without same-day troponin ($N_{\text{test}}=4{,}104$), secondary ECG-only $30$-day MACE/death, and the \textbf{Complete-Troponin Subgroup} (\texttt{trop\_drawn\_sameday == 1}, $N=20{,}082$, $N_{\text{test}}=1{,}675$) predicting non-incorporated $30$-day mortality and $10$-day Stent/CABG.
+  \item \textbf{NTUH Sudden Cardiac Arrest Registry (\texttt{arrest-ntuh-ecg/v1}; Nightingale Open Science DUA; \citealp{obermeyer2026ecg}):} Reconstructing the true $2015\text{--}2019$ case--control pre-arrest cohort pairs \texttt{study-group/ecg.csv} pre-arrest cases (\texttt{ecg\_timetag == '[0]pre'}, verified strictly prior to \texttt{rosc\_datetime\_offset}, excluding $1$ post-ROSC timestamped trace to retain $385$ pre-arrest ECGs across $383$ sudden-cardiac-arrest patients; median lead time $521.7\text{h}$ before arrest) against \texttt{control-group/ecg-cohort.csv} non-arrest controls ($16{,}386$ ECGs across $9{,}976$ patients; zero patient overlap), harmonizing $90+$ age top-coding and mapping GE MUSE integer lead indices ($0\dots 11$) identically into anterior ($V_1\text{--}V_4$), lateral ($\text{I, aVL, }V_5\text{--}V_6$), inferior ($\text{II, III, aVF}$), and $\text{aVR}$ per-lead bitflags and quantitative amplitudes alongside diagnostic statements and $12$-lead ($12\times 600$) median-beat waveforms ($B=1.80$; patient-disjoint chronological split $\le 2017$ train [$9{,}525$] / $2018$ cal [$3{,}595$] / $2019$ test [$3{,}651$, $2{,}203$ patients, $84$ case traces]). Using \citet{prentice1979logistic} prior-odds shifts and inverse-sampling-fraction weights, Task (vi) evaluates \textbf{Pre-Arrest Sudden Cardiac Arrest} at clinical target prevalence $\pi_{\text{target}}=2.0\%$ ($\tau^*=0.0500$, $c_{\text{query}}=0.020$), with sensitivity across $\pi_{\text{target}} \in \{1.0\%, 5.0\%\}$. The smaller post-arrest cohort (\texttt{ecg\_timetag == '[1]ROSC'} strictly, hyphenated years \texttt{2011-14} and \texttt{2015-16} parsed into train: $567$ train / $121$ cal / $130$ test traces across $815$ patients) is reported in Appendix~\ref{app:supplement}.
+\end{enumerate}
+
+\begin{table}[t]
+\centering
+\caption{Audited cohort provenance, split architecture, causal landmarks, and clinical decision contracts across three health-system repositories ($157{,}324$ primary encounters across six task evaluations plus $818$ supplementary post-ROSC traces; two Gaussian noise channels added per task).}
+\label{tab:cohorts}
+\vspace{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrrrcccc}
+\toprule
+\textbf{Dataset \& Provenance} & \textbf{Primary / Supp.\ Endpoint} & $N_{\text{train}}$ & $N_{\text{cal}}$ & $N_{\text{test}}$ (\textbf{Pats}) & \textbf{Eval.\ Prev.} & $\tau^*$ ($c_{\text{query}}, \gamma$) & \textbf{S1 $\operatorname{NB}$ ($\operatorname{sNB}$)} & \textbf{S1 $\operatorname{AUPRC}$} \\
+\midrule
+Stanford \texttt{mcmed} (NGSci + PhysioNet; $>2$h) & 1.\ Critical ICU/Death (Primary) & 69,022 & 9,887 & 10,486 (8,568) & 2.18\% & 0.050 (0.030, 0.00158) & $+8.36$ ($0.383$) & $0.2398$ \\
+Stanford \texttt{mcmed} (NGSci + PhysioNet; $>2$h) & 2.\ Inpatient Admission & 69,022 & 9,887 & 10,486 (8,568) & 28.76\% & 0.150 (0.025, 0.00441) & $+187.12$ ($0.651$) & $0.6041$ \\
+Stanford \texttt{mcmed} ($>2$h Discharged) & 3.\ 72h Bounceback Admit & 39,864 & 5,707 & 6,165 (5,514) & 1.67\% & 0.030 (0.025, 0.00077) & $+0.56$ ($0.033$) & $0.0490$ \\
+BWH \texttt{ed-bwh-ecg} (NGSci; Holdout, ECG) & 4.\ 30d All-Cause Mortality & 39,050 & 6,329 & 5,779 (5,340) & 2.41\% & 0.030 (0.020, 0.00062) & $+11.40$ ($0.474$) & $0.1404$ \\
+BWH \texttt{ed-bwh-ecg} (NGSci; Holdout, ECG) & 5.\ 10d Stent or CABG & 39,050 & 6,329 & 5,779 (5,340) & 1.51\% & 0.030 (0.020, 0.00062) & $+2.93$ ($0.195$) & $0.0476$ \\
+NTUH \texttt{arrest-ecg} (NGSci; Case--Control) & 6.\ Pre-Arrest SCA ($\pi_{\text{target}}=2\%$) & 9,525 & 3,595 & 3,651 (2,203) & 2.00\% & 0.050 (0.020, 0.00105) & $-0.04$ ($-0.002$) & $0.0327$ \\
+\midrule
+NTUH \texttt{[1]ROSC} (Supplement; \citealp{obermeyer2026ecg}) & S1.\ Survival / CPC 1--2 & 567 & 121 & 130 (129) & 44.6\% / 35.4\% & 0.20 / 0.15 & $+288.5$ / $+242.6$ & $0.684$ / $0.610$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\textbf{Unconfounded Comparators and Patient-Cluster Inference:} Two pure-noise Gaussian stress channels ($c=0.50$ each) are appended to every clinical task. To prevent learner or router confounding, all discovery methods---\texttt{Global-CMI + Fluid}, \texttt{Weighted-Pilot CZ + Fluid} ($0.05$ relevance floor), \texttt{IPW-Pilot CZ + Fluid} (raw $w_{\text{HT}}$), \texttt{Offset-Pilot LogLoss + Fluid}, \texttt{Offset-Pilot CZ + Fluid} (Stage A only), and \texttt{UPCA-Fluid} (Stage A + B)---are evaluated using the \emph{exact same} downstream \texttt{FluidCollisionBackboneClassifier} and $12\times 2$ dispersion VOI router, supplemented by single-factor learner (\texttt{Global GBDT} vs.\ \texttt{Fluid}) and router ($12$-bin vs.\ $12\times 2$ VOI) ablations. All confidence intervals and two-sided $p$-values use $B=10{,}000$ patient-cluster ratio-estimator bootstraps resampling unique patients (\texttt{MRN} or \texttt{patient\_ngsci\_id}) with finite-sample \citet{davison1997bootstrap} adjustment $p = \min\{1, 2(\min(k_+, k_-) + 1)/(B+1)\}$; Stanford $2$-hour ICU/mortality is prespecified as our single primary rare-outcome regime test at nominal $\alpha=0.05$, and we additionally report conservative six-task Holm-adjusted $p$-values across the full task family, while accounting for two-phase survey design \citep{horvitz1952generalization,breslow2009using,lumley2010complex}, selective-label bias \citep{kleinberg2018human}, algorithmic health-equity standards \citep{obermeyer2019dissecting}, and calibration preservation under class imbalance \citep{vandengoorbergh2022harm}.
+
+\subsection{AI-Assisted Workflows and Computational Reproducibility}
+\label{sec:ai_disclosure}
+
+In accordance with Committee on Publication Ethics (COPE) transparency standards, portions of the computational research workflow---specifically bibliographic verification, Python cohort-auditing and statistical evaluation scripts, figure formatting, and manuscript text editing---were conducted using \emph{Google Antigravity} powered by \emph{Gemini 3.1 Pro} (no external biological or chemical database connectors from the Google DeepMind Science Plugin suite were invoked). No generative AI tool was used to synthesize, alter, or fabricate primary clinical records or empirical results. All study design choices, mathematical proofs, cohort exclusion criteria, executed code, bibliographic citations, and scientific conclusions were independently executed, audited, and verified by the human author, who takes full responsibility for the integrity and accuracy of this work.
+
+\section{Empirical Results}
+\label{sec:results}
+
+\subsection{Synthetic Operating Envelope (\texorpdfstring{$1{,}000$-Replicate \texttt{E5} and $72$-Cell}{1,000-Replicate E5 and 72-Cell} Grid)}
+\label{sec:synth_results}
+
+Across $1{,}000$ independent martingale replicates of \texttt{Experiment E5} ($N=9{,}000$: $5{,}400$ train / $1{,}800$ cal / $1{,}800$ test; $\tau^*=0.10$, $\pi_{\text{CZ}}=0.40$, $\rho=0.22$, $\sigma=3.2$, $c_{\text{query}}=0.09 \in (\rho g, g)$; exact martingale offset $\mu^*$ ensuring zero Jensen drift; Figure~\ref{fig:fig1}A--B):
+\begin{itemize}
+  \item \textbf{Null FWER Control:} Offset Stage-A Holm discovery admits a pure-noise channel in $3/1{,}000$ replicates ($0.30\%$, exact $95\%$ Clopper--Pearson CI $[0.06\%, 0.87\%]$), and Stage-B OOF policy screening reduces null FWER to \textbf{$1/1{,}000$ ($0.10\%$, $95\%$ CP CI $[0.003\%, 0.56\%]$)}, well below $\alpha=5.0\%$.
+  \item \textbf{Identifiable vs.\ Unidentifiable Screening and Budget Dependence:} Because both active channels have identical marginal post-purchase distributions, Stage A admits both nearly always ($99.5\%$ $[98.8\%, 99.8\%]$ vs.\ $99.3\%$ $[98.6\%, 99.7\%]$), picking \texttt{ch\_identifiable} first only $50.4\%$ of the time. Without cue hints, \texttt{UPCA-Fluid} retains \texttt{ch\_identifiable} in \textbf{$88.6\%$ ($886/1{,}000$, $[86.5\%, 90.5\%]$)} versus $65.1\%$ ($[62.1\%, 68.1\%]$) for \texttt{ch\_unidentifiable}, ranking \texttt{ch\_identifiable} top-$1$ in $75.1\%$ of replicates. Under a \textbf{tight single-channel budget ($B=1.0$)}, \texttt{UPCA-Fluid} increases deployed Net Benefit from $+1.07$ to \textbf{$+1.54$ per $1{,}000$} (\textbf{paired $\Delta\operatorname{NB} = +0.47 \pm 0.07$, $95\%$ CI $[+0.34, +0.61]$, $t=6.84$, $p=1.4\times 10^{-11}$}). Conversely, under an unconstrained flat-fee bundle ($B=2.0$, where querying \texttt{ch\_identifiable} on $U_{\text{cue}}=1$ incurs no extra marginal fee to co-observe \texttt{ch\_unidentifiable}), conservative finite-sample pruning trades off $-0.92$ ($[-1.05, -0.80]$) bundle Net Benefit in exchange for tight-budget protection.
+  \item \textbf{Four-Dimensional Estimator Operating Envelope (Figure~\ref{fig:fig1}D1--D3):} Evaluating $50$ replicates across each of $72$ cells $(\rho \in \{0.10, 0.22, 0.40\}, \sigma \in \{1.5, 2.5, 3.5\}, c_{\text{query}}/g \in \{0.15, 0.30, 0.60, 0.90\}, \pi_{\text{CZ}} \in \{0.20, 0.40\})$ maps three distinct empirical regimes: (1) for moderate-to-strong dispersion ($\sigma \in \{2.5, 3.5\}$), $\rho \in \{0.22, 0.40\}$, and $c_{\text{query}}/g \in \{0.15, 0.30\}$, $2\text{D}$ dispersion VOI outperforms $12$-bin VOI by $+0.80$ to $+2.15$ NB/1k while pruning $84\%\text{--}98\%$ of unidentifiable channels in the $\rho < c_{\text{query}}/g$ separation zone; (2) when $\rho = 0.10$ and $\pi_{\text{CZ}} = 0.20$ ($\approx 24$ active calibration rows), finite-sample tree estimation attenuates retention ($6\%\text{--}26\%$); and (3) near the cost ceiling $c_{\text{query}}/g = 0.90$, estimation variance in $\hat{p}_2$ causes both $2\text{D}$ and $12$-bin routers to abstain ($\Delta\operatorname{NB} \approx 0.00$, $0\%\text{--}4\%$ retention), defining a concrete sample-size and cost-margin boundary for pre-purchase screening.
+\end{itemize}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig1_operating_envelope_and_regime.png}
+\caption{Synthetic operating envelope and matched two-phase pilot weighting ablation. \textbf{(A)} $1{,}000$-replicate \texttt{Experiment E5} channel retention and null FWER with exact $95\%$ Clopper--Pearson CIs. \textbf{(B)} Deployed Net Benefit under tight ($B=1.0$, paired $\Delta\operatorname{NB}=+0.47$, $p=1.4\times 10^{-11}$) vs.\ unconstrained ($B=2.0$) panel budgets. \textbf{(C)} Matched clinical pilot weighting ablation holding \texttt{FluidCollisionBackboneClassifier} fixed on Stanford ICU/mortality ($2.18\%$) vs.\ hospital admission ($28.8\%$). \textbf{(D1--D3)} $72$-cell ($3{,}600$-run) operating-envelope heatmaps showing $2\text{D}$ minus $12$-bin VOI Net Benefit gain and identifiable retention across $(\rho, \sigma, c_{\text{query}}/g)$ at $\pi_{\text{CZ}}=0.40$.}
+\label{fig:fig1}
+\end{figure}
+
+\subsection{Unconfounded Clinical Evaluation Across Six Primary Tasks}
+\label{sec:clin_results}
+
+Table~\ref{tab:primary} and Figure~\ref{fig:fig2} summarize unconfounded test-set performance across all six primary clinical tasks. Zero pure-noise Gaussian stress channels ($2$ tested per task) were retained by \texttt{UPCA-Fluid} in any primary or sensitivity task. Moreover, covariance-adjusted Mahalanobis Wald tests confirm design-based within-stratum independence $I_i \perp Z_i \mid (Y_i, b_i)$ across cohorts (median feature $p \in [0.37, 0.54]$, omnibus $p \in [0.24, 0.95]$ on $5/6$ tasks and $0.027$ unadjusted / $>0.16$ Holm-adjusted on Stanford ICU; Appendix Table~\ref{tab:r15_supp}). Holding \texttt{FluidCollisionBackboneClassifier} fixed isolates the exact regime structure predicted by theory:
+
+\begin{table}[t]
+\centering
+\caption{Unconfounded primary evaluation across six clinical tasks ($10{,}000$-replicate patient-cluster paired bootstraps; all Stage-2 comparators use \texttt{FluidCollisionBackboneClassifier}). Both $\operatorname{AUPRC}_{\text{full}}$ and $\operatorname{AUPRC}_{\text{routed}}$ are reported alongside Net Benefit ($\operatorname{NB}_{\mathcal{K}}$ per $1{,}000$) and Standardized Net Benefit ($\operatorname{sNB}$); secondary $\operatorname{AUROC}$ appears in Appendix Table~\ref{tab:supp_auroc}.}
+\label{tab:primary}
+\vspace{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccccc}
+\toprule
+\textbf{Task} & \textbf{\texttt{Global-CMI + Fluid}} & \textbf{\texttt{Weighted-Pilot CZ + Fluid}} & \textbf{\texttt{IPW-Pilot CZ + Fluid}} & \textbf{\texttt{UPCA-Fluid}} & \textbf{\texttt{UPCA} vs.\ S1} & \textbf{\texttt{UPCA} vs.\ \texttt{Global-CMI}} & \textbf{\texttt{UPCA} vs.\ \texttt{Weighted-CZ}} \\
+(Prev., $\tau^*$) & $\operatorname{NB}$ ($\operatorname{AUPRC}_{\text{fl}} / \operatorname{rt}$, $q\%$) & $\operatorname{NB}$ ($\operatorname{AUPRC}_{\text{fl}} / \operatorname{rt}$, $q\%$) & $\operatorname{NB}$ ($\operatorname{AUPRC}_{\text{fl}} / \operatorname{rt}$, $q\%$) & $\operatorname{NB}$ [$\operatorname{sNB}$] ($\operatorname{AUPRC}_{\text{fl}} / \operatorname{rt}$, $q\%$) & $\Delta\operatorname{NB}$ [95\% CI] ($p$) & $\Delta\operatorname{NB}$ [95\% CI] ($p$) & $\Delta\operatorname{NB}$ [95\% CI] ($p$) \\
+\midrule
+1.\ Stanf.\ ICU/Death & $+9.45$ ($0.282 / 0.260$, $18.8\%$) & $+8.98$ ($0.280 / 0.260$, $16.9\%$) & $+8.98$ ($0.280 / 0.260$, $16.9\%$) & $\mathbf{+9.45}$ [$0.433$] ($0.285 / 0.258$, $20.3\%$) & $+1.09$ [$+0.15, +2.05$] ($0.0252^*$) & $+0.01$ [$-0.36, +0.41$] ($0.998$) & $+0.47$ [$-0.11, +1.10$] ($0.124$) \\
+2.\ Stanf.\ Admission & $+196.79$ ($0.604 / 0.596$, $47.8\%$) & $+196.00$ ($0.596 / 0.596$, $47.8\%$) & $+194.48$ ($0.646 / 0.615$, $42.1\%$) & $+195.95$ [$0.681$] ($\mathbf{0.665} / \mathbf{0.621}$, $46.5\%$) & $+8.83$ [$+5.93, +11.76$] ($0.0002^\dagger$) & $-0.84$ [$-3.32, +1.56$] ($0.493$) & $-0.06$ [$-2.32, +2.19$] ($0.968$) \\
+3.\ Stanf.\ 72h Bounce & $+2.91$ ($0.084 / 0.083$, $32.9\%$) & $+2.79$ ($0.069 / 0.064$, $30.2\%$) & $+2.79$ ($0.069 / 0.064$, $30.2\%$) & $+2.79$ [$0.167$] ($0.069 / 0.064$, $30.2\%$) & $+2.24$ [$+0.59, +4.01$] ($0.0058^\dagger$) & $-0.11$ [$-1.39, +1.11$] ($0.848$) & $+0.00$ [exact tie] ($1.000$) \\
+4.\ BWH 30d Death & $+11.82$ ($0.149 / 0.142$, $31.8\%$) & $+11.82$ ($0.149 / 0.142$, $31.8\%$) & $+11.82$ ($0.149 / 0.142$, $31.8\%$) & $+11.82$ [$0.491$] ($0.149 / 0.142$, $31.8\%$) & $+0.42$ [$-0.93, +1.79$] ($0.546$) & $+0.00$ [exact tie] ($1.000$) & $+0.00$ [exact tie] ($1.000$) \\
+5.\ BWH 10d Rev.\ & $+4.86$ ($0.153 / 0.104$, $27.2\%$) & $+4.01$ ($0.160 / 0.137$, $37.2\%$) & $+4.01$ ($0.160 / 0.137$, $37.2\%$) & $+4.01$ [$0.266$] ($0.160 / 0.137$, $37.2\%$) & $+1.08$ [$-0.72, +2.90$] ($0.242$) & $-0.85$ [$-2.58, +0.79$] ($0.321$) & $+0.00$ [exact tie] ($1.000$) \\
+6.\ NTUH Pre-Arrest & $-0.04$ ($0.033 / 0.033$, $0.0\%$) & $-0.04$ ($0.033 / 0.033$, $0.0\%$) & $-0.05$ ($0.050 / 0.033$, $3.1\%$) & $-0.04$ [$-0.002$] ($0.033 / 0.033$, $0.0\%$) & $+0.00$ [safe abstention] ($1.000$) & $+0.00$ [exact tie] ($1.000$) & $+0.00$ [exact tie] ($1.000$) \\
+\bottomrule
+\multicolumn{8}{l}{\footnotesize $^*$Prespecified primary multi-channel rare-outcome test ($p=0.0252$ unadjusted; $p_{\text{Holm}}=0.1008$ across all $6$ tasks). $^\dagger$Significant after $6$-task Holm adjustment ($p_{\text{Holm}}=0.0012$ and $0.0290$).}
+\end{tabular}%
+}
+\end{table}
+
+\begin{enumerate}
+  \item \textbf{Rare- vs.\ Common-Outcome Multi-Channel Pilot Mechanics on Stanford MC-MED:} On our prespecified primary rare-outcome multi-channel task (\emph{Critical ICU/Death}, $2.18\%$ prevalence, $8$ clinical channels), both \texttt{Weighted-Pilot CZ} ($0.05$ floor) and \texttt{IPW-Pilot CZ} stop at two laboratory panels (\texttt{renal\_elyte}, \texttt{lactate\_cardiac}; $\operatorname{NB}=+8.98$), whereas Breslow--Cain offset adjustment recovers $2$-hour continuous bedside monitor numerics (\texttt{monitor\_numerics\_2h}, $z_{\text{marg}}=1.33$), achieving $\operatorname{NB}=+9.45$ ($\Delta\operatorname{NB}=+1.09$ over Stage-1, $95\%$ CI $[+0.15, +2.05]$, $p=0.0252$; $+0.95$ over $100\%$ unselective querying's $+8.50$, $p=0.00060$). Against \texttt{Weighted-Pilot CZ + Fluid}, the single-split test difference is directional ($+0.47$, $[-0.11, +1.10]$, $p=0.124$) and ties \texttt{Global-CMI + Fluid} ($+9.45$, $\Delta\operatorname{NB}=+0.01$, $p=0.998$). Across $25$ repeated $20\%$ Phase-2 pilots on $\mathcal{D}_{\text{train}}$, however, Breslow--Cain offset GBDTs increase top-$1$ oracle channel concordance from $72\%$ (\texttt{Weighted-Pilot CZ}) and $84\%$ (\texttt{IPW-Pilot}) to \textbf{$88\%$}, while parametric two-phase offset MLE reduces lactate slope variance by \textbf{$36.4\%$} relative to IPW ($200$ replicates; Appendix Table~\ref{tab:r15_supp}). Conversely, on common \emph{Hospital Admission} ($28.76\%$; Figure~\ref{fig:fig1}C), \texttt{IPW-Pilot CZ} drops to $+194.48$ ($2$ channels), whereas \texttt{UPCA-Fluid} ($3$ channels vs.\ \texttt{Global-CMI}'s $4$) achieves $+195.95$ ($+8.83$ over Stage-1, $p_{\text{Holm}}=0.0012$; $+1.30$ over $100\%$ querying, $p=0.0106$; $+5.59$ over matched \texttt{Offset-Pilot LogLoss + Fluid}, $p=0.00020$) and the highest $\operatorname{AUPRC}_{\text{full}}$ ($0.6654$ vs.\ $0.6040$ \texttt{Global-CMI + Fluid}), while statistically tying \texttt{Weighted-Pilot CZ} ($-0.06$, $p=0.968$) and \texttt{Global-CMI + Fluid} ($-0.84$, $p=0.493$) on Net Benefit.
+  \item \textbf{Leak-Free $72$-Hour Bounceback and CDW Landmark Sensitivities:} Requiring medication entry dates strictly prior to arrival (\texttt{Entry\_date} before \texttt{Arrival\_time}) on \texttt{meds.csv} removes post-index-visit prescription leakage that inflated prior estimates. On the strict $2.0\text{h}$ landmark cohort ($N_{\text{test}}=6{,}165$), \texttt{UPCA-Fluid}, \texttt{Weighted-Pilot CZ}, and \texttt{IPW-Pilot CZ} select the identical pair (\texttt{cdw\_prior\_pmh}, \texttt{lab\_lactate\_cardiac}), lifting Net Benefit from $+0.56$ to $+2.79$ ($+2.24$ over Stage-1, $p=0.0058$, $p_{\text{Holm}}=0.0290$; exact $+0.00$ tie with \texttt{Weighted-Pilot CZ}; $-0.11$ statistical tie with \texttt{Global-CMI + Fluid}'s $+2.91$). Restricting to patients with complete prior CDW problem and medication records ($N_{\text{test}}=2{,}488$) yields $+6.61$ vs.\ $+1.86$ Stage-1 ($p=0.0092$). Notably, in a $0\text{h}$-arrival CDW-only sensitivity across all $7{,}255$ test discharges, \texttt{Global-CMI + Fluid} ($+3.84$, admitting both \texttt{cdw\_prior\_pmh} and \texttt{cdw\_prior\_meds}) outperforms \texttt{UPCA-Fluid} ($+2.29$, $p=0.0036$), illustrating conservative finite-sample power of $20\%$ Schervish pilots when incremental second-channel rare-event signal sits near the Holm boundary.
+  \item \textbf{Exact Comparator Ties, Subgroup Rescue, and Stage-B Noise Pruning on BWH and NTUH:} On BWH Arrival-ECG \emph{30d Mortality} ($2.41\%$) and \emph{10d Stent/CABG} ($1.51\%$, zero troponin incorporation), \texttt{UPCA-Fluid} and \texttt{Weighted-Pilot CZ + Fluid} select the exact same ECG channels ($\Delta\operatorname{NB}=+0.00$), lifting $10\text{d}$ Stent/CABG $\operatorname{AUPRC}_{\text{full}}$ $3.36$-fold ($0.0476 \to 0.1601$, $\operatorname{AUPRC}_{\text{routed}}=0.1372$; statistical ties with Stage-1 and \texttt{Global-CMI + Fluid} on Net Benefit). Within the BWH \emph{Complete-Troponin Subgroup} ($N_{\text{test}}=1{,}675$) predicting non-incorporated $10\text{d}$ Stent/CABG ($3.22\%$), \texttt{UPCA-Fluid} lifts Net Benefit from $+3.42$ to \textbf{$+14.17$ ($+10.74$ $[+5.59, +16.27]$, $p=0.00040$; $\operatorname{AUPRC}_{\text{full}} = 0.3732$ [$4.66\times$])}, and on complete-troponin $30\text{d}$ mortality, Stage-B OOF screening \textbf{catches and prunes a finite-sample Stage-A false positive (\texttt{ch\_null\_noise\_1})}, recovering $+14.75$ vs.\ $+13.92$ Net Benefit ($\operatorname{AUPRC}_{\text{full}} = 0.2327$ vs.\ $0.2018$). On case--control-adjusted NTUH \emph{Pre-Arrest SCA} ($\pi_{\text{target}}=2.0\%$), \texttt{UPCA-Fluid}, \texttt{Weighted-Pilot CZ}, and \texttt{Global-CMI + Fluid} all safely abstain ($0$ channels, $\Delta\operatorname{NB}=+0.00$, outperforming $100\%$ querying by $+1.05$, $p=0.00020$; at $\pi_{\text{target}}=1.0\%$, \texttt{UPCA-Fluid} abstention outperforms \texttt{Global-CMI + Fluid}'s spurious \texttt{ch\_avr} selection by $+0.02$, $p=0.00020$).
+\end{enumerate}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig2_clinical_net_benefit_and_dca.png}
+\caption{Vickers Decision Curves and unconfounded clinical comparisons across all six primary tasks. \textbf{(A--F)} Net Benefit curves $\operatorname{NB}(\tau)$ across threshold ranges surrounding $\tau^*$ (vertical dotted line) comparing \texttt{UPCA-Fluid}, \texttt{Global-CMI + Fluid}, \texttt{Weighted-Pilot CZ + Fluid}, Stage-1 ($0\%$ query), Treat-All, and Treat-None. \textbf{(G)} $10{,}000$-replicate patient-cluster bootstrap $\Delta\operatorname{NB}$ ($95\%$ CIs) showing exact ties at $0.00$. \textbf{(H)} Side-by-side Stage-1, $\operatorname{AUPRC}_{\text{routed}}$, and $\operatorname{AUPRC}_{\text{full}}$ illustrating Proposition~\ref{prop:auprc_inversion}.}
+\label{fig:fig2}
+\end{figure}
+
+\subsection{Calibration, Directional Skipped-Case Disagreement, and Subgroup Audits}
+\label{sec:cal_safety_fairness}
+
+\textbf{Calibration and VOI Realization (Figure~\ref{fig:fig3}):} Across all five active primary tasks, routed \texttt{UPCA-Fluid} probabilities maintain near-zero calibration-in-the-large ($\alpha_{\text{cal}} \in [-0.032, +0.034]$), calibration slopes near unity on Stanford ICU ($0.931$), Stanford Admission ($1.018$), BWH $30$d Death ($0.980$), and BWH $10$d Stent/CABG ($0.878$) (milder small-event slope $1.367$ on $1.67\%$ Bounceback and $1.425$ on $0$-query NTUH Stage-1), and low Integrated Calibration Index ($\operatorname{ICI} \in [0.0022, 0.0054]$). Across quartiles of predicted pre-purchase $\widehat{\operatorname{VOI}}_i$ on $\mathcal{D}_{\text{test}}$, realized held-out decision gain increases monotonically from $Q_1/Q_2$ ($-0.001$ to $+0.029$ raw cost units, $0\%$ queried) to $Q_4$ ($+0.079$ to $+0.282$ raw cost units, $100\%$ queried).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig3_calibration_curves.png}
+\caption{Flexible spline calibration curves, decile observed event frequencies, calibration-in-the-large ($\text{Intercept}$), calibration slope ($\text{Slope}$), and Integrated Calibration Index ($\operatorname{ICI}$) for deployed \texttt{UPCA-Fluid} vs.\ Stage-1 across all six primary tasks.}
+\label{fig:fig3}
+\end{figure}
+
+\textbf{Directional Skipped-Case Action-Disagreement and Selective-Testing Audits (Table~\ref{tab:governance}, Figure~\ref{fig:fig4}A--B):} Among skipped arrivals ($Q_i=0$: $53.5\%\text{--}100\%$ of test encounters), patient-cluster $95\%$ upper bounds on total action disagreement are $1.27\%$ on Stanford ICU ($1.06\%$ $\text{Neg}\to\text{Pos}$, $0.28\%$ $\text{Pos}\to\text{Neg}$; $68$ beneficial vs.\ $22$ harmful flips; realized $|\Delta\operatorname{NB}_{\text{dec}}| = 0.31$ vs.\ theoretical $95\%$ bound $10.10$/1k), $3.21\%$ on Stanford Admission ($0.72\%$ $\text{Neg}\to\text{Pos}$, $2.62\%$ $\text{Pos}\to\text{Neg}$), $3.95\%$ on Bounceback ($140$ beneficial vs.\ $7$ harmful flips), $1.80\%$ on BWH $30$d Death, $2.09\%$ on BWH $10$d Stent/CABG ($48$ beneficial vs.\ $14$ harmful flips), and $0.14\%$ on NTUH Pre-Arrest. On Stanford ICU, stripping missingness indicators via \texttt{AgnielDeconfounder} \citep{agniel2018biases} preserves $\operatorname{NB}=+9.46$ ($+1.09$ over Stage-1, $p=0.0076$). Among $5{,}299$ BWH test encounters without $10$-day stress testing or catheterization (\texttt{test\_010\_day == 0}; $125$ deaths within $30$ days), a selective-label model trained solely on tested patients drops to $+6.44$ NB, whereas \texttt{UPCA-Fluid} (tied with \texttt{Weighted-Pilot CZ} and \texttt{Global-CMI + Fluid}) achieves $+12.08$ NB ($\Delta\operatorname{NB}=+5.64$ $[+2.90, +8.41]$, $p=0.00020$), retrospectively flagging $96/125$ ($76.8\%$) recorded $30$-day deaths at a $20.7\%$ flag rate (and $+34.42$ NB over tested-only modeling on secondary ECG-only $30$d MACE/death, $p=0.00020$).
+
+\textbf{Subgroup Performance, Heterogeneity, and Institutional Prior-EHR Coverage (Figure~\ref{fig:fig4}C--D):} Auditing Stanford CDW prior-EHR coverage reveals pronounced payer stratification: prior outpatient medication records exist for only \textbf{$30.4\%$} of Medicaid visits versus \textbf{$79.6\%$} of Medicare visits ($51.9\%$ Unspecified/Commercial; problem lists $87.0\%$ vs.\ $96.3\%$). Across racial strata, no statistically significant $\Delta\operatorname{NB}$ heterogeneity is detected on BWH $30$d Mortality (IRS ZIP-AGI quartiles Cochran $Q=2.87, p_{\text{het}}=0.41$; race $Q=4.56, p_{\text{het}}=0.21$), Stanford ICU (payor $p_{\text{het}}=0.29$; race $p_{\text{het}}=0.42$), or Stanford Admission by race ($p_{\text{het}}=0.70$, with significant positive gains across White $+7.85$, Asian $+8.29$, Black $+15.76$, and Other $+8.71$). By contrast, Stanford Admission exhibits significant payer heterogeneity ($Q=23.50, p_{\text{het}}<0.0001$): Medicaid ($+15.42$ $[+5.91, +25.31]$, $q=56.8\%$) and Commercial/Unspecified ($+11.77$ $[+7.95, +15.68]$, $q=52.9\%$) achieve large gains, whereas high-prevalence Medicare arrivals ($43.3\%$ admission rate, $\hat{p}_1 \gg \tau^*=0.15$) are predominantly skipped ($q=25.5\%$, $\Delta\operatorname{NB}=-1.85$ $[-6.38, +2.57]$), confirming that VOI querying concentrates where baseline triage is genuinely uncertain.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig4_skipped_disagreement_and_subgroups.png}
+\caption{Directional skipped-case disagreement bounds, query-cost sweeps, and subgroup heterogeneity audits. \textbf{(A)} Patient-cluster $95\%$ upper bounds on total, $\text{Neg}\to\text{Pos}$, and $\text{Pos}\to\text{Neg}$ action disagreements among skipped ($Q=0$) test encounters. \textbf{(B)} Query-cost sweep $c_{\text{query}} = \gamma C_{\text{FN}}$ on Stanford ICU/mortality showing selective \texttt{UPCA-Fluid} outperforming $100\%$ querying across $c_{\text{query}} \in [0.005, 0.080]$. \textbf{(C)} BWH $30$d mortality $\Delta\operatorname{NB}$ ($10\text{k}$ cluster $95\%$ CIs) by IRS ZIP-AGI quartile and race. \textbf{(D)} Stanford admission $\Delta\operatorname{NB}$ and prior-CDW medication coverage by payer and race.}
+\label{fig:fig4}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Directional skipped-case action-disagreement audit, non-incorporated BWH subgroup evaluations, and Agniel process-deconfounding summary ($10{,}000$-replicate patient-cluster CIs).}
+\label{tab:governance}
+\vspace{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrrrl}
+\toprule
+\textbf{Audit Domain} & \textbf{Cohort / Subgroup Slice} & $N_{\text{eval}}$ (\textbf{Events}) & \textbf{Ref.\ $\operatorname{NB}$} & \textbf{\texttt{UPCA} $\operatorname{NB}$} & \textbf{Key Quantitative Finding ($95\%$ Cluster CI / Bound)} \\
+\midrule
+Skipped Disagreement & Stanford ICU/Death ($Q=0$ Skipped) & 8,356 (131) & --- & --- & Flip $1.08\%$ ($95\%$ UB $1.27\%$: $\text{N}\to\text{P}$ $1.06\%$, $\text{P}\to\text{N}$ $0.28\%$; $68$ ben.\ / $22$ harm.) \\
+Skipped Disagreement & BWH 10d Stent/CABG ($Q=0$ Skipped) & 3,628 (21) & --- & --- & Flip $1.71\%$ ($95\%$ UB $2.09\%$: $\text{N}\to\text{P}$ $1.87\%$, $\text{P}\to\text{N}$ $0.33\%$; $48$ ben.\ / $14$ harm.) \\
+No 10d Stress/Cath & BWH \texttt{test\_010\_day == 0} (30d Death) & 5,299 (125) & $+6.44$ (Tested) & $+12.08$ & $+5.64$ [$+2.90, +8.41$], $p=0.00020$ (ties WCZ/CMI; flags $96/125$ [$76.8\%$]) \\
+No Same-Day Trop.\ & BWH \texttt{trop\_drawn == 0} (30d Death) & 4,104 (81) & $+5.30$ (Tested) & $+9.25$ & $+3.96$ [$+1.02, +6.98$], $p=0.0076$ ($+1.19$ vs.\ S1, $p=0.101$) \\
+Complete Troponin & BWH \texttt{trop\_drawn == 1} (10d Rev.) & 1,675 (54) & $+3.42$ (Stage-1) & $+14.17$ & $+10.74$ [$+5.59, +16.27$], $p=0.00040$; $\operatorname{AUPRC}_{\text{full}} 0.080 \to 0.373$ \\
+Complete Troponin & BWH \texttt{trop\_drawn == 1} (30d Death) & 1,675 (58) & $+11.66$ (Stage-1) & $+14.75$ & Stage B prunes Stage-A \texttt{ch\_null\_noise\_1} ($+13.92 \to +14.75$ NB) \\
+Agniel Deconfound & Stanford ICU/Death (Zero Miss.\ Ind.) & 10,486 (229) & $+8.36$ (Stage-1) & $+9.46$ & $+1.09$ [$+0.27, +1.96$], $p=0.0076$; $\operatorname{AUPRC}_{\text{full}} = 0.2855$ ($q=16.9\%$) \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section{Discussion and Limitations}
+\label{sec:discussion}
+
+Rebuilding three multi-year acute-care repositories under strict causal landmarks and holding downstream Stage-2 learners fixed clarifies both the genuine utility and the operational boundaries of two-phase offset discovery and pre-purchase policy screening:
+\begin{enumerate}
+  \item \textbf{Regime Characterization Over Universal Superiority:} When Stage-2 capacity is controlled (\texttt{FluidCollisionBackboneClassifier}), \texttt{UPCA-Fluid} and \texttt{Weighted-Pilot CZ} tie exactly on $4/6$ primary tasks where one or two dominant physiological channels prevail. The Breslow--Cain offset specifically resolves the two-phase weighting dilemma in multi-channel cohorts: preventing leaf starvation on rare Stanford ICU/mortality ($88\%$ vs.\ $72\%$ repeated-pilot oracle concordance, directional $+0.47$ test NB) while avoiding raw-IPW split degradation on $28.8\%$-prevalence hospital admission ($+195.95$ vs.\ $+194.48$, $+5.59$ over matched log-loss pilot discovery). Likewise, Stage-B OOF policy screening shines under constrained channel budgets (\texttt{E5} $B=1.0$: $+0.47$, $p=1.4\times 10^{-11}$) and finite-sample false-positive protection (pruning \texttt{ch\_null\_noise\_1} on BWH complete-troponin mortality), while exhibiting documented finite-sample conservatism when $c_{\text{query}}/g \to 0.90$ or pilot rare-event counts are small (such as $0\text{h}$ arrival CDW-only bounceback, where \texttt{Global-CMI + Fluid} achieved $+1.55$ higher NB).
+  \item \textbf{Retrospective Information-Access Scope and Outcome Ascertainment:} All empirical evaluations measure selective computation or retrieval of \emph{already-recorded} EHR, laboratory, and waveform channels (or complete-measurement subsets with explicit selection boundaries). On BWH, although $30$-day mortality is linked to state death records, nonfatal revascularization and MACE require health-system return \citep{mullainathan2022diagnosing}. Similarly, Stanford MC-MED samples monitored ED beds rather than low-acuity fast-track chairs \citep{kansal2025mcmed}, and payer-linked differences in institutional CDW medication completeness ($30.4\%$ Medicaid vs.\ $79.6\%$ Medicare) highlight informative EHR missingness \citep{agniel2018biases}. Prospective silent-mode shadow studies or interventional test-ordering evaluations under local clinical governance are required before bedside deployment \citep{vancalster2019calibration,collins2024tripodai}.
+\end{enumerate}
+
+\section*{Author Contributions (CRediT)}
+
+\textbf{Wayne A.\ Satz:} Conceptualization, Methodology, Software, Validation, Formal Analysis, Investigation, Data Curation, Visualization, Writing -- Original Draft, Writing -- Review \& Editing.
+
+\section*{Funding}
+
+This research received no external grant funding. Computational and agentic research platform access was supported in part by the \emph{Google Antigravity for Science} program.
+
+\section*{Institutional Review Board and Informed Consent Statement}
+
+This study was conducted in accordance with the Declaration of Helsinki and Committee on Publication Ethics (COPE) standards for secondary analysis of de-identified research data. New institutional review board approval and informed consent were not applicable because no human participants were recruited, no clinical interventions were performed, no direct identifiers were accessed, and all empirical analyses examine synthetic generators or credentialed, IRB-reviewed, de-identified datasets: \texttt{ed-bwh-ecg} \citep{mullainathan2022diagnosing} and \texttt{arrest-ntuh-ecg/v1} \citep{obermeyer2026ecg} accessed under Nightingale Open Science Data Use Agreements, and \texttt{mcmed-stanford-multi/v1} \citep{kansal2025mcmed} released via Nightingale Open Science and PhysioNet \citep{goldberger2000physionet}. Under U.S.\ federal regulations ($45\text{ CFR }46.102\text{(e)}$), secondary analysis of de-identified datasets does not constitute human subjects research. All results represent retrospective \emph{in-silico} methodological evaluations and are not cleared for clinical patient care.
+
+\section*{Data and Code Availability Statement}
+
+{\raggedright The standalone \texttt{decision-aware-acquisition} repository (MIT License)---containing \texttt{build\_audited\_cohorts\_v2.py}, \texttt{upca\_v2\_core.py}, \texttt{run\_paper3\_v2\_remediation.py}, \texttt{plot\_paper3\_v2\_figures.py}, unit tests ($8/8$ passing \texttt{pytest} tests), cohort-flow audit JSONs, and remediation ledgers---is publicly available at \url{https://github.com/deesatzed/decision-aware-acquisition} alongside the companion \texttt{collision-zone-ed} library (\url{https://github.com/deesatzed/collision-zone-ed}; \citealp{satz2026collision}). De-identified clinical datasets are accessible to credentialed researchers via Nightingale Open Science (\url{https://ngsci.org}; \texttt{ed-bwh-ecg}, \texttt{arrest-ntuh-ecg}, \texttt{mcmed-stanford-multi}; \citealp{nightingale2024platform}) and PhysioNet (\url{https://physionet.org}; \texttt{mcmed-stanford-multi}; \citealp{kansal2025mcmed,goldberger2000physionet}).\par}
+
+\section*{Competing Interests}
+
+The author declares no competing financial or non-financial interests.
+
+\section*{Acknowledgments}
+
+Computational and agentic research platform access was supported in part by the \emph{Google Antigravity for Science} program. We thank Nightingale Open Science, PhysioNet \citep{goldberger2000physionet}, and the clinical research teams at Brigham and Women's Hospital \citep{mullainathan2022diagnosing}, Stanford University Department of Emergency Medicine \citep{kansal2025mcmed}, and National Taiwan University Hospital \citep{obermeyer2026ecg}, as well as the maintainers of \texttt{LightGBM} \citep{ke2017lightgbm} and \texttt{scikit-learn} \citep{pedregosa2011scikit}.
+
+\appendix
+
+\section{Mathematical Proofs}
+\label{app:proofs}
+
+\begin{proof}[Proof of Proposition~\ref{prop:auprc_inversion}]
+\emph{Part 1.} Let $L^*(p) = \min\{p C_{\text{FN}}, (1-p)C_{\text{FP}}\}$ denote pointwise Bayes risk. For $x \in \mathcal{A}_+$, $\eta_1(x) > \tau^*$ implies $L^*(\eta_1(x)) = (1 - \eta_1(x))C_{\text{FP}}$. Since $\mathbb{P}(\eta_2 \ge \tau^* \mid X_{\text{base}} = x) = 1$, $L^*(\eta_2) = (1 - \eta_2)C_{\text{FP}}$ almost surely given $X_{\text{base}}=x$. By $\mathbb{E}[\eta_2 \mid X_{\text{base}}=x] = \eta_1(x)$, $\mathbb{E}[L^*(\eta_2) \mid X_{\text{base}}=x] = (1 - \eta_1(x))C_{\text{FP}} = L^*(\eta_1(x))$, so $\operatorname{VOI}(x) = 0$. Setting $Q(x)=0$ on $\mathcal{A}_+$ preserves $\mathbb{I}\{\eta_{\text{route}} \ge \tau^*\} = \mathbb{I}\{\eta_1(x) \ge \tau^*\} = 1 = \mathbb{I}\{\eta_2 \ge \tau^*\}$ almost surely while saving $1000\gamma\,\mathbb{P}(X_{\text{base}} \in \mathcal{A}_+)$ in Eq.~\eqref{eq:nb}.
+
+\emph{Part 2.} For any score $S$ without point masses on $[p_{\text{lo}}, 1)$, population Average Precision is $\operatorname{AUPRC}(S) = \pi^{-1}\int_0^1 \operatorname{Prec}_S(t)\,d\operatorname{Rec}_S(t)$, where $\operatorname{Rec}_S(t) = \mathbb{P}(S > t \mid Y=1)$ and $\operatorname{Prec}_S(t) = \mathbb{P}(Y=1 \mid S > t)$. Let $m_+ = \mathbb{P}(X_{\text{base}} \in \mathcal{A}_+, \eta_2 > p_{\text{top}}, Y=1) = \mathbb{E}[\eta_2 \mathbb{I}\{X_{\text{base}} \in \mathcal{A}_+, \eta_2 > p_{\text{top}}\}] \ge p_{\text{top}}\,\mathbb{P}(X_{\text{base}} \in \mathcal{A}_+, \eta_2 > p_{\text{top}}) > 0$. Under $S = \eta_2$, because $\mathbb{P}(\eta_2 > p_{\text{top}}, Y=0) = 0$, every recall level $r \in (0, m_+/\pi]$ corresponds to thresholds $t > p_{\text{top}}$ where $\operatorname{Prec}_{\eta_2}(t) = 1$. Under $S = \eta_{\text{route}}$, however, skipping $\mathcal{A}_+$ maps all encounters in $\mathcal{A}_+$ to $\eta_{\text{route}} = \eta_1 \le p_{\text{hi}} < p_{\text{top}}$. Meanwhile, queried false positives in $\mathcal{A}_{\text{CZ}}$ retain $\eta_{\text{route}} = \eta_2 \in (p_{\text{hi}}, p_{\text{top}})$ with positive mass $m_{\text{FP}} = \mathbb{P}(X_{\text{base}} \in \mathcal{A}_{\text{CZ}}, Y=0, \eta_{\text{route}} \in (p_{\text{hi}}, p_{\text{top}})) > 0$. Consequently, for all thresholds $t \in [p_{\text{lo}}, p_{\text{hi}}]$ spanning the recall contributions of $\mathcal{A}_+$, $\{ \eta_{\text{route}} > t \}$ includes the entire false-positive mass $m_{\text{FP}} > 0$, forcing $\operatorname{Prec}_{\eta_{\text{route}}}(t) \le \frac{\pi}{\pi + m_{\text{FP}}} < 1$ over a positive-length recall interval while never exceeding $\operatorname{Prec}_{\eta_2}$ elsewhere above $p_{\text{hi}}$ (and leaving ordering below $p_{\text{lo}}$ identical), yielding $\operatorname{AUPRC}(\eta_{\text{route}}) < \operatorname{AUPRC}(\eta_2)$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:skip_safety}]
+\emph{Part 1.} Conditional on $n = n_{\text{skip}} \ge 1$ under independent test arrivals, $K_\star \sim \operatorname{Binomial}(n, p_\star)$. If $p_\star = 0$, $K_\star = 0$ almost surely and $0 \le U_{1-\alpha}^{\text{CP}}(0, n)$ holds with probability $1$. If $p_\star = 1$, $K_\star = n$ almost surely and $U_{1-\alpha}^{\text{CP}}(n, n) = 1$ holds with probability $1$. For $p_\star \in (0,1)$, the event $\{p_\star > U_{1-\alpha}^{\text{CP}}(K_\star, n)\}$ requires $K_\star < n$; for $k=0$, $p_\star > 1 - \alpha^{1/n} \iff (1 - p_\star)^n < \alpha$, and for $1 \le k < n$, by the Beta--Binomial identity $\sum_{j=0}^k \binom{n}{j} p_\star^j (1-p_\star)^{n-j} = 1 - I_{p_\star}(k+1, n-k)$, $p_\star > F_{\operatorname{Beta}(k+1, n-k)}^{-1}(1-\alpha) \iff \sum_{j=0}^k \binom{n}{j} p_\star^j (1-p_\star)^{n-j} < \alpha$. Letting $F(k) = \mathbb{P}(K_\star \le k)$ denote the discrete Binomial CDF, let $k_{\max} = \max\{k \in \{0,\dots,n\} : F(k) < \alpha\}$ (if nonempty; otherwise the event is empty with probability $0$). Then $\mathbb{P}(F(K_\star) < \alpha) = \mathbb{P}(K_\star \le k_{\max}) = F(k_{\max}) < \alpha$, establishing conservative coverage $\mathbb{P}(p_\star \le U_{1-\alpha}^{\text{CP}}(K_\star, n) \mid n) \ge 1 - \alpha$.
+
+\emph{Part 2.} On $\{Q=1\}$, $a_{\text{route}} = a_2$ identically, so pointwise decision loss difference $\Delta \ell_i = \ell(Y_i, a_{\text{route},i}) - \ell(Y_i, a_{2,i})$ vanishes. On $\{Q=0\} \cap \{a_1 = a_2\}$, $\Delta \ell_i = 0$ as well. On $\{Q=0\} \cap \{a_1 \ne a_2\}$, since $Y_i \in \{0,1\}$ and $a \in \{0,1\}$, $|\ell(Y_i, a_{1,i}) - \ell(Y_i, a_{2,i})| = C_{\text{FN}} Y_i + C_{\text{FP}}(1 - Y_i) \le \max(C_{\text{FN}}, C_{\text{FP}})$. Taking expectations and applying the triangle inequality gives $|R_{\text{dec}}(a_{\text{route}}) - R_{\text{dec}}(a_2)| \le \mathbb{E}[|\Delta \ell_i|] \le \max(C_{\text{FN}}, C_{\text{FP}})\,\mathbb{P}(Q=0, a_1 \ne a_2) = \max(C_{\text{FN}}, C_{\text{FP}})\,\mathbb{P}(Q=0)\,p_{\text{flip}}$. Dividing by $C_{\text{FN}}/1000$ yields the Net Benefit scale bound.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:breslow_cain}]
+Within each stratum $\mathcal{U}_{y,b}$, uniform without-replacement sampling of $n_{y,b}$ indices independently of $Z_{\mathcal{S}}$ ensures $\mathbb{P}(I=1 \mid Y=y, X_{\text{base}}=x, Z_{\mathcal{S}}=z) = n_{y,b}/N_{y,b} = \pi_{\mathcal{P}}(y,b) > 0$. Applying Bayes' theorem conditional on $(x,z)$ gives $\frac{\mathbb{P}(Y=1 \mid x,z,I=1)}{\mathbb{P}(Y=0 \mid x,z,I=1)} = \frac{\pi_{\mathcal{P}}(1,b)\mathbb{P}(Y=1 \mid x,z)}{\pi_{\mathcal{P}}(0,b)\mathbb{P}(Y=0 \mid x,z)}$, whose logarithm is Eq.~\eqref{eq:bc_shift} \citep{breslow1988logistic}. Because unweighted conditional Bernoulli cross-entropy $\mathbb{E}[-Y f_{\mathcal{P}}(x,z) + \log(1 + e^{f_{\mathcal{P}}(x,z)}) \mid x, z, I=1]$ is strictly convex in $f_{\mathcal{P}}(x,z)$, its unique minimizer is $f_{\mathcal{P}}^*(x,z) = \operatorname{logit}\mathbb{P}(Y=1 \mid x,z,I=1) = \operatorname{logit}\mathbb{P}(Y=1 \mid x,z) + \delta_{\mathcal{P}}(b)$, whence $\operatorname{logit}(\hat{p}_1(x)) + g_{\text{tree}}^*(x,z) = \operatorname{logit}\mathbb{P}(Y=1 \mid x,z)$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:prepurchase}]
+\emph{Part 1.} Because $(U_{\text{id}}, Z_{m_{\text{id}}})$ and $(U_{\text{unid}}, Z_{m_{\text{unid}}})$ have identical conditional laws given $\eta_1(X_{\text{base}})$ and $\mathbb{E}[\eta_2 \mid X_{\text{base}}, U=1] = \eta_1(X_{\text{base}})$, the induced post-purchase posterior distributions given $\eta_1(X_{\text{base}})$ coincide, yielding identical CMI and Schervish Bregman gains. Prior to purchase, $U_{\text{id}}$ is $X_{\text{base}}$-measurable, so $\operatorname{VOI}(X_{\text{base}}) = g > c_{\text{query}}$ on $\{\eta_1=\tau^*, U_{\text{id}}=1\}$ (mass $\pi_{\text{CZ}}\rho$) and $0$ otherwise, giving $\Delta V^*(m_{\text{id}}) = \pi_{\text{CZ}}\rho(g - c_{\text{query}}) > 0$. Conversely, $(U_{\text{unid}}, Z_{m_{\text{unid}}}) \perp X_{\text{base}} \mid \eta_1(X_{\text{base}})$ averages VOI on $\{\eta_1=\tau^*\}$ to $\rho g < c_{\text{query}}$, so every $X_{\text{base}}$-measurable policy $Q : \mathcal{X} \to \{0,1\}$ has expected gain $\le \pi_{\text{CZ}}\mathbb{P}(Q=1 \mid \eta_1=\tau^*)(\rho g - c_{\text{query}}) \le 0$, maximized at $Q \equiv 0$.
+
+\emph{Part 2.} Pointwise inclusion $\hat{\mathcal{S}}_{\text{UPCA}}(\omega) \subseteq \mathcal{C}_{\text{Holm}}(\omega)$ implies $\{\hat{\mathcal{S}}_{\text{UPCA}} \cap \mathcal{H}_0 \ne \emptyset\} \subseteq \{\mathcal{C}_{\text{Holm}} \cap \mathcal{H}_0 \ne \emptyset\}$, so $\mathbb{P}(\hat{\mathcal{S}}_{\text{UPCA}} \cap \mathcal{H}_0 \ne \emptyset) \le \mathbb{P}(\mathcal{C}_{\text{Holm}} \cap \mathcal{H}_0 \ne \emptyset) \le \alpha$.
+\end{proof}
+
+\section{Self-Contained Algorithmic Specifications}
+\label{app:self_contained}
+
+To make this paper completely self-contained without requiring cross-reference to \citet{satz2026collision}, we specify every mathematical operator imported in our pipeline:
+
+\begin{enumerate}
+  \item \textbf{Schervish Beta-Kernel Score and Pilot Allocation:} For $\tau^* \in (0,1)$ and $\kappa > 0$, let $\alpha_\kappa = 1 + \kappa\tau^*$ and $\beta_\kappa = 1 + \kappa(1-\tau^*)$. The closed-form strictly proper Schervish score is
+  \begin{equation}
+    S_{\tau^*,\kappa}(y, p) = -y\,\frac{\beta_\kappa}{\alpha_\kappa+\beta_\kappa}\big(1 - I_p(\alpha_\kappa, \beta_\kappa+1)\big) - (1-y)\,\frac{\alpha_\kappa}{\alpha_\kappa+\beta_\kappa}\, I_p(\alpha_\kappa+1, \beta_\kappa),
+    \label{eq:schervish_app}
+  \end{equation}
+  where $I_p(a,b)$ is the regularized incomplete beta function. In \texttt{sample\_pilot}, stratum $h = (y,b)$ with mean $\bar{y}_h, \bar{p}_h$ receives collision-zone Neyman dispersion weight
+  \begin{equation}
+    d_h = w_{\tau^*,\kappa}(\bar{p}_h)\,\bar{p}_h(1-\bar{p}_h)\big(|\bar{y}_h - \bar{p}_h| + 0.15\big) + 10^{-3}, \qquad w_{\tau^*,\kappa}(p) = \frac{p^{\alpha_\kappa-1}(1-p)^{\beta_\kappa-1}}{B(\alpha_\kappa, \beta_\kappa)},
+    \label{eq:neyman_disp}
+  \end{equation}
+  allocated via water-filling $n_h \propto N_h d_h$ subject to $2 \le n_h \le N_h$ and $\sum_h n_h = n_{\text{pilot}}$.
+  \item \textbf{Dynamic KL-ESS Collision Sharpness $\kappa_{\text{eff}}$ (\texttt{solve\_ess\_kappa}):} Define the pointwise Bernoulli Kullback--Leibler divergence
+  \begin{equation}
+    d_i = D_{\text{KL}}\!\big(\operatorname{Bern}(\tau^*) \,\|\, \operatorname{Bern}(p_i)\big) = \tau^*\log\!\left(\frac{\tau^*}{p_i}\right) + (1-\tau^*)\log\!\left(\frac{1-\tau^*}{1-p_i}\right) \ge 0.
+    \label{eq:kl_div_app}
+  \end{equation}
+  Given $\kappa_{\max} > 0$ and active-sample floor $M_{\min}$ ($\min\{0.85 n, \max(160, 0.24 n)\}$ in pilots; $240$ in Stage-2 training), let $M(\kappa) = \sum_{i=1}^n \exp(-2\kappa d_i)$. Since $M(\kappa)$ is continuous and strictly decreasing on $[0, \kappa_{\max}]$, \texttt{solve\_ess\_kappa} returns $\kappa_{\max}$ if $M(\kappa_{\max}) \ge M_{\min}$, $0$ if $M(0) \le M_{\min}$, and otherwise the unique bisection root $\kappa_{\text{eff}} \in (0, \kappa_{\max})$ satisfying $M(\kappa_{\text{eff}}) = M_{\min}$.
+  \item \textbf{Leak-Free Feature Encoding (\texttt{FastFrameEncoder}):} Fit strictly on training folds, each numeric column $c$ records training median $m_c = \operatorname{median}_{\text{obs}}(x_{\text{tr},c})$ and maps an input column to the two-column pair $[\tilde{x}_c, \mathbb{I}\{x_c \text{ missing}\}]$ where missing/non-finite entries in $\tilde{x}_c$ are imputed to $m_c$ (unless missingness indicators are explicitly disabled for deconfounding). Categorical columns map categories with $\ge 10$ training occurrences (top $64$) to integer codes $\{1,\dots,64\}$ and unseen/missing values to $0$.
+  \item \textbf{KL-Gated Stage-2 Residual Backbone (\texttt{FluidCollisionBackboneClassifier}):} Fit strictly on $\mathcal{D}_{\text{train}}$ via $3$-fold stratified OOF stacking: (Pass 1) fit unweighted global GBDTs ($140$ trees, $31$ leaves) on $[X_{\text{base}}, Z_{\mathcal{S}}]$ and Platt-scale OOF raw scores to obtain $f_{\text{glob},i}$; (Pass 2) compute $\kappa^* = \operatorname{solve\_ess\_kappa}(d(\sigma(\ell_{1,i})), \kappa_{\max}=20, M_{\min}=240)$, form the smooth union gate $\pi_{\text{union},i} = 1 - (1 - e^{-\kappa^* d(\sigma(\ell_{1,i}))})(1 - e^{-\kappa^* d(\sigma(f_{\text{glob},i}))})$, and fit a bottlenecked residual GBDT $\Delta_{\text{CZ}}(\ell_1, f_{\text{glob}}, Z_{\mathcal{S}})$ under exact chain-rule Bernoulli gradients $g_i = \pi_{\text{union},i}(\sigma(f_i) - Y_i)$ and Hessians $h_i = \pi_{\text{union},i}^2 \sigma(f_i)(1 - \sigma(f_i))$; (Pass 3) optimize $(\alpha_0, \beta_{\text{glob}}, \beta_{\text{CZ}}) \in [-1.5,1.5]\times[0.5,1.3]\times[0,1.5]$ via L-BFGS-B minimizing $-S_{\tau^*,20}(Y, \sigma(f)) - 0.05\ell_{\log}(Y, \sigma(f)) + 2\times 10^{-4}[(\beta_{\text{glob}}-1)^2 + \beta_{\text{CZ}}^2 + \alpha_0^2]$ on OOF predictions, where
+  \begin{equation}
+    f(x, z) = \alpha_0 + \beta_{\text{glob}}\,f_{\text{glob}}(x, z) + \beta_{\text{CZ}}\,\pi_{\text{union}}\big(\ell_1(x), f_{\text{glob}}(x,z)\big)\,\Delta_{\text{CZ}}\big(\ell_1(x), f_{\text{glob}}(x,z), z\big),
+    \label{eq:fluid_backbone_app}
+  \end{equation}
+  followed by refitting $m_{\text{glob}}$ and $m_{\text{CZ}}$ on $\mathcal{D}_{\text{train}}$.
+  \item \textbf{Empirical Martingale Offset $\mu_i^*$:} Inside \texttt{solve\_\allowbreak martingale\_\allowbreak offset} and the VOI estimator \texttt{empirical\_\allowbreak martingale\_\allowbreak voi}, given Stage-1 probability $p_{1,i} \in (0,1)$ and $K=33$ calibration log-odds update quantiles $\{\delta_{c(i),r}\}_{r=1}^{33}$ (or $9$-node Gauss--Hermite nodes $\sigma_i \xi_r$ in synthetic generators), damped Newton--Raphson solves for the unique scalar $\mu_i^* \in \mathbb{R}$ satisfying
+  \begin{equation}
+    \frac{1}{K}\sum_{r=1}^{K} \sigma\!\big(\operatorname{logit}(p_{1,i}) + \mu_i^* + \delta_{c(i),r}\big) = p_{1,i}, \quad \widehat{\operatorname{VOI}}_i = \max\!\left\{0,\, L^*(p_{1,i}) - \frac{1}{K}\sum_{r=1}^{K} L^*(\tilde{p}_{2,i,r})\right\},
+    \label{eq:emp_voi_app}
+  \end{equation}
+  where $\tilde{p}_{2,i,r} = \sigma(\operatorname{logit}(p_{1,i}) + \mu_i^* + \delta_{c(i),r})$.
+  \item \textbf{Healthcare-Process Timing Deconfounder (\texttt{AgnielDeconfounder}):} To test sensitivity to clinician assay-ordering indicators $D_c \in \{0,1\}$, for each numeric Stage-2 column $Z_c$, ridge regression ($\alpha=10$) fits $\hat{\mu}_c(X_{\text{base}}) = \widehat{\mathbb{E}}[Z_c \mid X_{\text{base}}, D_c=1]$ and stores empirical residuals $\hat{\varepsilon}_c$ strictly on measured training rows ($D_c=1$). Unmeasured entries ($D_c=0$) are replaced by $\hat{\mu}_c(X_{\text{base},i}) + \varepsilon_{c,i}^*$ ($\varepsilon_{c,i}^*$ drawn uniformly from $\hat{\varepsilon}_c$) with missingness indicators suppressed (\texttt{include\_missing\_indicators = False}), enforcing $\tilde{Z}_c \perp D_c \mid X_{\text{base}}$.
+\end{enumerate}
+
+\section{Supplementary Material: Secondary Parity, Post-ROSC, Single-Factor Ablations, and Sensitivity Tables}
+\label{app:supplement}
+
+\begin{table}[h!]
+\centering
+\caption{Supplementary Comparator-Parity $\operatorname{AUROC}$, Single-Factor Ablations (\texttt{Global GBDT} vs.\ \texttt{Fluid}; \texttt{Offset LogLoss} vs.\ \texttt{Offset Schervish}; $12$-bin vs.\ $12\times 2$ VOI), and Fixed-Split NTUH \texttt{[1]ROSC} Cohort ($10{,}000$-replicate patient-cluster CIs).}
+\label{tab:supp_auroc}
+\vspace{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccccc}
+\toprule
+\textbf{Cohort \& Task} & \textbf{S1 $\operatorname{AUROC}$} & \textbf{\texttt{UPCA} $\operatorname{AUROC}_{\text{full}}$} & \textbf{\texttt{CMI+GBDT} $\operatorname{NB}$} & \textbf{\texttt{CMI+Fluid} $\operatorname{NB}$} & \textbf{\texttt{Offset-LogLoss} $\operatorname{NB}$} & \textbf{\texttt{UPCA-12bin} $\operatorname{NB}$} & \textbf{\texttt{UPCA-Fluid} $\operatorname{NB}$} \\
+\midrule
+1.\ Stanford ICU/Death ($N_{\text{te}}=10{,}486$) & $0.8600$ & $0.8850$ & $+9.40$ & $+9.45$ & $+8.98$ & $+9.46$ & $+9.45$ \\
+2.\ Stanford Admission ($N_{\text{te}}=10{,}486$) & $0.7959$ & $0.8203$ & $+196.98$ & $+196.79$ & $+190.36$ & $+196.01$ & $+195.95$ \\
+3.\ Stanford 72h Bounce ($N_{\text{te}}=6{,}165$) & $0.6828$ & $0.7563$ & $+3.52$ & $+2.91$ & $+2.91$ & $+2.91$ & $+2.79$ \\
+4.\ BWH 30d Death (ECG, $N_{\text{te}}=5{,}779$) & $0.8502$ & $0.8633$ & $+11.74$ & $+11.82$ & $+11.82$ & $+11.83$ & $+11.82$ \\
+5.\ BWH 10d Stent/CABG (ECG, $N_{\text{te}}=5{,}779$) & $0.7889$ & $0.8534$ & $+4.70$ & $+4.86$ & $+4.29$ & $+4.18$ & $+4.01$ \\
+6.\ NTUH Pre-Arrest ($\pi_{\text{target}}=2\%$, $N_{\text{te}}=3{,}651$) & $0.6319$ & $0.6319$ & $-0.04$ & $-0.04$ & $-0.04$ & $-0.04$ & $-0.04$ \\
+\midrule
+S1a.\ NTUH \texttt{[1]ROSC} Survival ($567/121/130$ traces; $129$ te.\ pats) & $0.7289$ & $0.7289$ & $+288.46$ & $+288.46$ & $+288.46$ & $+288.46$ & $+288.46$ (tie) \\
+S1b.\ NTUH \texttt{[1]ROSC} CPC 1--2 ($567/121/130$ traces; $129$ te.\ pats) & $0.7429$ & $0.7429$ & $+250.86$ & $+236.47$ & $+242.57$ & $+242.57$ & $+242.57$ ($+6.11$ [$-17.0, +28.1$] vs.\ CMI+Fl) \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{Within-Stratum Pilot Independence Verification ($I_i \perp Z_i \mid Y_i, b_i$) and Repeated-Pilot Two-Phase Efficiency Comparison (\citealp{breslow1988logistic,tao2017efficient}).}
+\label{tab:r15_supp}
+\vspace{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Primary Clinical Task} & \textbf{Features Tested} & \textbf{Median Feature $p$} & \textbf{Mahalanobis Wald $\chi^2$ ($\text{df}$)} & \textbf{Omnibus $p$-Value} & \textbf{Repeated-Pilot Efficiency Summary (Stanford ICU)} \\
+\midrule
+1.\ Stanford ICU/Death & 72 & $0.3661$ & $32.56$ ($19$) & $0.0270$ ($p_{\text{Holm}}=0.162$) & GBDT Step-1 RMSE: WCZ $8.9\times 10^{-5}$, IPW $8.3\times 10^{-5}$, \textbf{Offset $8.2\times 10^{-5}$} \\
+2.\ Stanford Admission & 72 & $0.4851$ & $26.34$ ($22$) & $0.2374$ & Top-1 Oracle Concordance ($25$ pilots): WCZ $72\%$, IPW $84\%$, \textbf{Offset $88\%$} \\
+3.\ Stanford 72h Bounce & 72 & $0.4421$ & $17.45$ ($29$) & $0.9548$ & Parametric Lactate Slope RMSE ($200$ pilots): IPW $0.01866$ vs.\ \textbf{Offset MLE $0.01487$} \\
+4.\ BWH 30d Mortality & 70 & $0.5437$ & $61.67$ ($64$) & $0.5593$ & \textbf{Relative Variance Reduction vs.\ IPW (\citealp{tao2017efficient}): $36.44\%$} \\
+5.\ BWH 10d Stent/CABG & 70 & $0.4828$ & $67.57$ ($63$) & $0.3240$ & --- \\
+6.\ NTUH Pre-Arrest SCA & 82 & $0.5382$ & $42.06$ ($58$) & $0.9428$ & --- \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{Prespecified Constant Sensitivity ($\rho_{\text{pilot}}, B_{\text{score}}, q_{\text{disp}}, \alpha_{\text{pol}}$) on Stanford ICU/Death ($c_{\text{query}}=0.030, \gamma=0.00158$) and BWH $10$d Stent/CABG ($c_{\text{query}}=0.020, \gamma=0.00062$).}
+\label{tab:r10_supp}
+\vspace{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccccc}
+\toprule
+\textbf{Perturbed Constant} & \textbf{Setting} & \textbf{Stanf.\ ICU $\operatorname{NB}$} & \textbf{Stanf.\ $\Delta\operatorname{NB}$ vs.\ S1} & \textbf{Stanf.\ $q\%$} & \textbf{BWH Rev.\ $\operatorname{NB}$} & \textbf{BWH $\Delta\operatorname{NB}$ vs.\ S1} & \textbf{BWH $q\%$} \\
+\midrule
+Default Prespecified & $\rho=0.20, B=8, q_{\text{disp}}=0.75, \alpha_{\text{pol}}=0.10$ & $+9.45$ & $+1.09$ & $20.3\%$ & $+4.01$ & $+1.08$ & $37.2\%$ \\
+Pilot Fraction $\rho_{\text{pilot}}$ & $0.15$ / $0.30$ & $+8.70$ / $+8.98$ & $+0.34$ / $+0.62$ & $11.2\%$ / $16.9\%$ & $+4.01$ / $+3.89$ & $+1.08$ / $+0.96$ & $37.2\%$ / $23.3\%$ \\
+Score Strata $B_{\text{score}}$ & $6$ / $12$ & $+8.98$ / $+9.39$ & $+0.62$ / $+1.03$ & $16.9\%$ / $20.2\%$ & $+4.01$ / $+4.01$ & $+1.08$ / $+1.08$ & $37.2\%$ / $37.2\%$ \\
+Dispersion Cut $q_{\text{disp}}$ & $0.65$ / $0.85$ & $+8.99$ / $+9.41$ & $+0.63$ / $+1.05$ & $16.7\%$ / $21.4\%$ & $+3.88$ / $+4.34$ & $+0.95$ / $+1.41$ & $22.6\%$ / $37.9\%$ \\
+Screening $\alpha_{\text{pol}}$ & $0.05$ / $0.20$ & $+8.98$ / $+9.45$ & $+0.62$ / $+1.09$ & $16.9\%$ / $20.3\%$ & $+3.89$ / $+4.01$ & $+0.96$ / $+1.08$ & $23.3\%$ / $37.2\%$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
