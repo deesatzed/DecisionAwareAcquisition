@@ -1,10 +1,10 @@
-# `decision-aware-acquisition` (v2 — Audited Leak-Free UPCA-Fluid Suite)
+# `DecisionAwareAcquisition` (v2 — Audited Leak-Free UPCA-Fluid Suite)
 
 **Decision-Aware Clinical Feature Acquisition with Two-Phase Sampling and Pre-Purchase Policy Screening**
 
 **Author:** Wayne A. Satz, MD (Department of Emergency Medicine, Lewis Katz School of Medicine at Temple University; `satzwa@temple.edu`)
 
-- **Manuscript PDF (`21` pages, `0` warnings):** [`manuscript/main.pdf`](manuscript/main.pdf) (Sealed Pass-2 Merkle SHA-256: `4bb67e99488e0bb34d11add45d434db8a2eab7b8ec9a45f07b133bb08cd73b14`, Seal ID: `4839d69eebdab6d1646590af`)
+- **Manuscript PDF (`21` pages, `0` warnings):** [`manuscript/main.pdf`](manuscript/main.pdf) (Sealed Pass-2 Merkle SHA-256: `8dda748eec7346a7f59f2b8c9128f9582a324fbceb0895741b68b98430cb472e`, Seal ID: `9b7a77935110c29727c140f3`)
 - **Compliance Certificate:** [`SUBMISSION_COMPLIANCE_CERTIFICATE.md`](SUBMISSION_COMPLIANCE_CERTIFICATE.md)
 - **Companion Backbone Package (`collision-zone-ed`):** [https://github.com/deesatzed/collision-zone-ed](https://github.com/deesatzed/collision-zone-ed)
 
@@ -12,7 +12,7 @@
 
 ## Overview
 
-`decision-aware-acquisition` formulates and audits **Unified Policy-Guided Clinical Acquisition (`UPCA-Fluid`)**, a prespecified statistical pipeline with zero dataset-specific hyperparameter tuning combining:
+`DecisionAwareAcquisition` formulates and audits **Unified Policy-Guided Clinical Acquisition (`UPCA-Fluid`)**, a prespecified statistical pipeline with zero dataset-specific hyperparameter tuning combining:
 1. **Breslow–Cain Case–Control Log-Odds Offset Two-Phase Pilots** (`Proposition 3`): Eliminates both `0.05`-floor leaf starvation on rare multi-channel endpoints (`88%` vs. `72%` repeated-pilot top-1 oracle concordance; `36.4%` parametric variance reduction over IPW) and raw Horvitz–Thompson split-gain inflation on common outcomes, while acting as a transparent tie where pilot weighting leaves channel selection invariant.
 2. **Nested OOF Pre-Purchase Policy Screening** (`Proposition 4`): Screens Stage-A channels using out-of-sample `12 x 2` dispersion-stratified empirical martingale VOI ($z_{0.90}=1.282$), benchmarked across **`1,000` synthetic replicates** (`0.10%` null FWER `[0.003%, 0.56%]`, `+0.47` NB/1k at $B=1.0$, $p = 1.4 \times 10^{-11}$) and a **`72`-cell (`3,600`-run) 4D operating-envelope grid**.
 3. **Directional Patient-Cluster Skipped-Case Action-Disagreement & Risk-Difference Bounds** (`Propositions 1–2`), paired with unconfounded `FluidCollisionBackboneClassifier` ablations, `10,000`-replicate patient-cluster Davison–Hinkley bootstraps, flexible spline calibration curves (`ICI 0.0022–0.0054`), and Vickers Decision Curves across **`157,324` leak-free primary encounters** (`Stanford MC-MED 2.0h`, `BWH ED-ECG`, and `NTUH Pre-Arrest SCA` + `818` supplementary `[1]ROSC` traces).
@@ -30,8 +30,8 @@
 ## Installation & Reproducibility (`8/8` Unit Tests Passing)
 
 ```bash
-git clone https://github.com/deesatzed/decision-aware-acquisition.git
-cd decision-aware-acquisition
+git clone https://github.com/deesatzed/DecisionAwareAcquisition.git
+cd DecisionAwareAcquisition
 python3 -m venv .venv
 source .venv/bin/activate
 pip install "git+https://github.com/deesatzed/collision-zone-ed.git"
