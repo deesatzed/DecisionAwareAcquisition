@@ -47,8 +47,6 @@ from collision_zone.three_predicates import (
     solve_ess_kappa,
 )
 from decision_aware_acq.policy_admission import (
-    compute_murphy_diagram,
-    selective_label_audit,
     skipped_case_safety_certificate,
 )
 
@@ -407,7 +405,7 @@ def upgrade_1_smooth_policy_and_bwh() -> dict[str, Any]:
         "raw_fluid": res_raw,
         "agniel_deconfounded": res_agn,
         "boot_agniel_vs_stage1": boot_agn_vs_s1,
-        "measured_troponin_subset": {"n_test": int(len(te_m)), "res": res_meas, "boot_vs_stage1": boot_meas_vs_s1},
+        "measured_troponin_subset": {"n_test": len(te_m), "res": res_meas, "boot_vs_stage1": boot_meas_vs_s1},
         "fairness_agi_and_race": agi_fair,
     }
 
@@ -567,7 +565,7 @@ def upgrade_2_ntuh_quantitative_and_rosc() -> dict[str, Any]:
         res_r, pr_route, qr_route = _eval_fluid_arm(spol_r["selected_channels"], tr_r, yr_tr, p1r_oof, cal_r, yr_cal, p1r_cal, te_r, yr_te, p1r_te, r_base, r_ch_map, c_r, seed=48)
         print(f"  NTUH Post-ROSC [{target_r}] (N_tr={len(tr_r)}, N_te={len(te_r)}, prev={yr_te.mean()*100:.1f}%): S1 AUROC={roc_auc_score(yr_te, p1r_te):.4f} -> Arm AUROC={res_r['auroc_routed']:.4f} | selected={spol_r['selected_channels']} | NB={res_r['nb_voi_auto']:+.2f}")
         rosc_out[target_r] = {
-            "n_train": int(len(tr_r)), "n_cal": int(len(cal_r)), "n_test": int(len(te_r)),
+            "n_train": len(tr_r), "n_cal": len(cal_r), "n_test": len(te_r),
             "test_prev": round(float(yr_te.mean()), 4),
             "stage1_auroc": round(float(roc_auc_score(yr_te, p1r_te)), 4),
             "stage1_nb": round(float(net_benefit_per_1k(yr_te, p1r_te, np.zeros(len(yr_te), dtype=bool), c_r)), 4),

@@ -136,7 +136,7 @@ def build_bwh_cohort() -> dict:
     df.to_parquet(out_path, index=False)
     stats = {
         "path": str(out_path),
-        "n_rows": int(len(df)),
+        "n_rows": len(df),
         "n_patients": int(df["patient_ngsci_id"].nunique()),
         "splits": df["split"].value_counts().to_dict(),
         "y_mace_death_30_rate": float(df["macetrop_pos_or_death_030"].mean()),
@@ -359,7 +359,7 @@ def build_mcmed_cohort() -> dict:
     visits.to_parquet(out_path, index=False)
     stats = {
         "path": str(out_path),
-        "n_rows": int(len(visits)),
+        "n_rows": len(visits),
         "n_mrns": int(visits["MRN"].nunique()),
         "splits": visits["split"].value_counts().to_dict(),
         "y_admit_rate": float(visits["y_admit"].mean()),
@@ -452,7 +452,7 @@ def build_ntuh_cohort() -> dict:
     df.to_parquet(out_path, index=False)
     stats = {
         "path": str(out_path),
-        "n_rows": int(len(df)),
+        "n_rows": len(df),
         "n_patients": int(df["patient_ngsci_id"].nunique()),
         "splits": df["split"].value_counts().to_dict(),
         "y_pre_arrest_rate": float(df["y_pre_arrest"].mean()),

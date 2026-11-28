@@ -1,0 +1,1822 @@
+{
+  "tasks": {
+    "mcmed_critical_icu_death": {
+      "race_clean": {
+        "strata": {
+          "White": {
+            "n_encounters": 4316,
+            "n_patients": 3512,
+            "events": 103,
+            "prevalence": 0.02386,
+            "query_rate": 0.228,
+            "nb_stage1": 8.061,
+            "nb_full_all_m": 4.943,
+            "nb_global_cmi_gbdt": 8.539,
+            "nb_upca_fluid": 7.935,
+            "missed_cases_vs_full_all_m": 3,
+            "cal_intercept": -0.1828,
+            "cal_slope": 0.8873,
+            "ici": 0.00664,
+            "fnr_at_tau": 0.3981,
+            "fpr_at_tau": 0.118,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 2.9925,
+              "se": 0.719,
+              "ci95_low": 1.5726,
+              "ci95_high": 4.3735,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": -0.1255,
+              "se": 0.5502,
+              "ci95_low": -1.228,
+              "ci95_high": 0.9321,
+              "p_two_sided": 0.83152,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.6035,
+              "se": 0.6285,
+              "ci95_low": -1.8761,
+              "ci95_high": 0.6225,
+              "p_two_sided": 0.32777,
+              "exact_tie": 0.0
+            }
+          },
+          "Asian": {
+            "n_encounters": 1943,
+            "n_patients": 1638,
+            "events": 49,
+            "prevalence": 0.02522,
+            "query_rate": 0.1966,
+            "nb_stage1": 14.248,
+            "nb_full_all_m": 10.238,
+            "nb_global_cmi_gbdt": 14.519,
+            "nb_upca_fluid": 13.821,
+            "missed_cases_vs_full_all_m": 1,
+            "cal_intercept": -0.0201,
+            "cal_slope": 1.1639,
+            "ici": 0.00303,
+            "fnr_at_tau": 0.2449,
+            "fpr_at_tau": 0.0956,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 3.5828,
+              "se": 0.9329,
+              "ci95_low": 1.6148,
+              "ci95_high": 5.3579,
+              "p_two_sided": 0.0014,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": -0.4269,
+              "se": 1.0665,
+              "ci95_low": -2.4969,
+              "ci95_high": 1.7007,
+              "p_two_sided": 0.68733,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.698,
+              "se": 0.5448,
+              "ci95_low": -1.9526,
+              "ci95_high": 0.0982,
+              "p_two_sided": 0.12319,
+              "exact_tie": 0.0
+            }
+          },
+          "Black or African American": {
+            "n_encounters": 512,
+            "n_patients": 381,
+            "events": 12,
+            "prevalence": 0.02344,
+            "query_rate": 0.1641,
+            "nb_stage1": 9.149,
+            "nb_full_all_m": 5.918,
+            "nb_global_cmi_gbdt": 7.952,
+            "nb_upca_fluid": 9.808,
+            "missed_cases_vs_full_all_m": 0,
+            "cal_intercept": 0.0141,
+            "cal_slope": 0.91,
+            "ici": 0.01368,
+            "fnr_at_tau": 0.4167,
+            "fpr_at_tau": 0.07,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 3.8904,
+              "se": 2.8077,
+              "ci95_low": -1.8194,
+              "ci95_high": 9.693,
+              "p_two_sided": 0.16798,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.6593,
+              "se": 0.4401,
+              "ci95_low": -0.1706,
+              "ci95_high": 1.5577,
+              "p_two_sided": 0.13059,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 1.856,
+              "se": 1.9854,
+              "ci95_low": -0.6316,
+              "ci95_high": 6.2215,
+              "p_two_sided": 0.45495,
+              "exact_tie": 0.0
+            }
+          },
+          "Native Hawaiian or Other Pacific Islander": {
+            "n_encounters": 152,
+            "n_patients": 120,
+            "events": 2,
+            "prevalence": 0.01316,
+            "query_rate": 0.1447,
+            "nb_stage1": 2.424,
+            "nb_full_all_m": 4.641,
+            "nb_global_cmi_gbdt": 2.125,
+            "nb_upca_fluid": 1.497,
+            "missed_cases_vs_full_all_m": 1,
+            "cal_intercept": -0.6127,
+            "cal_slope": 0.7796,
+            "ici": 0.01854,
+            "fnr_at_tau": 0.5,
+            "fpr_at_tau": 0.0933,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": -3.1442,
+              "se": 6.615,
+              "ci95_low": -17.5754,
+              "ci95_high": 4.5743,
+              "p_two_sided": 0.73593,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": -0.9271,
+              "se": 0.8374,
+              "ci95_low": -2.5882,
+              "ci95_high": 0.7019,
+              "p_two_sided": 0.28837,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.6281,
+              "se": 0.8267,
+              "ci95_low": -2.2303,
+              "ci95_high": 1.1007,
+              "p_two_sided": 0.54515,
+              "exact_tie": 0.0
+            }
+          },
+          "Other_or_Unknown": {
+            "n_encounters": 3563,
+            "n_patients": 2917,
+            "events": 63,
+            "prevalence": 0.01768,
+            "query_rate": 0.1485,
+            "nb_stage1": 7.164,
+            "nb_full_all_m": 3.63,
+            "nb_global_cmi_gbdt": 7.257,
+            "nb_upca_fluid": 7.854,
+            "missed_cases_vs_full_all_m": 1,
+            "cal_intercept": -0.0215,
+            "cal_slope": 0.9946,
+            "ici": 0.00215,
+            "fnr_at_tau": 0.3492,
+            "fpr_at_tau": 0.066,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 4.2247,
+              "se": 0.6507,
+              "ci95_low": 2.9023,
+              "ci95_high": 5.4699,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.69,
+              "se": 0.8256,
+              "ci95_low": -0.8973,
+              "ci95_high": 2.3315,
+              "p_two_sided": 0.40596,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 0.5975,
+              "se": 0.4094,
+              "ci95_low": -0.0662,
+              "ci95_high": 1.4981,
+              "p_two_sided": 0.10339,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 2.6813,
+            "df": 4,
+            "p_het": 0.61249,
+            "i2_pct": 0.0
+          },
+          "vs_stage1": {
+            "q_stat": 3.9468,
+            "df": 4,
+            "p_het": 0.41325,
+            "i2_pct": 0.0
+          },
+          "vs_global_cmi": {
+            "q_stat": 6.1018,
+            "df": 4,
+            "p_het": 0.19167,
+            "i2_pct": 34.45
+          }
+        }
+      },
+      "sex_str": {
+        "strata": {
+          "Female": {
+            "n_encounters": 5686,
+            "n_patients": 4693,
+            "events": 106,
+            "prevalence": 0.01864,
+            "query_rate": 0.165,
+            "nb_stage1": 7.59,
+            "nb_full_all_m": 3.515,
+            "nb_global_cmi_gbdt": 7.789,
+            "nb_upca_fluid": 7.647,
+            "missed_cases_vs_full_all_m": 0,
+            "cal_intercept": -0.0348,
+            "cal_slope": 0.9869,
+            "ici": 0.00157,
+            "fnr_at_tau": 0.3774,
+            "fpr_at_tau": 0.0715,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 4.1316,
+              "se": 0.5098,
+              "ci95_low": 3.1179,
+              "ci95_high": 5.1387,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.0567,
+              "se": 0.482,
+              "ci95_low": -0.8769,
+              "ci95_high": 1.0087,
+              "p_two_sided": 0.89591,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.1426,
+              "se": 0.3694,
+              "ci95_low": -0.8697,
+              "ci95_high": 0.5871,
+              "p_two_sided": 0.70373,
+              "exact_tie": 0.0
+            }
+          },
+          "Male": {
+            "n_encounters": 4800,
+            "n_patients": 3875,
+            "events": 123,
+            "prevalence": 0.02562,
+            "query_rate": 0.2215,
+            "nb_stage1": 10.395,
+            "nb_full_all_m": 7.897,
+            "nb_global_cmi_gbdt": 10.63,
+            "nb_upca_fluid": 10.595,
+            "missed_cases_vs_full_all_m": 6,
+            "cal_intercept": -0.1568,
+            "cal_slope": 0.9575,
+            "ici": 0.00628,
+            "fnr_at_tau": 0.3333,
+            "fpr_at_tau": 0.1195,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 2.6982,
+              "se": 0.7427,
+              "ci95_low": 1.1914,
+              "ci95_high": 4.1064,
+              "p_two_sided": 0.001,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.2004,
+              "se": 0.682,
+              "ci95_low": -1.1384,
+              "ci95_high": 1.5536,
+              "p_two_sided": 0.78012,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.0348,
+              "se": 0.5606,
+              "ci95_low": -1.1524,
+              "ci95_high": 1.073,
+              "p_two_sided": 0.94991,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 2.5319,
+            "df": 1,
+            "p_het": 0.11157,
+            "i2_pct": 60.5
+          },
+          "vs_stage1": {
+            "q_stat": 0.0296,
+            "df": 1,
+            "p_het": 0.86338,
+            "i2_pct": 0.0
+          },
+          "vs_global_cmi": {
+            "q_stat": 0.0258,
+            "df": 1,
+            "p_het": 0.87243,
+            "i2_pct": 0.0
+          }
+        }
+      },
+      "age_band": {
+        "strata": {
+          "Age_under_65": {
+            "n_encounters": 6927,
+            "n_patients": 5808,
+            "events": 100,
+            "prevalence": 0.01444,
+            "query_rate": 0.1278,
+            "nb_stage1": 4.924,
+            "nb_full_all_m": 1.732,
+            "nb_global_cmi_gbdt": 5.27,
+            "nb_upca_fluid": 4.975,
+            "missed_cases_vs_full_all_m": 8,
+            "cal_intercept": -0.0624,
+            "cal_slope": 0.9735,
+            "ici": 0.00219,
+            "fnr_at_tau": 0.46,
+            "fpr_at_tau": 0.0504,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 3.2431,
+              "se": 0.5092,
+              "ci95_low": 2.184,
+              "ci95_high": 4.1991,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.0513,
+              "se": 0.3723,
+              "ci95_low": -0.685,
+              "ci95_high": 0.7862,
+              "p_two_sided": 0.88891,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.2956,
+              "se": 0.4193,
+              "ci95_low": -1.146,
+              "ci95_high": 0.5064,
+              "p_two_sided": 0.48035,
+              "exact_tie": 0.0
+            }
+          },
+          "Age_65_plus": {
+            "n_encounters": 3559,
+            "n_patients": 2815,
+            "events": 129,
+            "prevalence": 0.03625,
+            "query_rate": 0.3136,
+            "nb_stage1": 16.563,
+            "nb_full_all_m": 12.896,
+            "nb_global_cmi_gbdt": 16.523,
+            "nb_upca_fluid": 16.824,
+            "missed_cases_vs_full_all_m": -2,
+            "cal_intercept": -0.1317,
+            "cal_slope": 0.9686,
+            "ici": 0.00731,
+            "fnr_at_tau": 0.2713,
+            "fpr_at_tau": 0.179,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 3.9277,
+              "se": 0.8149,
+              "ci95_low": 2.3459,
+              "ci95_high": 5.5652,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.2609,
+              "se": 0.9594,
+              "ci95_low": -1.5783,
+              "ci95_high": 2.1264,
+              "p_two_sided": 0.78152,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 0.3008,
+              "se": 0.5225,
+              "ci95_low": -0.5787,
+              "ci95_high": 1.4465,
+              "p_two_sided": 0.59554,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 0.5076,
+            "df": 1,
+            "p_het": 0.47619,
+            "i2_pct": 0.0
+          },
+          "vs_stage1": {
+            "q_stat": 0.0415,
+            "df": 1,
+            "p_het": 0.83861,
+            "i2_pct": 0.0
+          },
+          "vs_global_cmi": {
+            "q_stat": 0.7925,
+            "df": 1,
+            "p_het": 0.37334,
+            "i2_pct": 0.0
+          }
+        }
+      },
+      "payor_clean": {
+        "strata": {
+          "Medicaid": {
+            "n_encounters": 1302,
+            "n_patients": 1061,
+            "events": 21,
+            "prevalence": 0.01613,
+            "query_rate": 0.1329,
+            "nb_stage1": 6.912,
+            "nb_full_all_m": 2.834,
+            "nb_global_cmi_gbdt": 5.329,
+            "nb_upca_fluid": 6.131,
+            "missed_cases_vs_full_all_m": 2,
+            "cal_intercept": 0.058,
+            "cal_slope": 0.9808,
+            "ici": 0.0051,
+            "fnr_at_tau": 0.4286,
+            "fpr_at_tau": 0.0554,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 3.2976,
+              "se": 1.9022,
+              "ci95_low": -0.5839,
+              "ci95_high": 6.876,
+              "p_two_sided": 0.09319,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": -0.7812,
+              "se": 1.3524,
+              "ci95_low": -3.5402,
+              "ci95_high": 1.7872,
+              "p_two_sided": 0.56174,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 0.8021,
+              "se": 1.3426,
+              "ci95_low": -1.6588,
+              "ci95_high": 3.6278,
+              "p_two_sided": 0.55254,
+              "exact_tie": 0.0
+            }
+          },
+          "Medicare": {
+            "n_encounters": 2612,
+            "n_patients": 2009,
+            "events": 87,
+            "prevalence": 0.03331,
+            "query_rate": 0.3185,
+            "nb_stage1": 14.709,
+            "nb_full_all_m": 10.065,
+            "nb_global_cmi_gbdt": 14.453,
+            "nb_upca_fluid": 13.851,
+            "missed_cases_vs_full_all_m": -1,
+            "cal_intercept": -0.2167,
+            "cal_slope": 0.9299,
+            "ici": 0.00933,
+            "fnr_at_tau": 0.2989,
+            "fpr_at_tau": 0.1766,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 3.7852,
+              "se": 0.7161,
+              "ci95_low": 2.4114,
+              "ci95_high": 5.2571,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": -0.8587,
+              "se": 0.9809,
+              "ci95_low": -2.8724,
+              "ci95_high": 0.999,
+              "p_two_sided": 0.37756,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.6023,
+              "se": 0.219,
+              "ci95_low": -1.0381,
+              "ci95_high": -0.1818,
+              "p_two_sided": 0.0102,
+              "exact_tie": 0.0
+            }
+          },
+          "Unspecified_or_Commercial": {
+            "n_encounters": 6572,
+            "n_patients": 5539,
+            "events": 121,
+            "prevalence": 0.01841,
+            "query_rate": 0.1516,
+            "nb_stage1": 6.943,
+            "nb_full_all_m": 4.247,
+            "nb_global_cmi_gbdt": 7.703,
+            "nb_upca_fluid": 7.635,
+            "missed_cases_vs_full_all_m": 5,
+            "cal_intercept": -0.0395,
+            "cal_slope": 0.9994,
+            "ici": 0.00233,
+            "fnr_at_tau": 0.3802,
+            "fpr_at_tau": 0.0684,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 3.3875,
+              "se": 0.5162,
+              "ci95_low": 2.3552,
+              "ci95_high": 4.3803,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.6914,
+              "se": 0.4435,
+              "ci95_low": -0.1411,
+              "ci95_high": 1.6069,
+              "p_two_sided": 0.10879,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.0683,
+              "se": 0.4425,
+              "ci95_low": -0.9367,
+              "ci95_high": 0.8096,
+              "p_two_sided": 0.88231,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 0.2164,
+            "df": 2,
+            "p_het": 0.89744,
+            "i2_pct": 0.0
+          },
+          "vs_stage1": {
+            "q_stat": 2.8077,
+            "df": 2,
+            "p_het": 0.24565,
+            "i2_pct": 28.77
+          },
+          "vs_global_cmi": {
+            "q_stat": 2.0868,
+            "df": 2,
+            "p_het": 0.35226,
+            "i2_pct": 4.16
+          }
+        }
+      }
+    },
+    "mcmed_hospital_admission": {
+      "race_clean": {
+        "strata": {
+          "White": {
+            "n_encounters": 4316,
+            "n_patients": 3512,
+            "events": 1400,
+            "prevalence": 0.32437,
+            "query_rate": 0.4921,
+            "nb_stage1": 220.907,
+            "nb_full_all_m": 220.573,
+            "nb_global_cmi_gbdt": 226.414,
+            "nb_upca_fluid": 225.03,
+            "missed_cases_vs_full_all_m": -1,
+            "cal_intercept": 0.1371,
+            "cal_slope": 0.9906,
+            "ici": 0.02294,
+            "fnr_at_tau": 0.0964,
+            "fpr_at_tau": 0.5521,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 4.4564,
+              "se": 2.136,
+              "ci95_low": 0.2891,
+              "ci95_high": 8.5697,
+              "p_two_sided": 0.0378,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 4.1228,
+              "se": 2.6162,
+              "ci95_low": -1.0413,
+              "ci95_high": 9.248,
+              "p_two_sided": 0.11619,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -1.3848,
+              "se": 2.0815,
+              "ci95_low": -5.4676,
+              "ci95_high": 2.7172,
+              "p_two_sided": 0.50915,
+              "exact_tie": 0.0
+            }
+          },
+          "Asian": {
+            "n_encounters": 1943,
+            "n_patients": 1638,
+            "events": 610,
+            "prevalence": 0.31395,
+            "query_rate": 0.5244,
+            "nb_stage1": 218.381,
+            "nb_full_all_m": 216.875,
+            "nb_global_cmi_gbdt": 223.87,
+            "nb_upca_fluid": 224.212,
+            "missed_cases_vs_full_all_m": -8,
+            "cal_intercept": 0.2457,
+            "cal_slope": 1.0374,
+            "ici": 0.03962,
+            "fnr_at_tau": 0.1049,
+            "fpr_at_tau": 0.4494,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 7.3371,
+              "se": 3.3069,
+              "ci95_low": 0.9222,
+              "ci95_high": 13.8265,
+              "p_two_sided": 0.022,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 5.8314,
+              "se": 3.6493,
+              "ci95_low": -1.5189,
+              "ci95_high": 12.9676,
+              "p_two_sided": 0.11319,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 0.3421,
+              "se": 2.9453,
+              "ci95_low": -5.4285,
+              "ci95_high": 6.0696,
+              "p_two_sided": 0.90911,
+              "exact_tie": 0.0
+            }
+          },
+          "Black or African American": {
+            "n_encounters": 512,
+            "n_patients": 381,
+            "events": 139,
+            "prevalence": 0.27148,
+            "query_rate": 0.5762,
+            "nb_stage1": 157.786,
+            "nb_full_all_m": 156.164,
+            "nb_global_cmi_gbdt": 166.576,
+            "nb_upca_fluid": 174.874,
+            "missed_cases_vs_full_all_m": -7,
+            "cal_intercept": 0.1106,
+            "cal_slope": 0.9045,
+            "ici": 0.03071,
+            "fnr_at_tau": 0.1367,
+            "fpr_at_tau": 0.4424,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 18.7099,
+              "se": 7.2173,
+              "ci95_low": 5.2559,
+              "ci95_high": 33.706,
+              "p_two_sided": 0.0052,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 17.0874,
+              "se": 8.5378,
+              "ci95_low": 0.2725,
+              "ci95_high": 33.7225,
+              "p_two_sided": 0.0462,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 8.2974,
+              "se": 5.4137,
+              "ci95_low": -2.4097,
+              "ci95_high": 19.0887,
+              "p_two_sided": 0.12399,
+              "exact_tie": 0.0
+            }
+          },
+          "Native Hawaiian or Other Pacific Islander": {
+            "n_encounters": 152,
+            "n_patients": 120,
+            "events": 35,
+            "prevalence": 0.23026,
+            "query_rate": 0.5921,
+            "nb_stage1": 125.429,
+            "nb_full_all_m": 141.874,
+            "nb_global_cmi_gbdt": 149.451,
+            "nb_upca_fluid": 145.515,
+            "missed_cases_vs_full_all_m": 0,
+            "cal_intercept": -0.0567,
+            "cal_slope": 1.0912,
+            "ici": 0.03161,
+            "fnr_at_tau": 0.1143,
+            "fpr_at_tau": 0.4103,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 3.6408,
+              "se": 3.0324,
+              "ci95_low": -2.6602,
+              "ci95_high": 9.3134,
+              "p_two_sided": 0.24458,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 20.0853,
+              "se": 12.4434,
+              "ci95_low": -3.1862,
+              "ci95_high": 46.4013,
+              "p_two_sided": 0.09279,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -3.9363,
+              "se": 3.2844,
+              "ci95_low": -10.6187,
+              "ci95_high": 1.9827,
+              "p_two_sided": 0.21038,
+              "exact_tie": 0.0
+            }
+          },
+          "Other_or_Unknown": {
+            "n_encounters": 3563,
+            "n_patients": 2917,
+            "events": 832,
+            "prevalence": 0.23351,
+            "query_rate": 0.5995,
+            "nb_stage1": 143.72,
+            "nb_full_all_m": 141.07,
+            "nb_global_cmi_gbdt": 144.435,
+            "nb_upca_fluid": 147.972,
+            "missed_cases_vs_full_all_m": -8,
+            "cal_intercept": 0.1396,
+            "cal_slope": 1.0904,
+            "ici": 0.02158,
+            "fnr_at_tau": 0.149,
+            "fpr_at_tau": 0.3548,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 6.9015,
+              "se": 2.4742,
+              "ci95_low": 1.945,
+              "ci95_high": 11.7809,
+              "p_two_sided": 0.0064,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 4.2518,
+              "se": 2.8966,
+              "ci95_low": -1.3768,
+              "ci95_high": 9.9974,
+              "p_two_sided": 0.13499,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 3.5368,
+              "se": 2.5337,
+              "ci95_low": -1.4515,
+              "ci95_high": 8.4812,
+              "p_two_sided": 0.16158,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 4.514,
+            "df": 4,
+            "p_het": 0.34089,
+            "i2_pct": 11.39
+          },
+          "vs_stage1": {
+            "q_stat": 3.6725,
+            "df": 4,
+            "p_het": 0.45213,
+            "i2_pct": 0.0
+          },
+          "vs_global_cmi": {
+            "q_stat": 6.1333,
+            "df": 4,
+            "p_het": 0.18941,
+            "i2_pct": 34.78
+          }
+        }
+      },
+      "sex_str": {
+        "strata": {
+          "Female": {
+            "n_encounters": 5686,
+            "n_patients": 4693,
+            "events": 1442,
+            "prevalence": 0.25361,
+            "query_rate": 0.5735,
+            "nb_stage1": 154.775,
+            "nb_full_all_m": 157.18,
+            "nb_global_cmi_gbdt": 161.319,
+            "nb_upca_fluid": 163.36,
+            "missed_cases_vs_full_all_m": -15,
+            "cal_intercept": 0.1047,
+            "cal_slope": 1.0514,
+            "ici": 0.01655,
+            "fnr_at_tau": 0.1345,
+            "fpr_at_tau": 0.4062,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 6.18,
+              "se": 1.9694,
+              "ci95_low": 2.3365,
+              "ci95_high": 10.032,
+              "p_two_sided": 0.0018,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 8.5848,
+              "se": 2.2879,
+              "ci95_low": 4.0674,
+              "ci95_high": 13.058,
+              "p_two_sided": 0.0004,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 2.0406,
+              "se": 1.8801,
+              "ci95_low": -1.6298,
+              "ci95_high": 5.7081,
+              "p_two_sided": 0.27697,
+              "exact_tie": 0.0
+            }
+          },
+          "Male": {
+            "n_encounters": 4800,
+            "n_patients": 3875,
+            "events": 1574,
+            "prevalence": 0.32792,
+            "query_rate": 0.5006,
+            "nb_stage1": 231.171,
+            "nb_full_all_m": 225.794,
+            "nb_global_cmi_gbdt": 232.823,
+            "nb_upca_fluid": 232.684,
+            "missed_cases_vs_full_all_m": -9,
+            "cal_intercept": 0.2064,
+            "cal_slope": 0.9953,
+            "ici": 0.03363,
+            "fnr_at_tau": 0.0966,
+            "fpr_at_tau": 0.5167,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 6.8903,
+              "se": 2.012,
+              "ci95_low": 2.8585,
+              "ci95_high": 10.7438,
+              "p_two_sided": 0.001,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.5129,
+              "se": 2.4598,
+              "ci95_low": -3.3382,
+              "ci95_high": 6.3172,
+              "p_two_sided": 0.54995,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.1383,
+              "se": 1.9117,
+              "ci95_low": -3.8739,
+              "ci95_high": 3.5763,
+              "p_two_sided": 0.93871,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 0.0636,
+            "df": 1,
+            "p_het": 0.80082,
+            "i2_pct": 0.0
+          },
+          "vs_stage1": {
+            "q_stat": 4.4317,
+            "df": 1,
+            "p_het": 0.03528,
+            "i2_pct": 77.44
+          },
+          "vs_global_cmi": {
+            "q_stat": 0.6604,
+            "df": 1,
+            "p_het": 0.41643,
+            "i2_pct": 0.0
+          }
+        }
+      },
+      "age_band": {
+        "strata": {
+          "Age_under_65": {
+            "n_encounters": 6927,
+            "n_patients": 5808,
+            "events": 1519,
+            "prevalence": 0.21929,
+            "query_rate": 0.658,
+            "nb_stage1": 120.977,
+            "nb_full_all_m": 125.149,
+            "nb_global_cmi_gbdt": 128.335,
+            "nb_upca_fluid": 129.084,
+            "missed_cases_vs_full_all_m": 2,
+            "cal_intercept": 0.1517,
+            "cal_slope": 1.0376,
+            "ici": 0.02026,
+            "fnr_at_tau": 0.1949,
+            "fpr_at_tau": 0.3227,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 3.935,
+              "se": 1.7091,
+              "ci95_low": 0.5931,
+              "ci95_high": 7.3456,
+              "p_two_sided": 0.022,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 8.1066,
+              "se": 2.243,
+              "ci95_low": 3.637,
+              "ci95_high": 12.5035,
+              "p_two_sided": 0.0004,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 0.7488,
+              "se": 1.7936,
+              "ci95_low": -2.7495,
+              "ci95_high": 4.2783,
+              "p_two_sided": 0.68613,
+              "exact_tie": 0.0
+            }
+          },
+          "Age_65_plus": {
+            "n_encounters": 3559,
+            "n_patients": 2815,
+            "events": 1497,
+            "prevalence": 0.42062,
+            "query_rate": 0.3108,
+            "nb_stage1": 323.592,
+            "nb_full_all_m": 312.063,
+            "nb_global_cmi_gbdt": 321.954,
+            "nb_upca_fluid": 323.57,
+            "missed_cases_vs_full_all_m": -26,
+            "cal_intercept": 0.1582,
+            "cal_slope": 1.0181,
+            "ici": 0.03178,
+            "fnr_at_tau": 0.0334,
+            "fpr_at_tau": 0.7983,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 11.5075,
+              "se": 2.3817,
+              "ci95_low": 7.0117,
+              "ci95_high": 16.1982,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": -0.0222,
+              "se": 2.1688,
+              "ci95_low": -4.4085,
+              "ci95_high": 4.0918,
+              "p_two_sided": 0.9935,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 1.6164,
+              "se": 1.8179,
+              "ci95_low": -1.9883,
+              "ci95_high": 5.1921,
+              "p_two_sided": 0.36496,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 6.6728,
+            "df": 1,
+            "p_het": 0.00979,
+            "i2_pct": 85.01
+          },
+          "vs_stage1": {
+            "q_stat": 6.7878,
+            "df": 1,
+            "p_het": 0.00918,
+            "i2_pct": 85.27
+          },
+          "vs_global_cmi": {
+            "q_stat": 0.1154,
+            "df": 1,
+            "p_het": 0.73406,
+            "i2_pct": 0.0
+          }
+        }
+      },
+      "payor_clean": {
+        "strata": {
+          "Medicaid": {
+            "n_encounters": 1302,
+            "n_patients": 1061,
+            "events": 340,
+            "prevalence": 0.26114,
+            "query_rate": 0.6475,
+            "nb_stage1": 164.757,
+            "nb_full_all_m": 168.873,
+            "nb_global_cmi_gbdt": 172.067,
+            "nb_upca_fluid": 173.68,
+            "missed_cases_vs_full_all_m": -1,
+            "cal_intercept": 0.4143,
+            "cal_slope": 1.0165,
+            "ici": 0.05963,
+            "fnr_at_tau": 0.1735,
+            "fpr_at_tau": 0.3004,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 4.807,
+              "se": 4.0383,
+              "ci95_low": -3.0532,
+              "ci95_high": 12.9178,
+              "p_two_sided": 0.22578,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 8.9237,
+              "se": 5.2118,
+              "ci95_low": -1.3482,
+              "ci95_high": 19.1111,
+              "p_two_sided": 0.09039,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 1.6132,
+              "se": 4.357,
+              "ci95_low": -6.9335,
+              "ci95_high": 10.1238,
+              "p_two_sided": 0.71973,
+              "exact_tie": 0.0
+            }
+          },
+          "Medicare": {
+            "n_encounters": 2612,
+            "n_patients": 2009,
+            "events": 1130,
+            "prevalence": 0.43262,
+            "query_rate": 0.3273,
+            "nb_stage1": 336.329,
+            "nb_full_all_m": 321.414,
+            "nb_global_cmi_gbdt": 330.655,
+            "nb_upca_fluid": 331.161,
+            "missed_cases_vs_full_all_m": -14,
+            "cal_intercept": 0.2175,
+            "cal_slope": 0.9488,
+            "ici": 0.0437,
+            "fnr_at_tau": 0.0478,
+            "fpr_at_tau": 0.7922,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 9.7471,
+              "se": 2.7345,
+              "ci95_low": 4.4563,
+              "ci95_high": 15.1937,
+              "p_two_sided": 0.0004,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": -5.1679,
+              "se": 2.8813,
+              "ci95_low": -10.981,
+              "ci95_high": 0.2624,
+              "p_two_sided": 0.06539,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 0.5055,
+              "se": 2.0893,
+              "ci95_low": -3.5406,
+              "ci95_high": 4.6372,
+              "p_two_sided": 0.78292,
+              "exact_tie": 0.0
+            }
+          },
+          "Unspecified_or_Commercial": {
+            "n_encounters": 6572,
+            "n_patients": 5539,
+            "events": 1546,
+            "prevalence": 0.23524,
+            "query_rate": 0.6035,
+            "nb_stage1": 136.438,
+            "nb_full_all_m": 139.703,
+            "nb_global_cmi_gbdt": 144.112,
+            "nb_upca_fluid": 145.256,
+            "missed_cases_vs_full_all_m": -9,
+            "cal_intercept": 0.0682,
+            "cal_slope": 1.0551,
+            "ici": 0.01152,
+            "fnr_at_tau": 0.1507,
+            "fpr_at_tau": 0.3836,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 5.5531,
+              "se": 1.7888,
+              "ci95_low": 2.0567,
+              "ci95_high": 9.0785,
+              "p_two_sided": 0.0024,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 8.8185,
+              "se": 2.1902,
+              "ci95_low": 4.4329,
+              "ci95_high": 13.0588,
+              "p_two_sided": 0.0004,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 1.144,
+              "se": 1.79,
+              "ci95_low": -2.3667,
+              "ci95_high": 4.6649,
+              "p_two_sided": 0.51735,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 1.8637,
+            "df": 2,
+            "p_het": 0.39383,
+            "i2_pct": 0.0
+          },
+          "vs_stage1": {
+            "q_stat": 15.8387,
+            "df": 2,
+            "p_het": 0.00036,
+            "i2_pct": 87.37
+          },
+          "vs_global_cmi": {
+            "q_stat": 0.0801,
+            "df": 2,
+            "p_het": 0.96074,
+            "i2_pct": 0.0
+          }
+        }
+      }
+    },
+    "bwh_death_030_ecg_only": {
+      "race_str": {
+        "strata": {
+          "White": {
+            "n_encounters": 3457,
+            "n_patients": 3221,
+            "events": 112,
+            "prevalence": 0.0324,
+            "query_rate": 0.3946,
+            "nb_stage1": 15.96,
+            "nb_full_all_m": 16.509,
+            "nb_global_cmi_gbdt": 17.382,
+            "nb_upca_fluid": 16.795,
+            "missed_cases_vs_full_all_m": 1,
+            "cal_intercept": 0.3429,
+            "cal_slope": 1.0326,
+            "ici": 0.00886,
+            "fnr_at_tau": 0.2857,
+            "fpr_at_tau": 0.2057,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.2858,
+              "se": 0.5067,
+              "ci95_low": -0.7437,
+              "ci95_high": 1.2435,
+              "p_two_sided": 0.55094,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.8352,
+              "se": 0.9152,
+              "ci95_low": -0.9317,
+              "ci95_high": 2.6676,
+              "p_two_sided": 0.34697,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.5871,
+              "se": 0.5853,
+              "ci95_low": -1.7876,
+              "ci95_high": 0.5195,
+              "p_two_sided": 0.31157,
+              "exact_tie": 0.0
+            }
+          },
+          "Black": {
+            "n_encounters": 993,
+            "n_patients": 912,
+            "events": 8,
+            "prevalence": 0.00806,
+            "query_rate": 0.2679,
+            "nb_stage1": 3.779,
+            "nb_full_all_m": 3.422,
+            "nb_global_cmi_gbdt": 2.891,
+            "nb_upca_fluid": 3.93,
+            "missed_cases_vs_full_all_m": 0,
+            "cal_intercept": -0.439,
+            "cal_slope": 1.5509,
+            "ici": 0.00467,
+            "fnr_at_tau": 0.125,
+            "fpr_at_tau": 0.0975,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.5074,
+              "se": 0.1216,
+              "ci95_low": 0.2685,
+              "ci95_high": 0.7426,
+              "p_two_sided": 0.0004,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.1509,
+              "se": 0.2281,
+              "ci95_low": -0.2822,
+              "ci95_high": 0.6007,
+              "p_two_sided": 0.52635,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 1.0382,
+              "se": 1.0106,
+              "ci95_low": -0.1242,
+              "ci95_high": 3.1863,
+              "p_two_sided": 0.29457,
+              "exact_tie": 0.0
+            }
+          },
+          "Hispanic": {
+            "n_encounters": 800,
+            "n_patients": 716,
+            "events": 4,
+            "prevalence": 0.005,
+            "query_rate": 0.2087,
+            "nb_stage1": -0.013,
+            "nb_full_all_m": 0.29,
+            "nb_global_cmi_gbdt": 1.06,
+            "nb_upca_fluid": 1.097,
+            "missed_cases_vs_full_all_m": 0,
+            "cal_intercept": -0.7403,
+            "cal_slope": 1.5015,
+            "ici": 0.00551,
+            "fnr_at_tau": 0.25,
+            "fpr_at_tau": 0.0829,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.8077,
+              "se": 0.1381,
+              "ci95_low": 0.5389,
+              "ci95_high": 1.0831,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.1104,
+              "se": 1.2718,
+              "ci95_low": -0.4521,
+              "ci95_high": 3.9005,
+              "p_two_sided": 0.54415,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 0.0375,
+              "se": 0.1168,
+              "ci95_low": -0.1944,
+              "ci95_high": 0.2704,
+              "p_two_sided": 0.83052,
+              "exact_tie": 0.0
+            }
+          },
+          "Other": {
+            "n_encounters": 529,
+            "n_patients": 491,
+            "events": 15,
+            "prevalence": 0.02836,
+            "query_rate": 0.2911,
+            "nb_stage1": 8.263,
+            "nb_full_all_m": 13.726,
+            "nb_global_cmi_gbdt": 12.488,
+            "nb_upca_fluid": 12.546,
+            "missed_cases_vs_full_all_m": 1,
+            "cal_intercept": 0.5197,
+            "cal_slope": 1.0065,
+            "ici": 0.01197,
+            "fnr_at_tau": 0.4,
+            "fpr_at_tau": 0.144,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": -1.18,
+              "se": 1.9067,
+              "ci95_low": -5.2386,
+              "ci95_high": 1.0259,
+              "p_two_sided": 0.75092,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 4.2832,
+              "se": 4.621,
+              "ci95_low": -4.8758,
+              "ci95_high": 13.7431,
+              "p_two_sided": 0.31797,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 0.0576,
+              "se": 0.1543,
+              "ci95_low": -0.237,
+              "ci95_high": 0.3533,
+              "p_two_sided": 0.80052,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 4.0295,
+            "df": 3,
+            "p_het": 0.2583,
+            "i2_pct": 25.55
+          },
+          "vs_stage1": {
+            "q_stat": 1.8059,
+            "df": 3,
+            "p_het": 0.61365,
+            "i2_pct": 0.0
+          },
+          "vs_global_cmi": {
+            "q_stat": 2.1363,
+            "df": 3,
+            "p_het": 0.54461,
+            "i2_pct": 0.0
+          }
+        }
+      },
+      "sex_str": {
+        "strata": {
+          "Female": {
+            "n_encounters": 3172,
+            "n_patients": 2934,
+            "events": 70,
+            "prevalence": 0.02207,
+            "query_rate": 0.3178,
+            "nb_stage1": 10.553,
+            "nb_full_all_m": 10.949,
+            "nb_global_cmi_gbdt": 10.947,
+            "nb_upca_fluid": 11.549,
+            "missed_cases_vs_full_all_m": 0,
+            "cal_intercept": 0.2147,
+            "cal_slope": 1.1714,
+            "ici": 0.00444,
+            "fnr_at_tau": 0.2571,
+            "fpr_at_tau": 0.1551,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.6,
+              "se": 0.4498,
+              "ci95_low": -0.3267,
+              "ci95_high": 1.5231,
+              "p_two_sided": 0.19318,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.997,
+              "se": 0.7239,
+              "ci95_low": -0.3558,
+              "ci95_high": 2.5005,
+              "p_two_sided": 0.14939,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 0.6022,
+              "se": 0.4518,
+              "ci95_low": -0.0856,
+              "ci95_high": 1.5958,
+              "p_two_sided": 0.19118,
+              "exact_tie": 0.0
+            }
+          },
+          "Male": {
+            "n_encounters": 2607,
+            "n_patients": 2406,
+            "events": 69,
+            "prevalence": 0.02647,
+            "query_rate": 0.3617,
+            "nb_stage1": 11.436,
+            "nb_full_all_m": 12.747,
+            "nb_global_cmi_gbdt": 13.69,
+            "nb_upca_fluid": 12.598,
+            "missed_cases_vs_full_all_m": 2,
+            "cal_intercept": 0.262,
+            "cal_slope": 1.0638,
+            "ici": 0.00614,
+            "fnr_at_tau": 0.3188,
+            "fpr_at_tau": 0.1745,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": -0.1494,
+              "se": 0.5573,
+              "ci95_low": -1.3915,
+              "ci95_high": 0.7095,
+              "p_two_sided": 0.84532,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.1618,
+              "se": 1.342,
+              "ci95_low": -1.4377,
+              "ci95_high": 3.8705,
+              "p_two_sided": 0.37936,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -1.0925,
+              "se": 0.677,
+              "ci95_low": -2.6225,
+              "ci95_high": 0.0475,
+              "p_two_sided": 0.07339,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 1.0949,
+            "df": 1,
+            "p_het": 0.29538,
+            "i2_pct": 8.67
+          },
+          "vs_stage1": {
+            "q_stat": 0.0117,
+            "df": 1,
+            "p_het": 0.91393,
+            "i2_pct": 0.0
+          },
+          "vs_global_cmi": {
+            "q_stat": 4.3354,
+            "df": 1,
+            "p_het": 0.03733,
+            "i2_pct": 76.93
+          }
+        }
+      },
+      "age_band": {
+        "strata": {
+          "Age_under_65": {
+            "n_encounters": 4037,
+            "n_patients": 3735,
+            "events": 34,
+            "prevalence": 0.00842,
+            "query_rate": 0.1766,
+            "nb_stage1": 0.751,
+            "nb_full_all_m": 1.117,
+            "nb_global_cmi_gbdt": 1.81,
+            "nb_upca_fluid": 1.337,
+            "missed_cases_vs_full_all_m": 2,
+            "cal_intercept": 0.0527,
+            "cal_slope": 1.182,
+            "ici": 0.00104,
+            "fnr_at_tau": 0.6765,
+            "fpr_at_tau": 0.0425,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.2195,
+              "se": 0.3548,
+              "ci95_low": -0.5525,
+              "ci95_high": 0.7615,
+              "p_two_sided": 0.54775,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.5863,
+              "se": 0.7085,
+              "ci95_low": -0.7544,
+              "ci95_high": 2.0433,
+              "p_two_sided": 0.40996,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.473,
+              "se": 0.3549,
+              "ci95_low": -1.243,
+              "ci95_high": 0.0529,
+              "p_two_sided": 0.20738,
+              "exact_tie": 0.0
+            }
+          },
+          "Age_65_plus": {
+            "n_encounters": 1742,
+            "n_patients": 1608,
+            "events": 105,
+            "prevalence": 0.06028,
+            "query_rate": 0.7107,
+            "nb_stage1": 34.59,
+            "nb_full_all_m": 36.425,
+            "nb_global_cmi_gbdt": 36.227,
+            "nb_upca_fluid": 36.785,
+            "missed_cases_vs_full_all_m": 0,
+            "cal_intercept": 0.3112,
+            "cal_slope": 1.0249,
+            "ici": 0.0149,
+            "fnr_at_tau": 0.1619,
+            "fpr_at_tau": 0.4606,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.3604,
+              "se": 0.8268,
+              "ci95_low": -1.3439,
+              "ci95_high": 2.0592,
+              "p_two_sided": 0.65673,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 2.1955,
+              "se": 1.7453,
+              "ci95_low": -1.1837,
+              "ci95_high": 5.7361,
+              "p_two_sided": 0.21178,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 0.5577,
+              "se": 1.0168,
+              "ci95_low": -1.2899,
+              "ci95_high": 2.7126,
+              "p_two_sided": 0.58794,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 0.0245,
+            "df": 1,
+            "p_het": 0.87556,
+            "i2_pct": 0.0
+          },
+          "vs_stage1": {
+            "q_stat": 0.7298,
+            "df": 1,
+            "p_het": 0.39293,
+            "i2_pct": 0.0
+          },
+          "vs_global_cmi": {
+            "q_stat": 0.9159,
+            "df": 1,
+            "p_het": 0.33854,
+            "i2_pct": 0.0
+          }
+        }
+      },
+      "agi_quartile": {
+        "strata": {
+          "Q1_Lowest_Income": {
+            "n_encounters": 1158,
+            "n_patients": 1046,
+            "events": 18,
+            "prevalence": 0.01554,
+            "query_rate": 0.2565,
+            "nb_stage1": 6.347,
+            "nb_full_all_m": 6.605,
+            "nb_global_cmi_gbdt": 7.193,
+            "nb_upca_fluid": 7.14,
+            "missed_cases_vs_full_all_m": 0,
+            "cal_intercept": 0.2005,
+            "cal_slope": 1.3055,
+            "ici": 0.00284,
+            "fnr_at_tau": 0.3333,
+            "fpr_at_tau": 0.1018,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.5351,
+              "se": 0.1118,
+              "ci95_low": 0.3085,
+              "ci95_high": 0.7502,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.793,
+              "se": 0.8601,
+              "ci95_low": -0.3309,
+              "ci95_high": 2.7442,
+              "p_two_sided": 0.47295,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.0526,
+              "se": 0.099,
+              "ci95_low": -0.2423,
+              "ci95_high": 0.1351,
+              "p_two_sided": 0.64194,
+              "exact_tie": 0.0
+            }
+          },
+          "Q2_LowMid": {
+            "n_encounters": 1449,
+            "n_patients": 1345,
+            "events": 37,
+            "prevalence": 0.02553,
+            "query_rate": 0.3195,
+            "nb_stage1": 12.386,
+            "nb_full_all_m": 13.38,
+            "nb_global_cmi_gbdt": 13.848,
+            "nb_upca_fluid": 12.573,
+            "missed_cases_vs_full_all_m": 2,
+            "cal_intercept": 0.3628,
+            "cal_slope": 1.0117,
+            "ici": 0.00779,
+            "fnr_at_tau": 0.3243,
+            "fpr_at_tau": 0.1501,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": -0.8061,
+              "se": 0.9844,
+              "ci95_low": -2.9628,
+              "ci95_high": 0.686,
+              "p_two_sided": 0.37036,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.1871,
+              "se": 1.6784,
+              "ci95_low": -3.1252,
+              "ci95_high": 3.544,
+              "p_two_sided": 0.90591,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -1.2742,
+              "se": 0.9838,
+              "ci95_low": -3.419,
+              "ci95_high": 0.1737,
+              "p_two_sided": 0.25177,
+              "exact_tie": 0.0
+            }
+          },
+          "Q3_HighMid": {
+            "n_encounters": 1487,
+            "n_patients": 1385,
+            "events": 31,
+            "prevalence": 0.02085,
+            "query_rate": 0.3645,
+            "nb_stage1": 7.022,
+            "nb_full_all_m": 6.833,
+            "nb_global_cmi_gbdt": 8.162,
+            "nb_upca_fluid": 7.553,
+            "missed_cases_vs_full_all_m": 0,
+            "cal_intercept": -0.0237,
+            "cal_slope": 0.9442,
+            "ici": 0.00467,
+            "fnr_at_tau": 0.3548,
+            "fpr_at_tau": 0.1889,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.7205,
+              "se": 0.1315,
+              "ci95_low": 0.4597,
+              "ci95_high": 0.9782,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.5311,
+              "se": 0.9826,
+              "ci95_low": -1.4595,
+              "ci95_high": 2.5302,
+              "p_two_sided": 0.58454,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": -0.6085,
+              "se": 0.6816,
+              "ci95_low": -2.07,
+              "ci95_high": 0.207,
+              "p_two_sided": 0.57254,
+              "exact_tie": 0.0
+            }
+          },
+          "Q4_Highest_Income": {
+            "n_encounters": 1560,
+            "n_patients": 1449,
+            "events": 47,
+            "prevalence": 0.03013,
+            "query_rate": 0.3897,
+            "nb_stage1": 14.948,
+            "nb_full_all_m": 17.017,
+            "nb_global_cmi_gbdt": 16.32,
+            "nb_upca_fluid": 17.522,
+            "missed_cases_vs_full_all_m": 0,
+            "cal_intercept": 0.2991,
+            "cal_slope": 1.2572,
+            "ici": 0.00719,
+            "fnr_at_tau": 0.2128,
+            "fpr_at_tau": 0.2003,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.5051,
+              "se": 0.9129,
+              "ci95_low": -1.4164,
+              "ci95_high": 2.3899,
+              "p_two_sided": 0.62734,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 2.574,
+              "se": 1.5955,
+              "ci95_low": -0.3853,
+              "ci95_high": 5.9215,
+              "p_two_sided": 0.09139,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_global_cmi": {
+              "diff_mean": 1.2018,
+              "se": 0.9073,
+              "ci95_low": -0.1602,
+              "ci95_high": 3.1824,
+              "p_two_sided": 0.20738,
+              "exact_tie": 0.0
+            }
+          }
+        },
+        "cochran_q_heterogeneity": {
+          "vs_full_all_m": {
+            "q_stat": 3.2274,
+            "df": 3,
+            "p_het": 0.35787,
+            "i2_pct": 7.05
+          },
+          "vs_stage1": {
+            "q_stat": 1.4329,
+            "df": 3,
+            "p_het": 0.69784,
+            "i2_pct": 0.0
+          },
+          "vs_global_cmi": {
+            "q_stat": 4.1103,
+            "df": 3,
+            "p_het": 0.2498,
+            "i2_pct": 27.01
+          }
+        }
+      }
+    }
+  },
+  "nominal_p_lt_005_heterogeneity_flags": [
+    {
+      "task_id": "mcmed_hospital_admission",
+      "attribute": "sex_str",
+      "contrast": "vs_stage1",
+      "q_stat": 4.4317,
+      "df": 1,
+      "p_het": 0.03528,
+      "i2_pct": 77.44
+    },
+    {
+      "task_id": "mcmed_hospital_admission",
+      "attribute": "age_band",
+      "contrast": "vs_full_all_m",
+      "q_stat": 6.6728,
+      "df": 1,
+      "p_het": 0.00979,
+      "i2_pct": 85.01
+    },
+    {
+      "task_id": "mcmed_hospital_admission",
+      "attribute": "age_band",
+      "contrast": "vs_stage1",
+      "q_stat": 6.7878,
+      "df": 1,
+      "p_het": 0.00918,
+      "i2_pct": 85.27
+    },
+    {
+      "task_id": "mcmed_hospital_admission",
+      "attribute": "payor_clean",
+      "contrast": "vs_stage1",
+      "q_stat": 15.8387,
+      "df": 2,
+      "p_het": 0.00036,
+      "i2_pct": 87.37
+    },
+    {
+      "task_id": "bwh_death_030_ecg_only",
+      "attribute": "sex_str",
+      "contrast": "vs_global_cmi",
+      "q_stat": 4.3354,
+      "df": 1,
+      "p_het": 0.03733,
+      "i2_pct": 76.93
+    }
+  ],
+  "elapsed_sec": 132.9
+}

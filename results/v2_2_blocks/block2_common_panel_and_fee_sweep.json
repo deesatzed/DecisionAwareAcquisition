@@ -1,0 +1,5415 @@
+{
+  "tasks": {
+    "mcmed_critical_icu_death": {
+      "task_id": "mcmed_critical_icu_death",
+      "label": "1. Stanford ICU/Death (<=2h)",
+      "n_train": 69022,
+      "n_cal": 9887,
+      "n_test": 10486,
+      "n_test_patients": 8568,
+      "test_events": 229,
+      "eval_prevalence": 0.02184,
+      "cost_schedule": {
+        "base_c_query": 0.03,
+        "reference_bundle_weight": 2.0,
+        "overhead_share": 0.25,
+        "c_overhead": 0.0075,
+        "c_unit": 0.01125
+      },
+      "locked_panels_tr0": {
+        "all_m_channels": [
+          "ch_cdw_prior_pmh",
+          "ch_cdw_prior_meds",
+          "ch_lab_cbc",
+          "ch_lab_renal_elyte",
+          "ch_lab_lactate_cardiac",
+          "ch_lab_lft_coag",
+          "ch_rads_2h",
+          "ch_monitor_numerics_2h"
+        ],
+        "global_cmi": [
+          "ch_monitor_numerics_2h",
+          "ch_lab_renal_elyte",
+          "ch_lab_lactate_cardiac"
+        ],
+        "weighted_cz": [
+          "ch_lab_renal_elyte",
+          "ch_lab_lactate_cardiac"
+        ],
+        "ipw_cz": [
+          "ch_lab_renal_elyte",
+          "ch_lab_lactate_cardiac"
+        ],
+        "offset_cz_stage_a": [
+          "ch_lab_renal_elyte",
+          "ch_monitor_numerics_2h",
+          "ch_lab_lactate_cardiac"
+        ],
+        "split_pilot_upca": [
+          "ch_lab_lactate_cardiac"
+        ],
+        "upca_fluid": [
+          "ch_lab_renal_elyte",
+          "ch_lab_lactate_cardiac"
+        ],
+        "upca_fluid_flat_legacy": [
+          "ch_lab_renal_elyte",
+          "ch_monitor_numerics_2h",
+          "ch_lab_lactate_cardiac"
+        ]
+      },
+      "stage_b_scheduled_prune_log_tr0": [
+        {
+          "tested_drop": "ch_lab_renal_elyte",
+          "active_size": 3,
+          "solo_routed_gain": 0.4623,
+          "z_solo": 2.52,
+          "marginal_bundle_gain": 0.3755,
+          "z_marg": 2.664,
+          "pruned_candidate": false
+        },
+        {
+          "tested_drop": "ch_monitor_numerics_2h",
+          "active_size": 3,
+          "solo_routed_gain": 0.2607,
+          "z_solo": 1.254,
+          "marginal_bundle_gain": 0.1658,
+          "z_marg": 1.115,
+          "pruned_candidate": true
+        },
+        {
+          "tested_drop": "ch_lab_lactate_cardiac",
+          "active_size": 3,
+          "solo_routed_gain": 0.49,
+          "z_solo": 2.6,
+          "marginal_bundle_gain": 0.219,
+          "z_marg": 1.386,
+          "pruned_candidate": false
+        },
+        {
+          "tested_drop": "ch_lab_renal_elyte",
+          "active_size": 2,
+          "solo_routed_gain": 0.4623,
+          "z_solo": 2.52,
+          "marginal_bundle_gain": 0.4111,
+          "z_marg": 2.77,
+          "pruned_candidate": false
+        },
+        {
+          "tested_drop": "ch_lab_lactate_cardiac",
+          "active_size": 2,
+          "solo_routed_gain": 0.49,
+          "z_solo": 2.6,
+          "marginal_bundle_gain": 0.4388,
+          "z_marg": 2.599,
+          "pruned_candidate": false
+        }
+      ],
+      "canonical_scheduled": {
+        "arms": {
+          "stage1": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": 8.362,
+            "snb_routed": 0.3829,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.2398,
+            "auprc_routed": 0.2398,
+            "auroc_full": 0.86
+          },
+          "full_100pct_all_m_gbdt": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds",
+              "ch_lab_cbc",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_rads_2h",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.08288,
+            "nb_routed": 5.3755,
+            "snb_routed": 0.2461,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.08288,
+            "auprc_full": 0.2965,
+            "auprc_routed": 0.2965,
+            "auroc_full": 0.8949
+          },
+          "full_100pct_locked_panel": {
+            "selected": [
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03079,
+            "nb_routed": 7.6652,
+            "snb_routed": 0.351,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.03079,
+            "auprc_full": 0.2795,
+            "auprc_routed": 0.2795,
+            "auroc_full": 0.8735
+          },
+          "boundary_uncertainty_matched_q": {
+            "selected": [
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03079,
+            "nb_routed": 8.813,
+            "query_rate": 0.1677
+          },
+          "global_cmi_gbdt": {
+            "selected": [
+              "ch_monitor_numerics_2h",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03754,
+            "nb_routed": 9.2774,
+            "snb_routed": 0.4248,
+            "query_rate": 0.182,
+            "mean_cost_cfp": 0.00683,
+            "auprc_full": 0.2925,
+            "auprc_routed": 0.2578,
+            "auroc_full": 0.8857
+          },
+          "global_cmi_fluid": {
+            "selected": [
+              "ch_monitor_numerics_2h",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03754,
+            "nb_routed": 9.3263,
+            "snb_routed": 0.4271,
+            "query_rate": 0.175,
+            "mean_cost_cfp": 0.00657,
+            "auprc_full": 0.282,
+            "auprc_routed": 0.2636,
+            "auroc_full": 0.8868
+          },
+          "weighted_cz_fluid": {
+            "selected": [
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03079,
+            "nb_routed": 8.9736,
+            "snb_routed": 0.4109,
+            "query_rate": 0.1677,
+            "mean_cost_cfp": 0.00516,
+            "auprc_full": 0.2795,
+            "auprc_routed": 0.2595,
+            "auroc_full": 0.8735
+          },
+          "split_pilot_upca_fluid": {
+            "selected": [
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.02044,
+            "nb_routed": 8.9089,
+            "snb_routed": 0.4079,
+            "query_rate": 0.1589,
+            "mean_cost_cfp": 0.00325,
+            "auprc_full": 0.2808,
+            "auprc_routed": 0.2528,
+            "auroc_full": 0.8728
+          },
+          "upca_fluid": {
+            "selected": [
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03079,
+            "nb_routed": 8.9736,
+            "snb_routed": 0.4109,
+            "query_rate": 0.1677,
+            "mean_cost_cfp": 0.00516,
+            "auprc_full": 0.2795,
+            "auprc_routed": 0.2595,
+            "auroc_full": 0.8735
+          },
+          "afa_covert_cmi": {
+            "nb_routed": 8.5834,
+            "snb_routed": 0.393,
+            "query_rate": 0.0958,
+            "null_channel_query_rate": 0.0136
+          },
+          "afa_direct_voi": {
+            "nb_routed": 8.7019,
+            "snb_routed": 0.3985,
+            "query_rate": 0.0997,
+            "null_channel_query_rate": 0.0091
+          }
+        },
+        "specialist_diagnostics_upca": {
+          "beta_cz": 0.0,
+          "kappa_star": 20.0,
+          "rms_r_cz": 0.0,
+          "rms_r_cz_zone": 0.0,
+          "decision_flip_rate_vs_glob": 0.0
+        },
+        "skipped_case_disagreement_upca": {
+          "n_total": 10486,
+          "n_skipped": 8727,
+          "n_skipped_patients": 7365,
+          "skip_rate": 0.8323,
+          "flip_count": 98,
+          "flip_rate": 0.01123,
+          "flip_ub95_clopper_pearson": 0.01327,
+          "flip_ub95_patient_cluster": 0.01312,
+          "neg_to_pos_count": 85,
+          "neg_to_pos_rate": 0.00974,
+          "neg_to_pos_ub95_cluster": 0.01153,
+          "pos_to_neg_count": 13,
+          "pos_to_neg_rate": 0.00149,
+          "pos_to_neg_ub95_cluster": 0.00219,
+          "skipped_events_total": 141,
+          "skipped_events_below_tau": 61,
+          "skipped_events_above_tau": 80,
+          "harmful_flip_count": 17,
+          "beneficial_flip_count": 81,
+          "missed_event_escalation_count": 4,
+          "missed_event_escalation_rate": 0.00046,
+          "missed_event_escalation_ub95_cluster": 0.00081,
+          "realized_abs_decision_nb_diff_per_1k": 0.0402,
+          "theoretical_nb_diff_bound_emp_per_1k": 9.3458,
+          "theoretical_nb_diff_bound_ub95_per_1k": 10.9173,
+          "risk_diff_bound_ub95_raw_cost": 0.20743
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 0.6116,
+            "se": 0.4678,
+            "ci95_low": -0.3045,
+            "ci95_high": 1.5273,
+            "p_two_sided": 0.20038,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_all_m": {
+            "diff_mean": 3.5981,
+            "se": 0.4125,
+            "ci95_low": 2.7812,
+            "ci95_high": 4.3949,
+            "p_two_sided": 0.0002,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_locked": {
+            "diff_mean": 1.3084,
+            "se": 0.1963,
+            "ci95_low": 0.8887,
+            "ci95_high": 1.6453,
+            "p_two_sided": 0.0002,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty": {
+            "diff_mean": 0.1606,
+            "se": 0.1748,
+            "ci95_low": -0.2248,
+            "ci95_high": 0.4527,
+            "p_two_sided": 0.34517,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": -0.3038,
+            "se": 0.312,
+            "ci95_low": -0.9309,
+            "ci95_high": 0.298,
+            "p_two_sided": 0.33137,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": -0.3527,
+            "se": 0.2979,
+            "ci95_low": -0.9443,
+            "ci95_high": 0.2159,
+            "p_two_sided": 0.23458,
+            "exact_tie": 0.0
+          },
+          "upca_vs_weighted_cz": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_covert_cmi": {
+            "diff_mean": 0.3902,
+            "se": 0.4365,
+            "ci95_low": -0.4575,
+            "ci95_high": 1.2582,
+            "p_two_sided": 0.37996,
+            "exact_tie": 0.0
+          },
+          "upca_vs_direct_voi_afa": {
+            "diff_mean": 0.2717,
+            "se": 0.4901,
+            "ci95_low": -0.671,
+            "ci95_high": 1.2436,
+            "p_two_sided": 0.58534,
+            "exact_tie": 0.0
+          }
+        }
+      },
+      "r10_common_panel_and_triad": {
+        "n_splits": 10,
+        "arms": {
+          "stage1": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 8.874,
+            "snb_bagged": 0.4063,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.2516,
+            "auprc_routed": 0.2516,
+            "per_split_mean_nb": 8.4313,
+            "per_split_se_nb": 0.0844
+          },
+          "all_m_gbdt": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds",
+              "ch_lab_cbc",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_rads_2h",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.08288,
+            "nb_bagged": 8.7368,
+            "snb_bagged": 0.4001,
+            "nb_100pct_panel": 5.521,
+            "query_rate": 0.158,
+            "mean_cost_cfp": 0.0131,
+            "auprc_full": 0.3147,
+            "auprc_routed": 0.2655,
+            "auroc_full": 0.8986,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            }
+          },
+          "global_cmi_gbdt": {
+            "locked_panel": [
+              "ch_monitor_numerics_2h",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03754,
+            "nb_bagged": 9.0896,
+            "snb_bagged": 0.4162,
+            "nb_100pct_panel": 7.9273,
+            "query_rate": 0.2109,
+            "mean_cost_cfp": 0.00792,
+            "auprc_full": 0.3036,
+            "auprc_routed": 0.2649,
+            "auroc_full": 0.8873,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 9.0012,
+            "per_split_se_nb": 0.0746,
+            "sym_ens_nb": 9.1101,
+            "sym_ens_query_rate": 0.2003,
+            "union_panel_ids": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_lab_renal_elyte",
+              "ch_monitor_numerics_2h"
+            ],
+            "union_panel_cost_cfp": 0.05272,
+            "union_panel_rerouted_nb": 8.9949,
+            "union_panel_rerouted_q": 0.1807,
+            "union_panel_fixedq_billed_nb": 8.8747,
+            "legacy_unbilled_flat_union_nb": 9.1427,
+            "r10_selected_channel_counts": {
+              "ch_monitor_numerics_2h": 10,
+              "ch_lab_renal_elyte": 10,
+              "ch_lab_lactate_cardiac": 6,
+              "ch_lab_lft_coag": 4,
+              "ch_cdw_prior_pmh": 1
+            }
+          },
+          "global_cmi_fluid": {
+            "locked_panel": [
+              "ch_monitor_numerics_2h",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03754,
+            "nb_bagged": 9.1679,
+            "snb_bagged": 0.4198,
+            "nb_100pct_panel": 7.9925,
+            "query_rate": 0.212,
+            "mean_cost_cfp": 0.00796,
+            "auprc_full": 0.3043,
+            "auprc_routed": 0.2671,
+            "auroc_full": 0.8882,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 8.9562,
+            "per_split_se_nb": 0.0715,
+            "sym_ens_nb": 9.1781,
+            "sym_ens_query_rate": 0.2014,
+            "union_panel_ids": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_lab_renal_elyte",
+              "ch_monitor_numerics_2h"
+            ],
+            "union_panel_cost_cfp": 0.05272,
+            "union_panel_rerouted_nb": 9.0834,
+            "union_panel_rerouted_q": 0.1814,
+            "union_panel_fixedq_billed_nb": 8.8679,
+            "legacy_unbilled_flat_union_nb": 9.1366,
+            "r10_selected_channel_counts": {
+              "ch_monitor_numerics_2h": 10,
+              "ch_lab_renal_elyte": 10,
+              "ch_lab_lactate_cardiac": 6,
+              "ch_lab_lft_coag": 4,
+              "ch_cdw_prior_pmh": 1
+            }
+          },
+          "weighted_cz_fluid": {
+            "locked_panel": [
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03079,
+            "nb_bagged": 8.9964,
+            "snb_bagged": 0.4119,
+            "nb_100pct_panel": 7.7304,
+            "query_rate": 0.1908,
+            "mean_cost_cfp": 0.00588,
+            "auprc_full": 0.3003,
+            "auprc_routed": 0.2667,
+            "auroc_full": 0.8743,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0127,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0038,
+              "rms_r_cz_zone": 0.0039,
+              "decision_flip_rate_vs_glob": 0.0002,
+              "beta_cz_se": 0.0103,
+              "rms_r_cz_se": 0.0031
+            },
+            "per_split_mean_nb": 8.9482,
+            "per_split_se_nb": 0.0883,
+            "sym_ens_nb": 9.1118,
+            "sym_ens_query_rate": 0.1978,
+            "union_panel_ids": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_lab_renal_elyte",
+              "ch_monitor_numerics_2h"
+            ],
+            "union_panel_cost_cfp": 0.05272,
+            "union_panel_rerouted_nb": 9.0464,
+            "union_panel_rerouted_q": 0.1748,
+            "union_panel_fixedq_billed_nb": 8.8293,
+            "legacy_unbilled_flat_union_nb": 9.093,
+            "r10_selected_channel_counts": {
+              "ch_monitor_numerics_2h": 9,
+              "ch_lab_renal_elyte": 9,
+              "ch_lab_lft_coag": 4,
+              "ch_lab_lactate_cardiac": 6,
+              "ch_cdw_prior_pmh": 1
+            }
+          },
+          "split_pilot_upca_fluid": {
+            "locked_panel": [
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.02044,
+            "nb_bagged": 8.7891,
+            "snb_bagged": 0.4025,
+            "nb_100pct_panel": 7.9439,
+            "query_rate": 0.1769,
+            "mean_cost_cfp": 0.00362,
+            "auprc_full": 0.2975,
+            "auprc_routed": 0.2633,
+            "auroc_full": 0.873,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0684,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0236,
+              "rms_r_cz_zone": 0.0232,
+              "decision_flip_rate_vs_glob": 0.0014,
+              "beta_cz_se": 0.0186,
+              "rms_r_cz_se": 0.0067
+            }
+          },
+          "upca_fluid": {
+            "locked_panel": [
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03079,
+            "nb_bagged": 8.9964,
+            "snb_bagged": 0.4119,
+            "nb_100pct_panel": 7.7304,
+            "query_rate": 0.1908,
+            "mean_cost_cfp": 0.00588,
+            "auprc_full": 0.3003,
+            "auprc_routed": 0.2667,
+            "auroc_full": 0.8743,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0127,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0038,
+              "rms_r_cz_zone": 0.0039,
+              "decision_flip_rate_vs_glob": 0.0002,
+              "beta_cz_se": 0.0103,
+              "rms_r_cz_se": 0.0031
+            },
+            "per_split_mean_nb": 8.9949,
+            "per_split_se_nb": 0.0723,
+            "sym_ens_nb": 9.4823,
+            "sym_ens_query_rate": 0.1931,
+            "union_panel_ids": [
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_lab_renal_elyte",
+              "ch_monitor_numerics_2h"
+            ],
+            "union_panel_cost_cfp": 0.04822,
+            "union_panel_rerouted_nb": 9.1815,
+            "union_panel_rerouted_q": 0.1537,
+            "union_panel_fixedq_billed_nb": 9.1208,
+            "legacy_unbilled_flat_union_nb": 9.3044,
+            "r10_selected_channel_counts": {
+              "ch_monitor_numerics_2h": 6,
+              "ch_lab_renal_elyte": 7,
+              "ch_lab_lft_coag": 3,
+              "ch_lab_lactate_cardiac": 3
+            }
+          },
+          "full_100pct_all_m_gbdt": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds",
+              "ch_lab_cbc",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_rads_2h",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.08288,
+            "nb_bagged": 5.521,
+            "snb_bagged": 0.2528,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.08288,
+            "auprc_full": 0.3147
+          },
+          "full_100pct_locked_panel": {
+            "locked_panel": [
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03079,
+            "nb_bagged": 7.7304,
+            "query_rate": 1.0
+          },
+          "boundary_uncertainty_matched_q": {
+            "locked_panel": [
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03079,
+            "nb_bagged": 8.8408,
+            "query_rate": 0.1908
+          },
+          "boundary_uncertainty_20pct": {
+            "locked_panel": [
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.03079,
+            "nb_bagged": 8.816,
+            "query_rate": 0.2
+          }
+        },
+        "afa_channel_billed_r10": {
+          "cmi": {
+            "per_split_mean_nb": 8.5118,
+            "per_split_se_nb": 0.0818,
+            "per_split_mean_query_rate": 0.1775,
+            "per_split_mean_null_query_rate": 0.0159,
+            "majority_mask_nb": 7.6016,
+            "majority_mask_query_rate": 0.1632,
+            "majority_mask_mean_cost_cfp": 0.00367
+          },
+          "direct_voi": {
+            "per_split_mean_nb": 8.4181,
+            "per_split_se_nb": 0.0535,
+            "per_split_mean_query_rate": 0.1647,
+            "per_split_mean_null_query_rate": 0.0114,
+            "majority_mask_nb": 7.007,
+            "majority_mask_query_rate": 0.1436,
+            "majority_mask_mean_cost_cfp": 0.00295
+          }
+        },
+        "skipped_case_disagreement_common_bagged": {
+          "n_total": 10486,
+          "n_skipped": 8485,
+          "n_skipped_patients": 7193,
+          "skip_rate": 0.8092,
+          "flip_count": 79,
+          "flip_rate": 0.00931,
+          "flip_ub95_clopper_pearson": 0.01122,
+          "flip_ub95_patient_cluster": 0.01109,
+          "neg_to_pos_count": 75,
+          "neg_to_pos_rate": 0.00884,
+          "neg_to_pos_ub95_cluster": 0.01057,
+          "pos_to_neg_count": 4,
+          "pos_to_neg_rate": 0.00047,
+          "pos_to_neg_ub95_cluster": 0.00083,
+          "skipped_events_total": 143,
+          "skipped_events_below_tau": 56,
+          "skipped_events_above_tau": 87,
+          "harmful_flip_count": 8,
+          "beneficial_flip_count": 71,
+          "missed_event_escalation_count": 4,
+          "missed_event_escalation_rate": 0.00047,
+          "missed_event_escalation_ub95_cluster": 0.00083,
+          "realized_abs_decision_nb_diff_per_1k": 0.0452,
+          "theoretical_nb_diff_bound_emp_per_1k": 7.5339,
+          "theoretical_nb_diff_bound_ub95_per_1k": 8.9718,
+          "risk_diff_bound_ub95_raw_cost": 0.17046
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 0.1224,
+            "se": 0.4051,
+            "ci95_low": -0.6742,
+            "ci95_high": 0.9071,
+            "p_two_sided": 0.75812,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_100pct_all_m": {
+            "diff_mean": 3.4754,
+            "se": 0.4404,
+            "ci95_low": 2.6079,
+            "ci95_high": 4.3204,
+            "p_two_sided": 0.0002,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_100pct_locked": {
+            "diff_mean": 1.266,
+            "se": 0.1946,
+            "ci95_low": 0.8464,
+            "ci95_high": 1.5972,
+            "p_two_sided": 0.0004,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty_matched_q": {
+            "diff_mean": 0.1556,
+            "se": 0.1428,
+            "ci95_low": -0.159,
+            "ci95_high": 0.3867,
+            "p_two_sided": 0.28737,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty_20pct": {
+            "diff_mean": 0.1805,
+            "se": 0.1416,
+            "ci95_low": -0.1333,
+            "ci95_high": 0.4102,
+            "p_two_sided": 0.22218,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": -0.0932,
+            "se": 0.3278,
+            "ci95_low": -0.7338,
+            "ci95_high": 0.5592,
+            "p_two_sided": 0.76832,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": -0.1715,
+            "se": 0.3096,
+            "ci95_low": -0.7729,
+            "ci95_high": 0.4376,
+            "p_two_sided": 0.56934,
+            "exact_tie": 0.0
+          },
+          "upca_vs_weighted_cz_fluid": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_split_pilot_upca": {
+            "diff_mean": 0.2073,
+            "se": 0.3542,
+            "ci95_low": -0.4794,
+            "ci95_high": 0.9107,
+            "p_two_sided": 0.55174,
+            "exact_tie": 0.0
+          },
+          "upca_vs_afa_cmi_persplit": {
+            "diff_mean": 0.4847,
+            "se": 0.3265,
+            "ci95_low": -0.1398,
+            "ci95_high": 1.1259,
+            "p_two_sided": 0.14119
+          },
+          "upca_vs_afa_direct_voi_persplit": {
+            "diff_mean": 0.5783,
+            "se": 0.3402,
+            "ci95_low": -0.0763,
+            "ci95_high": 1.2742,
+            "p_two_sided": 0.08819
+          },
+          "upca_vs_afa_cmi_majority": {
+            "diff_mean": 1.3949,
+            "se": 0.4017,
+            "ci95_low": 0.5855,
+            "ci95_high": 2.1655,
+            "p_two_sided": 0.0008,
+            "exact_tie": 0.0
+          }
+        },
+        "query_cost_multiplier_sweep": [
+          {
+            "cost_multiplier": 0.5,
+            "upca_panel_cost_cfp": 0.01539,
+            "all_m_panel_cost_cfp": 0.04144,
+            "nb_stage1": 8.874,
+            "nb_full_100pct_all_m": 7.7019,
+            "nb_full_100pct_locked": 8.5406,
+            "nb_boundary_uncertainty_matched_q": 9.0829,
+            "nb_boundary_uncertainty_20pct": 8.978,
+            "nb_global_cmi_gbdt": 9.4257,
+            "nb_upca_fluid": 9.0678,
+            "upca_query_rate": 0.2439,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 1.3659,
+              "se": 0.4283,
+              "ci95_low": 0.5165,
+              "ci95_high": 2.1942,
+              "p_two_sided": 0.0018,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.1939,
+              "se": 0.4194,
+              "ci95_low": -0.6104,
+              "ci95_high": 1.036,
+              "p_two_sided": 0.63834,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 1.0,
+            "upca_panel_cost_cfp": 0.03079,
+            "all_m_panel_cost_cfp": 0.08288,
+            "nb_stage1": 8.874,
+            "nb_full_100pct_all_m": 5.521,
+            "nb_full_100pct_locked": 7.7304,
+            "nb_boundary_uncertainty_matched_q": 8.8408,
+            "nb_boundary_uncertainty_20pct": 8.816,
+            "nb_global_cmi_gbdt": 9.0896,
+            "nb_upca_fluid": 8.9964,
+            "upca_query_rate": 0.1908,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 3.4754,
+              "se": 0.4338,
+              "ci95_low": 2.6224,
+              "ci95_high": 4.324,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.1224,
+              "se": 0.4063,
+              "ci95_low": -0.6774,
+              "ci95_high": 0.9272,
+              "p_two_sided": 0.76472,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 1.5,
+            "upca_panel_cost_cfp": 0.04618,
+            "all_m_panel_cost_cfp": 0.12431,
+            "nb_stage1": 8.874,
+            "nb_full_100pct_all_m": 3.3401,
+            "nb_full_100pct_locked": 6.9202,
+            "nb_boundary_uncertainty_matched_q": 8.7859,
+            "nb_boundary_uncertainty_20pct": 8.6539,
+            "nb_global_cmi_gbdt": 9.0493,
+            "nb_upca_fluid": 8.9917,
+            "upca_query_rate": 0.1622,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 5.6516,
+              "se": 0.4364,
+              "ci95_low": 4.7807,
+              "ci95_high": 6.4854,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.1177,
+              "se": 0.4066,
+              "ci95_low": -0.669,
+              "ci95_high": 0.9132,
+              "p_two_sided": 0.77452,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 2.0,
+            "upca_panel_cost_cfp": 0.06157,
+            "all_m_panel_cost_cfp": 0.16575,
+            "nb_stage1": 8.874,
+            "nb_full_100pct_all_m": 1.1592,
+            "nb_full_100pct_locked": 6.11,
+            "nb_boundary_uncertainty_matched_q": 8.7994,
+            "nb_boundary_uncertainty_20pct": 8.4919,
+            "nb_global_cmi_gbdt": 8.6863,
+            "nb_upca_fluid": 8.945,
+            "upca_query_rate": 0.1376,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 7.7858,
+              "se": 0.4349,
+              "ci95_low": 6.9218,
+              "ci95_high": 8.6273,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.071,
+              "se": 0.4049,
+              "ci95_low": -0.7042,
+              "ci95_high": 0.8906,
+              "p_two_sided": 0.86371,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 3.0,
+            "upca_panel_cost_cfp": 0.09236,
+            "all_m_panel_cost_cfp": 0.24863,
+            "nb_stage1": 8.874,
+            "nb_full_100pct_all_m": -3.2027,
+            "nb_full_100pct_locked": 4.4896,
+            "nb_boundary_uncertainty_matched_q": 8.7983,
+            "nb_boundary_uncertainty_20pct": 8.1679,
+            "nb_global_cmi_gbdt": 8.6035,
+            "nb_upca_fluid": 8.7732,
+            "upca_query_rate": 0.1013,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 11.9758,
+              "se": 0.4612,
+              "ci95_low": 11.0498,
+              "ci95_high": 12.8666,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": -0.1008,
+              "se": 0.3277,
+              "ci95_low": -0.7459,
+              "ci95_high": 0.5332,
+              "p_two_sided": 0.76332,
+              "exact_tie": 0.0
+            }
+          }
+        ],
+        "holm_6task_supplement": {
+          "upca_vs_stage1": 1.0,
+          "upca_vs_full_100pct_all_m": 0.0012,
+          "upca_vs_global_cmi_gbdt": 1.0
+        }
+      },
+      "elapsed_sec": 673.2
+    },
+    "mcmed_hospital_admission": {
+      "task_id": "mcmed_hospital_admission",
+      "label": "2. Stanford Admission (<=2h)",
+      "n_train": 69022,
+      "n_cal": 9887,
+      "n_test": 10486,
+      "n_test_patients": 8568,
+      "test_events": 3016,
+      "eval_prevalence": 0.28762,
+      "cost_schedule": {
+        "base_c_query": 0.025,
+        "reference_bundle_weight": 2.0,
+        "overhead_share": 0.25,
+        "c_overhead": 0.00625,
+        "c_unit": 0.00938
+      },
+      "locked_panels_tr0": {
+        "all_m_channels": [
+          "ch_cdw_prior_pmh",
+          "ch_cdw_prior_meds",
+          "ch_lab_cbc",
+          "ch_lab_renal_elyte",
+          "ch_lab_lactate_cardiac",
+          "ch_lab_lft_coag",
+          "ch_rads_2h",
+          "ch_monitor_numerics_2h"
+        ],
+        "global_cmi": [
+          "ch_cdw_prior_pmh",
+          "ch_lab_lactate_cardiac",
+          "ch_lab_cbc",
+          "ch_monitor_numerics_2h"
+        ],
+        "weighted_cz": [
+          "ch_cdw_prior_pmh",
+          "ch_lab_lft_coag",
+          "ch_lab_lactate_cardiac"
+        ],
+        "ipw_cz": [
+          "ch_cdw_prior_pmh",
+          "ch_lab_cbc"
+        ],
+        "offset_cz_stage_a": [
+          "ch_cdw_prior_pmh",
+          "ch_lab_lft_coag",
+          "ch_lab_cbc"
+        ],
+        "split_pilot_upca": [
+          "ch_cdw_prior_pmh",
+          "ch_lab_cbc",
+          "ch_lab_lft_coag"
+        ],
+        "upca_fluid": [
+          "ch_cdw_prior_pmh",
+          "ch_lab_lft_coag",
+          "ch_lab_cbc"
+        ],
+        "upca_fluid_flat_legacy": [
+          "ch_cdw_prior_pmh",
+          "ch_lab_lft_coag",
+          "ch_lab_cbc"
+        ]
+      },
+      "stage_b_scheduled_prune_log_tr0": [
+        {
+          "tested_drop": "ch_cdw_prior_pmh",
+          "active_size": 3,
+          "solo_routed_gain": 7.4425,
+          "z_solo": 12.732,
+          "marginal_bundle_gain": 6.2475,
+          "z_marg": 11.695,
+          "pruned_candidate": false
+        },
+        {
+          "tested_drop": "ch_lab_lft_coag",
+          "active_size": 3,
+          "solo_routed_gain": 2.408,
+          "z_solo": 5.255,
+          "marginal_bundle_gain": 1.4936,
+          "z_marg": 3.847,
+          "pruned_candidate": false
+        },
+        {
+          "tested_drop": "ch_lab_cbc",
+          "active_size": 3,
+          "solo_routed_gain": 2.8209,
+          "z_solo": 5.907,
+          "marginal_bundle_gain": 0.8422,
+          "z_marg": 2.209,
+          "pruned_candidate": false
+        }
+      ],
+      "canonical_scheduled": {
+        "arms": {
+          "stage1": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": 187.1179,
+            "snb_routed": 0.6506,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.6041,
+            "auprc_routed": 0.6041,
+            "auroc_full": 0.7814
+          },
+          "full_100pct_all_m_gbdt": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds",
+              "ch_lab_cbc",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_rads_2h",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.06906,
+            "nb_routed": 190.541,
+            "snb_routed": 0.6625,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.06906,
+            "auprc_full": 0.6282,
+            "auprc_routed": 0.6282,
+            "auroc_full": 0.8162
+          },
+          "full_100pct_locked_panel": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lft_coag",
+              "ch_lab_cbc"
+            ],
+            "panel_cost_cfp": 0.02622,
+            "nb_routed": 194.4289,
+            "snb_routed": 0.676,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.02622,
+            "auprc_full": 0.6654,
+            "auprc_routed": 0.6654,
+            "auroc_full": 0.8203
+          },
+          "boundary_uncertainty_matched_q": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lft_coag",
+              "ch_lab_cbc"
+            ],
+            "panel_cost_cfp": 0.02622,
+            "nb_routed": 196.1696,
+            "query_rate": 0.4566
+          },
+          "global_cmi_gbdt": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_cbc",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.03372,
+            "nb_routed": 196.5527,
+            "snb_routed": 0.6834,
+            "query_rate": 0.4399,
+            "mean_cost_cfp": 0.01483,
+            "auprc_full": 0.6025,
+            "auprc_routed": 0.5966,
+            "auroc_full": 0.8038
+          },
+          "global_cmi_fluid": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_cbc",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.03372,
+            "nb_routed": 195.9991,
+            "snb_routed": 0.6814,
+            "query_rate": 0.4473,
+            "mean_cost_cfp": 0.01508,
+            "auprc_full": 0.604,
+            "auprc_routed": 0.5962,
+            "auroc_full": 0.8049
+          },
+          "weighted_cz_fluid": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lft_coag",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.02969,
+            "nb_routed": 195.5698,
+            "snb_routed": 0.68,
+            "query_rate": 0.468,
+            "mean_cost_cfp": 0.01389,
+            "auprc_full": 0.5964,
+            "auprc_routed": 0.5968,
+            "auroc_full": 0.8033
+          },
+          "split_pilot_upca_fluid": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_cbc",
+              "ch_lab_lft_coag"
+            ],
+            "panel_cost_cfp": 0.02622,
+            "nb_routed": 195.7344,
+            "snb_routed": 0.6805,
+            "query_rate": 0.4668,
+            "mean_cost_cfp": 0.01224,
+            "auprc_full": 0.6644,
+            "auprc_routed": 0.6214,
+            "auroc_full": 0.8198
+          },
+          "upca_fluid": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lft_coag",
+              "ch_lab_cbc"
+            ],
+            "panel_cost_cfp": 0.02622,
+            "nb_routed": 196.0281,
+            "snb_routed": 0.6815,
+            "query_rate": 0.4566,
+            "mean_cost_cfp": 0.01197,
+            "auprc_full": 0.6654,
+            "auprc_routed": 0.6214,
+            "auroc_full": 0.8203
+          },
+          "afa_covert_cmi": {
+            "nb_routed": 190.7179,
+            "snb_routed": 0.6631,
+            "query_rate": 0.9006,
+            "null_channel_query_rate": 0.0118
+          },
+          "afa_direct_voi": {
+            "nb_routed": 193.416,
+            "snb_routed": 0.6725,
+            "query_rate": 0.5761,
+            "null_channel_query_rate": 0.001
+          }
+        },
+        "specialist_diagnostics_upca": {
+          "beta_cz": 0.0938,
+          "kappa_star": 20.0,
+          "rms_r_cz": 0.014,
+          "rms_r_cz_zone": 0.0164,
+          "decision_flip_rate_vs_glob": 0.0028
+        },
+        "skipped_case_disagreement_upca": {
+          "n_total": 10486,
+          "n_skipped": 5698,
+          "n_skipped_patients": 4782,
+          "skip_rate": 0.5434,
+          "flip_count": 165,
+          "flip_rate": 0.02896,
+          "flip_ub95_clopper_pearson": 0.03288,
+          "flip_ub95_patient_cluster": 0.03283,
+          "neg_to_pos_count": 32,
+          "neg_to_pos_rate": 0.00562,
+          "neg_to_pos_ub95_cluster": 0.00733,
+          "pos_to_neg_count": 133,
+          "pos_to_neg_rate": 0.02334,
+          "pos_to_neg_ub95_cluster": 0.0268,
+          "skipped_events_total": 2199,
+          "skipped_events_below_tau": 45,
+          "skipped_events_above_tau": 2154,
+          "harmful_flip_count": 126,
+          "beneficial_flip_count": 39,
+          "missed_event_escalation_count": 11,
+          "missed_event_escalation_rate": 0.00193,
+          "missed_event_escalation_ub95_cluster": 0.00297,
+          "realized_abs_decision_nb_diff_per_1k": 0.9135,
+          "theoretical_nb_diff_bound_emp_per_1k": 15.7353,
+          "theoretical_nb_diff_bound_ub95_per_1k": 17.8399,
+          "risk_diff_bound_ub95_raw_cost": 0.10115
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 8.9103,
+            "se": 1.4935,
+            "ci95_low": 6.0405,
+            "ci95_high": 11.8286,
+            "p_two_sided": 0.0002,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_all_m": {
+            "diff_mean": 5.4872,
+            "se": 1.275,
+            "ci95_low": 2.9876,
+            "ci95_high": 7.9976,
+            "p_two_sided": 0.0002,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_locked": {
+            "diff_mean": 1.5993,
+            "se": 0.5514,
+            "ci95_low": 0.5327,
+            "ci95_high": 2.7007,
+            "p_two_sided": 0.0038,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty": {
+            "diff_mean": -0.1415,
+            "se": 0.4859,
+            "ci95_low": -1.1196,
+            "ci95_high": 0.7911,
+            "p_two_sided": 0.79852,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": -0.5246,
+            "se": 1.2252,
+            "ci95_low": -2.9373,
+            "ci95_high": 1.8648,
+            "p_two_sided": 0.67673,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": 0.029,
+            "se": 1.2351,
+            "ci95_low": -2.4346,
+            "ci95_high": 2.4609,
+            "p_two_sided": 0.9899,
+            "exact_tie": 0.0
+          },
+          "upca_vs_weighted_cz": {
+            "diff_mean": 0.4583,
+            "se": 1.1609,
+            "ci95_low": -1.8283,
+            "ci95_high": 2.6887,
+            "p_two_sided": 0.69873,
+            "exact_tie": 0.0
+          },
+          "upca_vs_covert_cmi": {
+            "diff_mean": 5.3102,
+            "se": 1.2784,
+            "ci95_low": 2.8008,
+            "ci95_high": 7.8178,
+            "p_two_sided": 0.0004,
+            "exact_tie": 0.0
+          },
+          "upca_vs_direct_voi_afa": {
+            "diff_mean": 2.6122,
+            "se": 1.1613,
+            "ci95_low": 0.33,
+            "ci95_high": 4.8923,
+            "p_two_sided": 0.0246,
+            "exact_tie": 0.0
+          }
+        }
+      },
+      "r10_common_panel_and_triad": {
+        "n_splits": 10,
+        "arms": {
+          "stage1": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 189.7457,
+            "snb_bagged": 0.6597,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.6071,
+            "auprc_routed": 0.6071,
+            "per_split_mean_nb": 188.7898,
+            "per_split_se_nb": 0.2188
+          },
+          "all_m_gbdt": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds",
+              "ch_lab_cbc",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_rads_2h",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.06906,
+            "nb_bagged": 194.2318,
+            "snb_bagged": 0.6753,
+            "nb_100pct_panel": 188.5882,
+            "query_rate": 0.4378,
+            "mean_cost_cfp": 0.03024,
+            "auprc_full": 0.6946,
+            "auprc_routed": 0.6329,
+            "auroc_full": 0.8357,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            }
+          },
+          "global_cmi_gbdt": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_cbc",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.03372,
+            "nb_bagged": 194.0501,
+            "snb_bagged": 0.6747,
+            "nb_100pct_panel": 191.0705,
+            "query_rate": 0.5237,
+            "mean_cost_cfp": 0.01766,
+            "auprc_full": 0.6721,
+            "auprc_routed": 0.63,
+            "auroc_full": 0.8229,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 195.274,
+            "per_split_se_nb": 0.3784,
+            "sym_ens_nb": 197.1665,
+            "sym_ens_query_rate": 0.525,
+            "union_panel_ids": [
+              "ch_cdw_prior_meds",
+              "ch_cdw_prior_pmh",
+              "ch_lab_cbc",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_monitor_numerics_2h"
+            ],
+            "union_panel_cost_cfp": 0.04638,
+            "union_panel_rerouted_nb": 195.7856,
+            "union_panel_rerouted_q": 0.4568,
+            "union_panel_fixedq_billed_nb": 195.811,
+            "legacy_unbilled_flat_union_nb": 197.9166,
+            "r10_selected_channel_counts": {
+              "ch_cdw_prior_pmh": 10,
+              "ch_lab_lactate_cardiac": 10,
+              "ch_lab_cbc": 5,
+              "ch_lab_lft_coag": 5,
+              "ch_cdw_prior_meds": 1,
+              "ch_monitor_numerics_2h": 1
+            }
+          },
+          "global_cmi_fluid": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_cbc",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.03372,
+            "nb_bagged": 194.9944,
+            "snb_bagged": 0.678,
+            "nb_100pct_panel": 192.4285,
+            "query_rate": 0.5272,
+            "mean_cost_cfp": 0.01778,
+            "auprc_full": 0.6735,
+            "auprc_routed": 0.6305,
+            "auroc_full": 0.8239,
+            "specialist_diagnostics": {
+              "beta_cz": 0.3524,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0554,
+              "rms_r_cz_zone": 0.0649,
+              "decision_flip_rate_vs_glob": 0.0128,
+              "beta_cz_se": 0.0224,
+              "rms_r_cz_se": 0.0039
+            },
+            "per_split_mean_nb": 195.5724,
+            "per_split_se_nb": 0.4288,
+            "sym_ens_nb": 197.3241,
+            "sym_ens_query_rate": 0.5227,
+            "union_panel_ids": [
+              "ch_cdw_prior_meds",
+              "ch_cdw_prior_pmh",
+              "ch_lab_cbc",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_monitor_numerics_2h"
+            ],
+            "union_panel_cost_cfp": 0.04638,
+            "union_panel_rerouted_nb": 195.8503,
+            "union_panel_rerouted_q": 0.4572,
+            "union_panel_fixedq_billed_nb": 195.7082,
+            "legacy_unbilled_flat_union_nb": 197.8149,
+            "r10_selected_channel_counts": {
+              "ch_cdw_prior_pmh": 10,
+              "ch_lab_lactate_cardiac": 10,
+              "ch_lab_cbc": 5,
+              "ch_lab_lft_coag": 5,
+              "ch_cdw_prior_meds": 1,
+              "ch_monitor_numerics_2h": 1
+            }
+          },
+          "weighted_cz_fluid": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lft_coag",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.02969,
+            "nb_bagged": 197.1242,
+            "snb_bagged": 0.6854,
+            "nb_100pct_panel": 195.0703,
+            "query_rate": 0.534,
+            "mean_cost_cfp": 0.01585,
+            "auprc_full": 0.6687,
+            "auprc_routed": 0.6328,
+            "auroc_full": 0.8233,
+            "specialist_diagnostics": {
+              "beta_cz": 0.2371,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0372,
+              "rms_r_cz_zone": 0.0437,
+              "decision_flip_rate_vs_glob": 0.0077,
+              "beta_cz_se": 0.0241,
+              "rms_r_cz_se": 0.0039
+            },
+            "per_split_mean_nb": 195.3375,
+            "per_split_se_nb": 0.3054,
+            "sym_ens_nb": 197.1377,
+            "sym_ens_query_rate": 0.5257,
+            "union_panel_ids": [
+              "ch_cdw_prior_meds",
+              "ch_cdw_prior_pmh",
+              "ch_lab_cbc",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_monitor_numerics_2h"
+            ],
+            "union_panel_cost_cfp": 0.04638,
+            "union_panel_rerouted_nb": 195.4098,
+            "union_panel_rerouted_q": 0.4507,
+            "union_panel_fixedq_billed_nb": 195.578,
+            "legacy_unbilled_flat_union_nb": 197.6492,
+            "r10_selected_channel_counts": {
+              "ch_cdw_prior_pmh": 10,
+              "ch_lab_lft_coag": 9,
+              "ch_lab_lactate_cardiac": 4,
+              "ch_lab_cbc": 6,
+              "ch_monitor_numerics_2h": 1,
+              "ch_cdw_prior_meds": 1
+            }
+          },
+          "split_pilot_upca_fluid": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_cbc",
+              "ch_lab_lft_coag"
+            ],
+            "panel_cost_cfp": 0.02622,
+            "nb_bagged": 195.0062,
+            "snb_bagged": 0.678,
+            "nb_100pct_panel": 193.6899,
+            "query_rate": 0.5421,
+            "mean_cost_cfp": 0.01421,
+            "auprc_full": 0.6678,
+            "auprc_routed": 0.6299,
+            "auroc_full": 0.8221,
+            "specialist_diagnostics": {
+              "beta_cz": 0.2417,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0348,
+              "rms_r_cz_zone": 0.0409,
+              "decision_flip_rate_vs_glob": 0.0082,
+              "beta_cz_se": 0.015,
+              "rms_r_cz_se": 0.0024
+            }
+          },
+          "upca_fluid": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lft_coag",
+              "ch_lab_cbc"
+            ],
+            "panel_cost_cfp": 0.02622,
+            "nb_bagged": 195.0934,
+            "snb_bagged": 0.6783,
+            "nb_100pct_panel": 193.5775,
+            "query_rate": 0.5401,
+            "mean_cost_cfp": 0.01416,
+            "auprc_full": 0.6678,
+            "auprc_routed": 0.6301,
+            "auroc_full": 0.8221,
+            "specialist_diagnostics": {
+              "beta_cz": 0.245,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0355,
+              "rms_r_cz_zone": 0.0415,
+              "decision_flip_rate_vs_glob": 0.0085,
+              "beta_cz_se": 0.0222,
+              "rms_r_cz_se": 0.0035
+            },
+            "per_split_mean_nb": 195.4269,
+            "per_split_se_nb": 0.29,
+            "sym_ens_nb": 197.5926,
+            "sym_ens_query_rate": 0.5296,
+            "union_panel_ids": [
+              "ch_cdw_prior_meds",
+              "ch_cdw_prior_pmh",
+              "ch_lab_cbc",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag"
+            ],
+            "union_panel_cost_cfp": 0.04075,
+            "union_panel_rerouted_nb": 196.7315,
+            "union_panel_rerouted_q": 0.4811,
+            "union_panel_fixedq_billed_nb": 196.553,
+            "legacy_unbilled_flat_union_nb": 198.0884,
+            "r10_selected_channel_counts": {
+              "ch_cdw_prior_pmh": 10,
+              "ch_lab_lft_coag": 9,
+              "ch_lab_cbc": 8,
+              "ch_cdw_prior_meds": 3,
+              "ch_lab_lactate_cardiac": 3
+            }
+          },
+          "full_100pct_all_m_gbdt": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds",
+              "ch_lab_cbc",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_rads_2h",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.06906,
+            "nb_bagged": 188.5882,
+            "snb_bagged": 0.6557,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.06906,
+            "auprc_full": 0.6946
+          },
+          "full_100pct_locked_panel": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lft_coag",
+              "ch_lab_cbc"
+            ],
+            "panel_cost_cfp": 0.02622,
+            "nb_bagged": 193.5775,
+            "query_rate": 1.0
+          },
+          "boundary_uncertainty_matched_q": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lft_coag",
+              "ch_lab_cbc"
+            ],
+            "panel_cost_cfp": 0.02622,
+            "nb_bagged": 195.2798,
+            "query_rate": 0.5401
+          },
+          "boundary_uncertainty_20pct": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lft_coag",
+              "ch_lab_cbc"
+            ],
+            "panel_cost_cfp": 0.02622,
+            "nb_bagged": 193.6532,
+            "query_rate": 0.2
+          }
+        },
+        "afa_channel_billed_r10": {
+          "cmi": {
+            "per_split_mean_nb": 191.2547,
+            "per_split_se_nb": 0.3543,
+            "per_split_mean_query_rate": 0.8622,
+            "per_split_mean_null_query_rate": 0.0005,
+            "majority_mask_nb": 183.6661,
+            "majority_mask_query_rate": 0.8925,
+            "majority_mask_mean_cost_cfp": 0.01819
+          },
+          "direct_voi": {
+            "per_split_mean_nb": 193.2937,
+            "per_split_se_nb": 0.2442,
+            "per_split_mean_query_rate": 0.5183,
+            "per_split_mean_null_query_rate": 0.0005,
+            "majority_mask_nb": 186.3788,
+            "majority_mask_query_rate": 0.5368,
+            "majority_mask_mean_cost_cfp": 0.00767
+          }
+        },
+        "skipped_case_disagreement_common_bagged": {
+          "n_total": 10486,
+          "n_skipped": 4822,
+          "n_skipped_patients": 4073,
+          "skip_rate": 0.4599,
+          "flip_count": 117,
+          "flip_rate": 0.02426,
+          "flip_ub95_clopper_pearson": 0.02823,
+          "flip_ub95_patient_cluster": 0.02815,
+          "neg_to_pos_count": 7,
+          "neg_to_pos_rate": 0.00145,
+          "neg_to_pos_ub95_cluster": 0.00247,
+          "pos_to_neg_count": 110,
+          "pos_to_neg_rate": 0.02281,
+          "pos_to_neg_ub95_cluster": 0.0266,
+          "skipped_events_total": 2003,
+          "skipped_events_below_tau": 34,
+          "skipped_events_above_tau": 1969,
+          "harmful_flip_count": 100,
+          "beneficial_flip_count": 17,
+          "missed_event_escalation_count": 2,
+          "missed_event_escalation_rate": 0.00041,
+          "missed_event_escalation_ub95_cluster": 0.00154,
+          "realized_abs_decision_nb_diff_per_1k": 0.6105,
+          "theoretical_nb_diff_bound_emp_per_1k": 11.1577,
+          "theoretical_nb_diff_bound_ub95_per_1k": 12.9428,
+          "risk_diff_bound_ub95_raw_cost": 0.07339
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 5.3476,
+            "se": 1.675,
+            "ci95_low": 2.0847,
+            "ci95_high": 8.6544,
+            "p_two_sided": 0.0008,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_100pct_all_m": {
+            "diff_mean": 6.5051,
+            "se": 1.4131,
+            "ci95_low": 3.7438,
+            "ci95_high": 9.1897,
+            "p_two_sided": 0.0002,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_100pct_locked": {
+            "diff_mean": 1.5159,
+            "se": 0.4008,
+            "ci95_low": 0.7686,
+            "ci95_high": 2.3375,
+            "p_two_sided": 0.0004,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty_matched_q": {
+            "diff_mean": -0.1865,
+            "se": 0.436,
+            "ci95_low": -1.0653,
+            "ci95_high": 0.6295,
+            "p_two_sided": 0.69273,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty_20pct": {
+            "diff_mean": 1.4402,
+            "se": 1.1471,
+            "ci95_low": -0.8322,
+            "ci95_high": 3.6429,
+            "p_two_sided": 0.20778,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": 1.0432,
+            "se": 1.3503,
+            "ci95_low": -1.597,
+            "ci95_high": 3.6717,
+            "p_two_sided": 0.44976,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": 0.099,
+            "se": 1.3501,
+            "ci95_low": -2.5525,
+            "ci95_high": 2.7077,
+            "p_two_sided": 0.94831,
+            "exact_tie": 0.0
+          },
+          "upca_vs_weighted_cz_fluid": {
+            "diff_mean": -2.0308,
+            "se": 1.2242,
+            "ci95_low": -4.4438,
+            "ci95_high": 0.321,
+            "p_two_sided": 0.08699,
+            "exact_tie": 0.0
+          },
+          "upca_vs_split_pilot_upca": {
+            "diff_mean": 0.0872,
+            "se": 0.3312,
+            "ci95_low": -0.5784,
+            "ci95_high": 0.7293,
+            "p_two_sided": 0.78712,
+            "exact_tie": 0.0
+          },
+          "upca_vs_afa_cmi_persplit": {
+            "diff_mean": 3.8386,
+            "se": 1.1405,
+            "ci95_low": 1.6207,
+            "ci95_high": 6.1205,
+            "p_two_sided": 0.0008
+          },
+          "upca_vs_afa_direct_voi_persplit": {
+            "diff_mean": 1.7996,
+            "se": 1.2078,
+            "ci95_low": -0.5824,
+            "ci95_high": 4.1745,
+            "p_two_sided": 0.13719
+          },
+          "upca_vs_afa_cmi_majority": {
+            "diff_mean": 11.4273,
+            "se": 1.7727,
+            "ci95_low": 7.8511,
+            "ci95_high": 14.8766,
+            "p_two_sided": 0.0002,
+            "exact_tie": 0.0
+          }
+        },
+        "query_cost_multiplier_sweep": [
+          {
+            "cost_multiplier": 0.5,
+            "upca_panel_cost_cfp": 0.01311,
+            "all_m_panel_cost_cfp": 0.03453,
+            "nb_stage1": 189.7457,
+            "nb_full_100pct_all_m": 194.6784,
+            "nb_full_100pct_locked": 195.8896,
+            "nb_boundary_uncertainty_matched_q": 196.4962,
+            "nb_boundary_uncertainty_20pct": 194.1155,
+            "nb_global_cmi_gbdt": 195.3064,
+            "nb_upca_fluid": 196.7982,
+            "upca_query_rate": 0.6023,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 2.1198,
+              "se": 1.3933,
+              "ci95_low": -0.5852,
+              "ci95_high": 4.8832,
+              "p_two_sided": 0.12059,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 7.0525,
+              "se": 1.7016,
+              "ci95_low": 3.6313,
+              "ci95_high": 10.3368,
+              "p_two_sided": 0.0004,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 1.0,
+            "upca_panel_cost_cfp": 0.02622,
+            "all_m_panel_cost_cfp": 0.06906,
+            "nb_stage1": 189.7457,
+            "nb_full_100pct_all_m": 188.5882,
+            "nb_full_100pct_locked": 193.5775,
+            "nb_boundary_uncertainty_matched_q": 195.2794,
+            "nb_boundary_uncertainty_20pct": 193.6532,
+            "nb_global_cmi_gbdt": 194.0501,
+            "nb_upca_fluid": 195.0934,
+            "upca_query_rate": 0.5401,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 6.5051,
+              "se": 1.3994,
+              "ci95_low": 3.7651,
+              "ci95_high": 9.2376,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 5.3476,
+              "se": 1.6583,
+              "ci95_low": 2.0835,
+              "ci95_high": 8.5811,
+              "p_two_sided": 0.0018,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 1.5,
+            "upca_panel_cost_cfp": 0.03933,
+            "all_m_panel_cost_cfp": 0.10359,
+            "nb_stage1": 189.7457,
+            "nb_full_100pct_all_m": 182.4981,
+            "nb_full_100pct_locked": 191.2654,
+            "nb_boundary_uncertainty_matched_q": 194.014,
+            "nb_boundary_uncertainty_20pct": 193.1908,
+            "nb_global_cmi_gbdt": 193.2206,
+            "nb_upca_fluid": 194.3157,
+            "upca_query_rate": 0.4787,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 11.8177,
+              "se": 1.4285,
+              "ci95_low": 9.077,
+              "ci95_high": 14.7008,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 4.57,
+              "se": 1.6285,
+              "ci95_low": 1.3347,
+              "ci95_high": 7.69,
+              "p_two_sided": 0.0072,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 2.0,
+            "upca_panel_cost_cfp": 0.05244,
+            "all_m_panel_cost_cfp": 0.13813,
+            "nb_stage1": 189.7457,
+            "nb_full_100pct_all_m": 176.4079,
+            "nb_full_100pct_locked": 188.9534,
+            "nb_boundary_uncertainty_matched_q": 193.2109,
+            "nb_boundary_uncertainty_20pct": 192.7284,
+            "nb_global_cmi_gbdt": 191.8731,
+            "nb_upca_fluid": 192.8282,
+            "upca_query_rate": 0.4271,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 16.4203,
+              "se": 1.4451,
+              "ci95_low": 13.6245,
+              "ci95_high": 19.2862,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 3.0825,
+              "se": 1.5894,
+              "ci95_low": 0.0262,
+              "ci95_high": 6.2505,
+              "p_two_sided": 0.0476,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 3.0,
+            "upca_panel_cost_cfp": 0.07866,
+            "all_m_panel_cost_cfp": 0.20719,
+            "nb_stage1": 189.7457,
+            "nb_full_100pct_all_m": 164.2276,
+            "nb_full_100pct_locked": 184.3293,
+            "nb_boundary_uncertainty_matched_q": 191.383,
+            "nb_boundary_uncertainty_20pct": 191.8037,
+            "nb_global_cmi_gbdt": 191.1119,
+            "nb_upca_fluid": 191.326,
+            "upca_query_rate": 0.3575,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 27.0985,
+              "se": 1.48,
+              "ci95_low": 24.1581,
+              "ci95_high": 30.0028,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.5803,
+              "se": 1.4708,
+              "ci95_low": -1.3291,
+              "ci95_high": 4.457,
+              "p_two_sided": 0.27377,
+              "exact_tie": 0.0
+            }
+          }
+        ],
+        "holm_6task_supplement": {
+          "upca_vs_stage1": 0.0048,
+          "upca_vs_full_100pct_all_m": 0.0012,
+          "upca_vs_global_cmi_gbdt": 1.0
+        }
+      },
+      "elapsed_sec": 908.5
+    },
+    "mcmed_bounce72_admit_2h": {
+      "task_id": "mcmed_bounce72_admit_2h",
+      "label": "3. Stanford 72h Bounceback (<=2h Disch.)",
+      "n_train": 39864,
+      "n_cal": 5707,
+      "n_test": 6165,
+      "n_test_patients": 5514,
+      "test_events": 103,
+      "eval_prevalence": 0.01671,
+      "cost_schedule": {
+        "base_c_query": 0.025,
+        "reference_bundle_weight": 2.0,
+        "overhead_share": 0.25,
+        "c_overhead": 0.00625,
+        "c_unit": 0.00938
+      },
+      "locked_panels_tr0": {
+        "all_m_channels": [
+          "ch_cdw_prior_pmh",
+          "ch_cdw_prior_meds",
+          "ch_lab_cbc",
+          "ch_lab_renal_elyte",
+          "ch_lab_lactate_cardiac",
+          "ch_lab_lft_coag",
+          "ch_rads_2h",
+          "ch_monitor_numerics_2h"
+        ],
+        "global_cmi": [
+          "ch_cdw_prior_pmh",
+          "ch_cdw_prior_meds"
+        ],
+        "weighted_cz": [
+          "ch_cdw_prior_pmh",
+          "ch_lab_lactate_cardiac"
+        ],
+        "ipw_cz": [
+          "ch_cdw_prior_pmh",
+          "ch_lab_lactate_cardiac"
+        ],
+        "offset_cz_stage_a": [
+          "ch_cdw_prior_pmh",
+          "ch_lab_lactate_cardiac"
+        ],
+        "split_pilot_upca": [
+          "ch_cdw_prior_pmh"
+        ],
+        "upca_fluid": [
+          "ch_cdw_prior_pmh"
+        ],
+        "upca_fluid_flat_legacy": [
+          "ch_cdw_prior_pmh",
+          "ch_lab_lactate_cardiac"
+        ]
+      },
+      "stage_b_scheduled_prune_log_tr0": [
+        {
+          "tested_drop": "ch_cdw_prior_pmh",
+          "active_size": 2,
+          "solo_routed_gain": 1.8915,
+          "z_solo": 4.962,
+          "marginal_bundle_gain": 1.733,
+          "z_marg": 4.703,
+          "pruned_candidate": false
+        },
+        {
+          "tested_drop": "ch_lab_lactate_cardiac",
+          "active_size": 2,
+          "solo_routed_gain": 0.1606,
+          "z_solo": 0.688,
+          "marginal_bundle_gain": 0.0022,
+          "z_marg": 0.008,
+          "pruned_candidate": true
+        },
+        {
+          "tested_drop": "ch_cdw_prior_pmh",
+          "active_size": 1,
+          "solo_routed_gain": 1.8915,
+          "z_solo": 4.962,
+          "marginal_bundle_gain": 1.8915,
+          "z_marg": 4.962,
+          "pruned_candidate": false
+        }
+      ],
+      "canonical_scheduled": {
+        "arms": {
+          "stage1": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": 0.5568,
+            "snb_routed": 0.0333,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.049,
+            "auprc_routed": 0.049,
+            "auroc_full": 0.6828
+          },
+          "full_100pct_all_m_gbdt": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds",
+              "ch_lab_cbc",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_rads_2h",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.06906,
+            "nb_routed": 2.4454,
+            "snb_routed": 0.1464,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.06906,
+            "auprc_full": 0.0868,
+            "auprc_routed": 0.0868,
+            "auroc_full": 0.7501
+          },
+          "full_100pct_locked_panel": {
+            "selected": [
+              "ch_cdw_prior_pmh"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_routed": 3.2707,
+            "snb_routed": 0.1958,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.01,
+            "auprc_full": 0.0658,
+            "auprc_routed": 0.0658,
+            "auroc_full": 0.7219
+          },
+          "boundary_uncertainty_matched_q": {
+            "selected": [
+              "ch_cdw_prior_pmh"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_routed": 3.1061,
+            "query_rate": 0.3912
+          },
+          "global_cmi_gbdt": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds"
+            ],
+            "panel_cost_cfp": 0.01375,
+            "nb_routed": 3.206,
+            "snb_routed": 0.1919,
+            "query_rate": 0.4234,
+            "mean_cost_cfp": 0.00582,
+            "auprc_full": 0.0796,
+            "auprc_routed": 0.0782,
+            "auroc_full": 0.7345
+          },
+          "global_cmi_fluid": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds"
+            ],
+            "panel_cost_cfp": 0.01375,
+            "nb_routed": 2.7416,
+            "snb_routed": 0.1641,
+            "query_rate": 0.5439,
+            "mean_cost_cfp": 0.00748,
+            "auprc_full": 0.0835,
+            "auprc_routed": 0.0795,
+            "auroc_full": 0.7511
+          },
+          "weighted_cz_fluid": {
+            "selected": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.02078,
+            "nb_routed": 3.0328,
+            "snb_routed": 0.1815,
+            "query_rate": 0.3492,
+            "mean_cost_cfp": 0.00726,
+            "auprc_full": 0.0694,
+            "auprc_routed": 0.0642,
+            "auroc_full": 0.7563
+          },
+          "split_pilot_upca_fluid": {
+            "selected": [
+              "ch_cdw_prior_pmh"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_routed": 3.1914,
+            "snb_routed": 0.191,
+            "query_rate": 0.3912,
+            "mean_cost_cfp": 0.00391,
+            "auprc_full": 0.0658,
+            "auprc_routed": 0.067,
+            "auroc_full": 0.7219
+          },
+          "upca_fluid": {
+            "selected": [
+              "ch_cdw_prior_pmh"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_routed": 3.1914,
+            "snb_routed": 0.191,
+            "query_rate": 0.3912,
+            "mean_cost_cfp": 0.00391,
+            "auprc_full": 0.0658,
+            "auprc_routed": 0.067,
+            "auroc_full": 0.7219
+          },
+          "afa_covert_cmi": {
+            "nb_routed": 3.1079,
+            "snb_routed": 0.186,
+            "query_rate": 0.7442,
+            "null_channel_query_rate": 0.0769
+          },
+          "afa_direct_voi": {
+            "nb_routed": 1.1774,
+            "snb_routed": 0.0705,
+            "query_rate": 0.092,
+            "null_channel_query_rate": 0.0362
+          }
+        },
+        "specialist_diagnostics_upca": {
+          "beta_cz": 0.2499,
+          "kappa_star": 20.0,
+          "rms_r_cz": 0.1198,
+          "rms_r_cz_zone": 0.1198,
+          "decision_flip_rate_vs_glob": 0.0159
+        },
+        "skipped_case_disagreement_upca": {
+          "n_total": 6165,
+          "n_skipped": 3753,
+          "n_skipped_patients": 3476,
+          "skip_rate": 0.6088,
+          "flip_count": 80,
+          "flip_rate": 0.02132,
+          "flip_ub95_clopper_pearson": 0.02562,
+          "flip_ub95_patient_cluster": 0.02606,
+          "neg_to_pos_count": 80,
+          "neg_to_pos_rate": 0.02132,
+          "neg_to_pos_ub95_cluster": 0.02606,
+          "pos_to_neg_count": 0,
+          "pos_to_neg_rate": 0.0,
+          "pos_to_neg_ub95_cluster": 0.00086,
+          "skipped_events_total": 34,
+          "skipped_events_below_tau": 34,
+          "skipped_events_above_tau": 0,
+          "harmful_flip_count": 4,
+          "beneficial_flip_count": 76,
+          "missed_event_escalation_count": 4,
+          "missed_event_escalation_rate": 0.00107,
+          "missed_event_escalation_ub95_cluster": 0.00211,
+          "realized_abs_decision_nb_diff_per_1k": 0.2675,
+          "theoretical_nb_diff_bound_emp_per_1k": 12.9765,
+          "theoretical_nb_diff_bound_ub95_per_1k": 15.8624,
+          "risk_diff_bound_ub95_raw_cost": 0.51283
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 2.6346,
+            "se": 0.9306,
+            "ci95_low": 0.873,
+            "ci95_high": 4.5131,
+            "p_two_sided": 0.0026,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_all_m": {
+            "diff_mean": 0.746,
+            "se": 0.7925,
+            "ci95_low": -0.8139,
+            "ci95_high": 2.2533,
+            "p_two_sided": 0.33937,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_locked": {
+            "diff_mean": -0.0792,
+            "se": 0.3265,
+            "ci95_low": -0.7817,
+            "ci95_high": 0.4666,
+            "p_two_sided": 0.88151,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty": {
+            "diff_mean": 0.0853,
+            "se": 0.3232,
+            "ci95_low": -0.559,
+            "ci95_high": 0.7396,
+            "p_two_sided": 0.78552,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": -0.0145,
+            "se": 0.6134,
+            "ci95_low": -1.2262,
+            "ci95_high": 1.1858,
+            "p_two_sided": 0.9947,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": 0.4498,
+            "se": 0.6355,
+            "ci95_low": -0.8073,
+            "ci95_high": 1.7013,
+            "p_two_sided": 0.47735,
+            "exact_tie": 0.0
+          },
+          "upca_vs_weighted_cz": {
+            "diff_mean": 0.1587,
+            "se": 0.6034,
+            "ci95_low": -1.049,
+            "ci95_high": 1.3277,
+            "p_two_sided": 0.79992,
+            "exact_tie": 0.0
+          },
+          "upca_vs_covert_cmi": {
+            "diff_mean": 0.0836,
+            "se": 0.7259,
+            "ci95_low": -1.3099,
+            "ci95_high": 1.5218,
+            "p_two_sided": 0.92091,
+            "exact_tie": 0.0
+          },
+          "upca_vs_direct_voi_afa": {
+            "diff_mean": 2.014,
+            "se": 0.8975,
+            "ci95_low": 0.3191,
+            "ci95_high": 3.8231,
+            "p_two_sided": 0.0202,
+            "exact_tie": 0.0
+          }
+        }
+      },
+      "r10_common_panel_and_triad": {
+        "n_splits": 10,
+        "arms": {
+          "stage1": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 1.4095,
+            "snb_bagged": 0.0844,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0574,
+            "auprc_routed": 0.0574,
+            "per_split_mean_nb": 1.7112,
+            "per_split_se_nb": 0.1502
+          },
+          "all_m_gbdt": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds",
+              "ch_lab_cbc",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_rads_2h",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.06906,
+            "nb_bagged": 3.139,
+            "snb_bagged": 0.1879,
+            "nb_100pct_panel": 2.5575,
+            "query_rate": 0.381,
+            "mean_cost_cfp": 0.02631,
+            "auprc_full": 0.0951,
+            "auprc_routed": 0.0832,
+            "auroc_full": 0.767,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            }
+          },
+          "global_cmi_gbdt": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds"
+            ],
+            "panel_cost_cfp": 0.01375,
+            "nb_bagged": 3.3535,
+            "snb_bagged": 0.2007,
+            "nb_100pct_panel": 3.1781,
+            "query_rate": 0.7056,
+            "mean_cost_cfp": 0.0097,
+            "auprc_full": 0.0857,
+            "auprc_routed": 0.0854,
+            "auroc_full": 0.7671,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 2.7461,
+            "per_split_se_nb": 0.1644,
+            "sym_ens_nb": 3.4135,
+            "sym_ens_query_rate": 0.5703,
+            "union_panel_ids": [
+              "ch_cdw_prior_meds",
+              "ch_cdw_prior_pmh",
+              "ch_lab_cbc",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_renal_elyte"
+            ],
+            "union_panel_cost_cfp": 0.04047,
+            "union_panel_rerouted_nb": 3.2662,
+            "union_panel_rerouted_q": 0.3776,
+            "union_panel_fixedq_billed_nb": 2.9988,
+            "legacy_unbilled_flat_union_nb": 3.2491,
+            "r10_selected_channel_counts": {
+              "ch_cdw_prior_pmh": 10,
+              "ch_lab_cbc": 1,
+              "ch_cdw_prior_meds": 4,
+              "ch_lab_lactate_cardiac": 1,
+              "ch_lab_renal_elyte": 1
+            }
+          },
+          "global_cmi_fluid": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds"
+            ],
+            "panel_cost_cfp": 0.01375,
+            "nb_bagged": 3.5812,
+            "snb_bagged": 0.2144,
+            "nb_100pct_panel": 3.4891,
+            "query_rate": 0.807,
+            "mean_cost_cfp": 0.0111,
+            "auprc_full": 0.09,
+            "auprc_routed": 0.09,
+            "auroc_full": 0.7696,
+            "specialist_diagnostics": {
+              "beta_cz": 0.345,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.1353,
+              "rms_r_cz_zone": 0.1353,
+              "decision_flip_rate_vs_glob": 0.0193,
+              "beta_cz_se": 0.0256,
+              "rms_r_cz_se": 0.0142
+            },
+            "per_split_mean_nb": 2.8981,
+            "per_split_se_nb": 0.1708,
+            "sym_ens_nb": 2.9523,
+            "sym_ens_query_rate": 0.6564,
+            "union_panel_ids": [
+              "ch_cdw_prior_meds",
+              "ch_cdw_prior_pmh",
+              "ch_lab_cbc",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_renal_elyte"
+            ],
+            "union_panel_cost_cfp": 0.04047,
+            "union_panel_rerouted_nb": 2.6472,
+            "union_panel_rerouted_q": 0.4152,
+            "union_panel_fixedq_billed_nb": 2.4637,
+            "legacy_unbilled_flat_union_nb": 2.7465,
+            "r10_selected_channel_counts": {
+              "ch_cdw_prior_pmh": 10,
+              "ch_lab_cbc": 1,
+              "ch_cdw_prior_meds": 4,
+              "ch_lab_lactate_cardiac": 1,
+              "ch_lab_renal_elyte": 1
+            }
+          },
+          "weighted_cz_fluid": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lactate_cardiac"
+            ],
+            "panel_cost_cfp": 0.02078,
+            "nb_bagged": 3.1961,
+            "snb_bagged": 0.1913,
+            "nb_100pct_panel": 3.1813,
+            "query_rate": 0.6284,
+            "mean_cost_cfp": 0.01306,
+            "auprc_full": 0.0799,
+            "auprc_routed": 0.0738,
+            "auroc_full": 0.7753,
+            "specialist_diagnostics": {
+              "beta_cz": 0.2974,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.1223,
+              "rms_r_cz_zone": 0.1223,
+              "decision_flip_rate_vs_glob": 0.0184,
+              "beta_cz_se": 0.0278,
+              "rms_r_cz_se": 0.0167
+            },
+            "per_split_mean_nb": 2.9941,
+            "per_split_se_nb": 0.127,
+            "sym_ens_nb": 3.2819,
+            "sym_ens_query_rate": 0.6332,
+            "union_panel_ids": [
+              "ch_cdw_prior_pmh",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_lab_renal_elyte"
+            ],
+            "union_panel_cost_cfp": 0.03831,
+            "union_panel_rerouted_nb": 3.0164,
+            "union_panel_rerouted_q": 0.405,
+            "union_panel_fixedq_billed_nb": 3.0476,
+            "legacy_unbilled_flat_union_nb": 3.2727,
+            "r10_selected_channel_counts": {
+              "ch_cdw_prior_pmh": 10,
+              "ch_lab_lactate_cardiac": 2,
+              "ch_lab_lft_coag": 1,
+              "ch_lab_renal_elyte": 2
+            }
+          },
+          "split_pilot_upca_fluid": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_bagged": 2.9138,
+            "snb_bagged": 0.1744,
+            "nb_100pct_panel": 2.784,
+            "query_rate": 0.7265,
+            "mean_cost_cfp": 0.00727,
+            "auprc_full": 0.0817,
+            "auprc_routed": 0.082,
+            "auroc_full": 0.7388,
+            "specialist_diagnostics": {
+              "beta_cz": 0.3006,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.1224,
+              "rms_r_cz_zone": 0.1224,
+              "decision_flip_rate_vs_glob": 0.0195,
+              "beta_cz_se": 0.021,
+              "rms_r_cz_se": 0.0129
+            }
+          },
+          "upca_fluid": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_bagged": 2.9138,
+            "snb_bagged": 0.1744,
+            "nb_100pct_panel": 2.784,
+            "query_rate": 0.7265,
+            "mean_cost_cfp": 0.00727,
+            "auprc_full": 0.0817,
+            "auprc_routed": 0.082,
+            "auroc_full": 0.7388,
+            "specialist_diagnostics": {
+              "beta_cz": 0.3006,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.1224,
+              "rms_r_cz_zone": 0.1224,
+              "decision_flip_rate_vs_glob": 0.0195,
+              "beta_cz_se": 0.021,
+              "rms_r_cz_se": 0.0129
+            },
+            "per_split_mean_nb": 3.3366,
+            "per_split_se_nb": 0.1178,
+            "sym_ens_nb": 3.5547,
+            "sym_ens_query_rate": 0.6827,
+            "union_panel_ids": [
+              "ch_cdw_prior_meds",
+              "ch_cdw_prior_pmh",
+              "ch_lab_cbc",
+              "ch_lab_renal_elyte"
+            ],
+            "union_panel_cost_cfp": 0.02969,
+            "union_panel_rerouted_nb": 3.3153,
+            "union_panel_rerouted_q": 0.5614,
+            "union_panel_fixedq_billed_nb": 3.385,
+            "legacy_unbilled_flat_union_nb": 3.4746,
+            "r10_selected_channel_counts": {
+              "ch_cdw_prior_pmh": 10,
+              "ch_lab_renal_elyte": 2,
+              "ch_cdw_prior_meds": 6,
+              "ch_lab_cbc": 1
+            }
+          },
+          "full_100pct_all_m_gbdt": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh",
+              "ch_cdw_prior_meds",
+              "ch_lab_cbc",
+              "ch_lab_renal_elyte",
+              "ch_lab_lactate_cardiac",
+              "ch_lab_lft_coag",
+              "ch_rads_2h",
+              "ch_monitor_numerics_2h"
+            ],
+            "panel_cost_cfp": 0.06906,
+            "nb_bagged": 2.5575,
+            "snb_bagged": 0.1531,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.06906,
+            "auprc_full": 0.0951
+          },
+          "full_100pct_locked_panel": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_bagged": 2.784,
+            "query_rate": 1.0
+          },
+          "boundary_uncertainty_matched_q": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_bagged": 2.8887,
+            "query_rate": 0.7265
+          },
+          "boundary_uncertainty_20pct": {
+            "locked_panel": [
+              "ch_cdw_prior_pmh"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_bagged": 2.6352,
+            "query_rate": 0.2
+          }
+        },
+        "afa_channel_billed_r10": {
+          "cmi": {
+            "per_split_mean_nb": 3.0018,
+            "per_split_se_nb": 0.1905,
+            "per_split_mean_query_rate": 0.6905,
+            "per_split_mean_null_query_rate": 0.09,
+            "majority_mask_nb": 2.0657,
+            "majority_mask_query_rate": 0.7578,
+            "majority_mask_mean_cost_cfp": 0.01062
+          },
+          "direct_voi": {
+            "per_split_mean_nb": 2.5718,
+            "per_split_se_nb": 0.1857,
+            "per_split_mean_query_rate": 0.6965,
+            "per_split_mean_null_query_rate": 0.1417,
+            "majority_mask_nb": 1.8506,
+            "majority_mask_query_rate": 0.7914,
+            "majority_mask_mean_cost_cfp": 0.01027
+          }
+        },
+        "skipped_case_disagreement_common_bagged": {
+          "n_total": 6165,
+          "n_skipped": 1686,
+          "n_skipped_patients": 1623,
+          "skip_rate": 0.2735,
+          "flip_count": 9,
+          "flip_rate": 0.00534,
+          "flip_ub95_clopper_pearson": 0.0093,
+          "flip_ub95_patient_cluster": 0.00888,
+          "neg_to_pos_count": 9,
+          "neg_to_pos_rate": 0.00534,
+          "neg_to_pos_ub95_cluster": 0.00888,
+          "pos_to_neg_count": 0,
+          "pos_to_neg_rate": 0.0,
+          "pos_to_neg_ub95_cluster": 0.00184,
+          "skipped_events_total": 9,
+          "skipped_events_below_tau": 9,
+          "skipped_events_above_tau": 0,
+          "harmful_flip_count": 0,
+          "beneficial_flip_count": 9,
+          "missed_event_escalation_count": 0,
+          "missed_event_escalation_rate": 0.0,
+          "missed_event_escalation_ub95_cluster": 0.00184,
+          "realized_abs_decision_nb_diff_per_1k": 0.0452,
+          "theoretical_nb_diff_bound_emp_per_1k": 1.4599,
+          "theoretical_nb_diff_bound_ub95_per_1k": 2.4288,
+          "risk_diff_bound_ub95_raw_cost": 0.07852
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 1.5043,
+            "se": 0.8393,
+            "ci95_low": -0.0836,
+            "ci95_high": 3.1995,
+            "p_two_sided": 0.06419,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_100pct_all_m": {
+            "diff_mean": 0.3563,
+            "se": 0.6964,
+            "ci95_low": -1.0507,
+            "ci95_high": 1.6619,
+            "p_two_sided": 0.59814,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_100pct_locked": {
+            "diff_mean": 0.1297,
+            "se": 0.0168,
+            "ci95_low": 0.1002,
+            "ci95_high": 0.1665,
+            "p_two_sided": 0.0002,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty_matched_q": {
+            "diff_mean": 0.0251,
+            "se": 0.0167,
+            "ci95_low": -0.006,
+            "ci95_high": 0.0595,
+            "p_two_sided": 0.12939,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty_20pct": {
+            "diff_mean": 0.2786,
+            "se": 0.4553,
+            "ci95_low": -0.5551,
+            "ci95_high": 1.2222,
+            "p_two_sided": 0.56254,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": -0.4397,
+            "se": 0.4071,
+            "ci95_low": -1.2547,
+            "ci95_high": 0.3428,
+            "p_two_sided": 0.27957,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": -0.6675,
+            "se": 0.4929,
+            "ci95_low": -1.6834,
+            "ci95_high": 0.2556,
+            "p_two_sided": 0.15918,
+            "exact_tie": 0.0
+          },
+          "upca_vs_weighted_cz_fluid": {
+            "diff_mean": -0.2823,
+            "se": 0.3689,
+            "ci95_low": -1.0486,
+            "ci95_high": 0.3946,
+            "p_two_sided": 0.46175,
+            "exact_tie": 0.0
+          },
+          "upca_vs_split_pilot_upca": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_afa_cmi_persplit": {
+            "diff_mean": -0.088,
+            "se": 0.5067,
+            "ci95_low": -1.1015,
+            "ci95_high": 0.9086,
+            "p_two_sided": 0.86351
+          },
+          "upca_vs_afa_direct_voi_persplit": {
+            "diff_mean": 0.342,
+            "se": 0.5411,
+            "ci95_low": -0.7086,
+            "ci95_high": 1.3984,
+            "p_two_sided": 0.53075
+          },
+          "upca_vs_afa_cmi_majority": {
+            "diff_mean": 0.8481,
+            "se": 0.702,
+            "ci95_low": -0.5994,
+            "ci95_high": 2.1482,
+            "p_two_sided": 0.23658,
+            "exact_tie": 0.0
+          }
+        },
+        "query_cost_multiplier_sweep": [
+          {
+            "cost_multiplier": 0.5,
+            "upca_panel_cost_cfp": 0.005,
+            "all_m_panel_cost_cfp": 0.03453,
+            "nb_stage1": 1.4095,
+            "nb_full_100pct_all_m": 3.6256,
+            "nb_full_100pct_locked": 2.9387,
+            "nb_boundary_uncertainty_matched_q": 2.9679,
+            "nb_boundary_uncertainty_20pct": 2.6662,
+            "nb_global_cmi_gbdt": 3.438,
+            "nb_upca_fluid": 2.973,
+            "upca_query_rate": 0.8433,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": -0.6526,
+              "se": 0.6904,
+              "ci95_low": -2.0521,
+              "ci95_high": 0.6644,
+              "p_two_sided": 0.34237,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.5634,
+              "se": 0.839,
+              "ci95_low": -0.025,
+              "ci95_high": 3.2532,
+              "p_two_sided": 0.05419,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 1.0,
+            "upca_panel_cost_cfp": 0.01,
+            "all_m_panel_cost_cfp": 0.06906,
+            "nb_stage1": 1.4095,
+            "nb_full_100pct_all_m": 2.5575,
+            "nb_full_100pct_locked": 2.784,
+            "nb_boundary_uncertainty_matched_q": 2.8887,
+            "nb_boundary_uncertainty_20pct": 2.6352,
+            "nb_global_cmi_gbdt": 3.3535,
+            "nb_upca_fluid": 2.9138,
+            "upca_query_rate": 0.7265,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.3563,
+              "se": 0.6985,
+              "ci95_low": -1.0713,
+              "ci95_high": 1.6832,
+              "p_two_sided": 0.60614,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.5043,
+              "se": 0.8289,
+              "ci95_low": -0.0385,
+              "ci95_high": 3.1825,
+              "p_two_sided": 0.05839,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 1.5,
+            "upca_panel_cost_cfp": 0.015,
+            "all_m_panel_cost_cfp": 0.10359,
+            "nb_stage1": 1.4095,
+            "nb_full_100pct_all_m": 1.4894,
+            "nb_full_100pct_locked": 2.6294,
+            "nb_boundary_uncertainty_matched_q": 2.8434,
+            "nb_boundary_uncertainty_20pct": 2.6043,
+            "nb_global_cmi_gbdt": 3.2871,
+            "nb_upca_fluid": 2.8685,
+            "upca_query_rate": 0.636,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 1.3791,
+              "se": 0.6955,
+              "ci95_low": -0.0313,
+              "ci95_high": 2.6853,
+              "p_two_sided": 0.05579,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.459,
+              "se": 0.8276,
+              "ci95_low": -0.0728,
+              "ci95_high": 3.1476,
+              "p_two_sided": 0.06159,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 2.0,
+            "upca_panel_cost_cfp": 0.02,
+            "all_m_panel_cost_cfp": 0.13813,
+            "nb_stage1": 1.4095,
+            "nb_full_100pct_all_m": 0.4213,
+            "nb_full_100pct_locked": 2.4747,
+            "nb_boundary_uncertainty_matched_q": 2.8033,
+            "nb_boundary_uncertainty_20pct": 2.5734,
+            "nb_global_cmi_gbdt": 3.1196,
+            "nb_upca_fluid": 2.6962,
+            "upca_query_rate": 0.5582,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 2.275,
+              "se": 0.7153,
+              "ci95_low": 0.8523,
+              "ci95_high": 3.6461,
+              "p_two_sided": 0.0036,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.2867,
+              "se": 0.8296,
+              "ci95_low": -0.2974,
+              "ci95_high": 2.9868,
+              "p_two_sided": 0.11339,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 3.0,
+            "upca_panel_cost_cfp": 0.03,
+            "all_m_panel_cost_cfp": 0.20719,
+            "nb_stage1": 1.4095,
+            "nb_full_100pct_all_m": -1.7149,
+            "nb_full_100pct_locked": 2.1654,
+            "nb_boundary_uncertainty_matched_q": 2.355,
+            "nb_boundary_uncertainty_20pct": 2.5115,
+            "nb_global_cmi_gbdt": 3.1491,
+            "nb_upca_fluid": 2.7246,
+            "upca_query_rate": 0.4281,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 4.4395,
+              "se": 0.7071,
+              "ci95_low": 3.0204,
+              "ci95_high": 5.7579,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.3151,
+              "se": 0.8266,
+              "ci95_low": -0.26,
+              "ci95_high": 2.9903,
+              "p_two_sided": 0.10579,
+              "exact_tie": 0.0
+            }
+          }
+        ],
+        "holm_6task_supplement": {
+          "upca_vs_stage1": 0.25676,
+          "upca_vs_full_100pct_all_m": 1.0,
+          "upca_vs_global_cmi_gbdt": 1.0
+        }
+      },
+      "elapsed_sec": 452.6
+    },
+    "bwh_death_030_ecg_only": {
+      "task_id": "bwh_death_030_ecg_only",
+      "label": "4. BWH 30d Mortality (Arrival ECG)",
+      "n_train": 39050,
+      "n_cal": 6329,
+      "n_test": 5779,
+      "n_test_patients": 5340,
+      "test_events": 139,
+      "eval_prevalence": 0.02405,
+      "cost_schedule": {
+        "base_c_query": 0.02,
+        "reference_bundle_weight": 1.2,
+        "overhead_share": 0.25,
+        "c_overhead": 0.005,
+        "c_unit": 0.0125
+      },
+      "locked_panels_tr0": {
+        "all_m_channels": [
+          "ch_ecg_ischemia_flags",
+          "ch_ecg_rhythm_struct",
+          "ch_ecg_waveform"
+        ],
+        "global_cmi": [
+          "ch_ecg_waveform"
+        ],
+        "weighted_cz": [
+          "ch_ecg_waveform"
+        ],
+        "ipw_cz": [
+          "ch_ecg_waveform"
+        ],
+        "offset_cz_stage_a": [
+          "ch_ecg_waveform"
+        ],
+        "split_pilot_upca": [
+          "ch_ecg_waveform"
+        ],
+        "upca_fluid": [
+          "ch_ecg_waveform"
+        ],
+        "upca_fluid_flat_legacy": [
+          "ch_ecg_waveform"
+        ]
+      },
+      "stage_b_scheduled_prune_log_tr0": [
+        {
+          "tested_drop": "ch_ecg_waveform",
+          "active_size": 1,
+          "solo_routed_gain": 0.6064,
+          "z_solo": 1.867,
+          "marginal_bundle_gain": 0.6064,
+          "z_marg": 1.867,
+          "pruned_candidate": false
+        }
+      ],
+      "canonical_scheduled": {
+        "arms": {
+          "stage1": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": 11.404,
+            "snb_routed": 0.4741,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.1404,
+            "auprc_routed": 0.1404,
+            "auroc_full": 0.8502
+          },
+          "full_100pct_all_m_gbdt": {
+            "selected": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.02563,
+            "nb_routed": 11.6104,
+            "snb_routed": 0.4827,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.02563,
+            "auprc_full": 0.1424,
+            "auprc_routed": 0.1424,
+            "auroc_full": 0.8629
+          },
+          "full_100pct_locked_panel": {
+            "selected": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_routed": 11.6503,
+            "snb_routed": 0.4844,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.01562,
+            "auprc_full": 0.1488,
+            "auprc_routed": 0.1488,
+            "auroc_full": 0.8633
+          },
+          "boundary_uncertainty_matched_q": {
+            "selected": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_routed": 11.6031,
+            "query_rate": 0.3334
+          },
+          "global_cmi_gbdt": {
+            "selected": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_routed": 11.7273,
+            "snb_routed": 0.4876,
+            "query_rate": 0.3239,
+            "mean_cost_cfp": 0.00506,
+            "auprc_full": 0.1321,
+            "auprc_routed": 0.1344,
+            "auroc_full": 0.8623
+          },
+          "global_cmi_fluid": {
+            "selected": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_routed": 11.8369,
+            "snb_routed": 0.4921,
+            "query_rate": 0.3334,
+            "mean_cost_cfp": 0.00521,
+            "auprc_full": 0.1488,
+            "auprc_routed": 0.1417,
+            "auroc_full": 0.8633
+          },
+          "weighted_cz_fluid": {
+            "selected": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_routed": 11.8369,
+            "snb_routed": 0.4921,
+            "query_rate": 0.3334,
+            "mean_cost_cfp": 0.00521,
+            "auprc_full": 0.1488,
+            "auprc_routed": 0.1417,
+            "auroc_full": 0.8633
+          },
+          "split_pilot_upca_fluid": {
+            "selected": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_routed": 11.8369,
+            "snb_routed": 0.4921,
+            "query_rate": 0.3334,
+            "mean_cost_cfp": 0.00521,
+            "auprc_full": 0.1488,
+            "auprc_routed": 0.1417,
+            "auroc_full": 0.8633
+          },
+          "upca_fluid": {
+            "selected": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_routed": 11.8369,
+            "snb_routed": 0.4921,
+            "query_rate": 0.3334,
+            "mean_cost_cfp": 0.00521,
+            "auprc_full": 0.1488,
+            "auprc_routed": 0.1417,
+            "auroc_full": 0.8633
+          },
+          "afa_covert_cmi": {
+            "nb_routed": 11.0081,
+            "snb_routed": 0.4577,
+            "query_rate": 0.2056,
+            "null_channel_query_rate": 0.023
+          },
+          "afa_direct_voi": {
+            "nb_routed": 11.404,
+            "snb_routed": 0.4741,
+            "query_rate": 0.0,
+            "null_channel_query_rate": 0.0
+          }
+        },
+        "specialist_diagnostics_upca": {
+          "beta_cz": 0.0,
+          "kappa_star": 20.0,
+          "rms_r_cz": 0.0,
+          "rms_r_cz_zone": 0.0,
+          "decision_flip_rate_vs_glob": 0.0
+        },
+        "skipped_case_disagreement_upca": {
+          "n_total": 5779,
+          "n_skipped": 3852,
+          "n_skipped_patients": 3606,
+          "skip_rate": 0.6666,
+          "flip_count": 50,
+          "flip_rate": 0.01298,
+          "flip_ub95_clopper_pearson": 0.0164,
+          "flip_ub95_patient_cluster": 0.01606,
+          "neg_to_pos_count": 29,
+          "neg_to_pos_rate": 0.00753,
+          "neg_to_pos_ub95_cluster": 0.00986,
+          "pos_to_neg_count": 21,
+          "pos_to_neg_rate": 0.00545,
+          "pos_to_neg_ub95_cluster": 0.00753,
+          "skipped_events_total": 68,
+          "skipped_events_below_tau": 10,
+          "skipped_events_above_tau": 58,
+          "harmful_flip_count": 22,
+          "beneficial_flip_count": 28,
+          "missed_event_escalation_count": 2,
+          "missed_event_escalation_rate": 0.00052,
+          "missed_event_escalation_ub95_cluster": 0.00174,
+          "realized_abs_decision_nb_diff_per_1k": 0.1356,
+          "theoretical_nb_diff_bound_emp_per_1k": 8.652,
+          "theoretical_nb_diff_bound_ub95_per_1k": 10.7056,
+          "risk_diff_bound_ub95_raw_cost": 0.34611
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 0.4329,
+            "se": 0.6897,
+            "ci95_low": -0.9108,
+            "ci95_high": 1.8088,
+            "p_two_sided": 0.53015,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_all_m": {
+            "diff_mean": 0.2265,
+            "se": 0.5484,
+            "ci95_low": -0.8664,
+            "ci95_high": 1.292,
+            "p_two_sided": 0.66433,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_locked": {
+            "diff_mean": 0.1866,
+            "se": 0.3019,
+            "ci95_low": -0.4256,
+            "ci95_high": 0.7416,
+            "p_two_sided": 0.49735,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty": {
+            "diff_mean": 0.2337,
+            "se": 0.1764,
+            "ci95_low": -0.1597,
+            "ci95_high": 0.476,
+            "p_two_sided": 0.18318,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": 0.1096,
+            "se": 0.5252,
+            "ci95_low": -0.9362,
+            "ci95_high": 1.1302,
+            "p_two_sided": 0.82072,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_weighted_cz": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_covert_cmi": {
+            "diff_mean": 0.8288,
+            "se": 0.7688,
+            "ci95_low": -0.6594,
+            "ci95_high": 2.3743,
+            "p_two_sided": 0.27537,
+            "exact_tie": 0.0
+          },
+          "upca_vs_direct_voi_afa": {
+            "diff_mean": 0.4329,
+            "se": 0.6821,
+            "ci95_low": -0.9104,
+            "ci95_high": 1.7755,
+            "p_two_sided": 0.52155,
+            "exact_tie": 0.0
+          }
+        }
+      },
+      "r10_common_panel_and_triad": {
+        "n_splits": 10,
+        "arms": {
+          "stage1": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 10.9509,
+            "snb_bagged": 0.4553,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.1396,
+            "auprc_routed": 0.1396,
+            "per_split_mean_nb": 11.0145,
+            "per_split_se_nb": 0.1314
+          },
+          "all_m_gbdt": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.02563,
+            "nb_bagged": 12.357,
+            "snb_bagged": 0.5137,
+            "nb_100pct_panel": 11.7603,
+            "query_rate": 0.3013,
+            "mean_cost_cfp": 0.00772,
+            "auprc_full": 0.1482,
+            "auprc_routed": 0.1449,
+            "auroc_full": 0.8758,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            }
+          },
+          "global_cmi_gbdt": {
+            "locked_panel": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_bagged": 12.1846,
+            "snb_bagged": 0.5066,
+            "nb_100pct_panel": 11.8163,
+            "query_rate": 0.3376,
+            "mean_cost_cfp": 0.00528,
+            "auprc_full": 0.1401,
+            "auprc_routed": 0.1395,
+            "auroc_full": 0.8773,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 11.8106,
+            "per_split_se_nb": 0.1129,
+            "sym_ens_nb": 11.9384,
+            "sym_ens_query_rate": 0.3031,
+            "union_panel_ids": [
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "union_panel_cost_cfp": 0.02063,
+            "union_panel_rerouted_nb": 11.9865,
+            "union_panel_rerouted_q": 0.3118,
+            "union_panel_fixedq_billed_nb": 11.9845,
+            "legacy_unbilled_flat_union_nb": 11.9906,
+            "r10_selected_channel_counts": {
+              "ch_ecg_waveform": 10,
+              "ch_ecg_rhythm_struct": 1
+            }
+          },
+          "global_cmi_fluid": {
+            "locked_panel": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_bagged": 12.0223,
+            "snb_bagged": 0.4998,
+            "nb_100pct_panel": 11.811,
+            "query_rate": 0.3376,
+            "mean_cost_cfp": 0.00528,
+            "auprc_full": 0.1481,
+            "auprc_routed": 0.1447,
+            "auroc_full": 0.8761,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 11.6904,
+            "per_split_se_nb": 0.1077,
+            "sym_ens_nb": 11.9681,
+            "sym_ens_query_rate": 0.3076,
+            "union_panel_ids": [
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "union_panel_cost_cfp": 0.02063,
+            "union_panel_rerouted_nb": 11.9849,
+            "union_panel_rerouted_q": 0.3144,
+            "union_panel_fixedq_billed_nb": 11.9885,
+            "legacy_unbilled_flat_union_nb": 11.9946,
+            "r10_selected_channel_counts": {
+              "ch_ecg_waveform": 10,
+              "ch_ecg_rhythm_struct": 1
+            }
+          },
+          "weighted_cz_fluid": {
+            "locked_panel": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_bagged": 12.0223,
+            "snb_bagged": 0.4998,
+            "nb_100pct_panel": 11.811,
+            "query_rate": 0.3376,
+            "mean_cost_cfp": 0.00528,
+            "auprc_full": 0.1481,
+            "auprc_routed": 0.1447,
+            "auroc_full": 0.8761,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 11.7221,
+            "per_split_se_nb": 0.1051,
+            "sym_ens_nb": 12.1811,
+            "sym_ens_query_rate": 0.3031,
+            "union_panel_ids": [
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "union_panel_cost_cfp": 0.02063,
+            "union_panel_rerouted_nb": 12.1908,
+            "union_panel_rerouted_q": 0.3132,
+            "union_panel_fixedq_billed_nb": 12.1893,
+            "legacy_unbilled_flat_union_nb": 12.1954,
+            "r10_selected_channel_counts": {
+              "ch_ecg_waveform": 10,
+              "ch_ecg_rhythm_struct": 1
+            }
+          },
+          "split_pilot_upca_fluid": {
+            "locked_panel": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_bagged": 12.0223,
+            "snb_bagged": 0.4998,
+            "nb_100pct_panel": 11.811,
+            "query_rate": 0.3376,
+            "mean_cost_cfp": 0.00528,
+            "auprc_full": 0.1481,
+            "auprc_routed": 0.1447,
+            "auroc_full": 0.8761,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            }
+          },
+          "upca_fluid": {
+            "locked_panel": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_bagged": 12.0223,
+            "snb_bagged": 0.4998,
+            "nb_100pct_panel": 11.811,
+            "query_rate": 0.3376,
+            "mean_cost_cfp": 0.00528,
+            "auprc_full": 0.1481,
+            "auprc_routed": 0.1447,
+            "auroc_full": 0.8761,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 11.3421,
+            "per_split_se_nb": 0.131,
+            "sym_ens_nb": 11.8326,
+            "sym_ens_query_rate": 0.1763,
+            "union_panel_ids": [
+              "ch_ecg_waveform"
+            ],
+            "union_panel_cost_cfp": 0.01562,
+            "union_panel_rerouted_nb": 11.9278,
+            "union_panel_rerouted_q": 0.2821,
+            "union_panel_fixedq_billed_nb": 11.9423,
+            "legacy_unbilled_flat_union_nb": 11.9067,
+            "r10_selected_channel_counts": {
+              "ch_ecg_waveform": 6
+            }
+          },
+          "full_100pct_all_m_gbdt": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.02563,
+            "nb_bagged": 11.7603,
+            "snb_bagged": 0.4889,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.02563,
+            "auprc_full": 0.1482
+          },
+          "full_100pct_locked_panel": {
+            "locked_panel": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_bagged": 11.811,
+            "query_rate": 1.0
+          },
+          "boundary_uncertainty_matched_q": {
+            "locked_panel": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_bagged": 11.8688,
+            "query_rate": 0.3376
+          },
+          "boundary_uncertainty_20pct": {
+            "locked_panel": [
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.01562,
+            "nb_bagged": 12.0923,
+            "query_rate": 0.2
+          }
+        },
+        "afa_channel_billed_r10": {
+          "cmi": {
+            "per_split_mean_nb": 11.0808,
+            "per_split_se_nb": 0.1571,
+            "per_split_mean_query_rate": 0.2368,
+            "per_split_mean_null_query_rate": 0.058,
+            "majority_mask_nb": 11.5256,
+            "majority_mask_query_rate": 0.2357,
+            "majority_mask_mean_cost_cfp": 0.00374
+          },
+          "direct_voi": {
+            "per_split_mean_nb": 11.3622,
+            "per_split_se_nb": 0.1855,
+            "per_split_mean_query_rate": 0.1577,
+            "per_split_mean_null_query_rate": 0.0133,
+            "majority_mask_nb": 12.0402,
+            "majority_mask_query_rate": 0.1703,
+            "majority_mask_mean_cost_cfp": 0.00267
+          }
+        },
+        "skipped_case_disagreement_common_bagged": {
+          "n_total": 5779,
+          "n_skipped": 3828,
+          "n_skipped_patients": 3589,
+          "skip_rate": 0.6624,
+          "flip_count": 21,
+          "flip_rate": 0.00549,
+          "flip_ub95_clopper_pearson": 0.00789,
+          "flip_ub95_patient_cluster": 0.00756,
+          "neg_to_pos_count": 17,
+          "neg_to_pos_rate": 0.00444,
+          "neg_to_pos_ub95_cluster": 0.00627,
+          "pos_to_neg_count": 4,
+          "pos_to_neg_rate": 0.00104,
+          "pos_to_neg_ub95_cluster": 0.00207,
+          "skipped_events_total": 51,
+          "skipped_events_below_tau": 14,
+          "skipped_events_above_tau": 37,
+          "harmful_flip_count": 5,
+          "beneficial_flip_count": 16,
+          "missed_event_escalation_count": 1,
+          "missed_event_escalation_rate": 0.00026,
+          "missed_event_escalation_ub95_cluster": 0.00132,
+          "realized_abs_decision_nb_diff_per_1k": 0.1088,
+          "theoretical_nb_diff_bound_emp_per_1k": 3.6338,
+          "theoretical_nb_diff_bound_ub95_per_1k": 5.0051,
+          "risk_diff_bound_ub95_raw_cost": 0.16181
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 1.0713,
+            "se": 0.7228,
+            "ci95_low": -0.3186,
+            "ci95_high": 2.5251,
+            "p_two_sided": 0.13679,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_100pct_all_m": {
+            "diff_mean": 0.262,
+            "se": 0.3515,
+            "ci95_low": -0.4737,
+            "ci95_high": 0.9253,
+            "p_two_sided": 0.43256,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_100pct_locked": {
+            "diff_mean": 0.2113,
+            "se": 0.1733,
+            "ci95_low": -0.1596,
+            "ci95_high": 0.4197,
+            "p_two_sided": 0.17738,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty_matched_q": {
+            "diff_mean": 0.1535,
+            "se": 0.1807,
+            "ci95_low": -0.2516,
+            "ci95_high": 0.39,
+            "p_two_sided": 0.41916,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty_20pct": {
+            "diff_mean": -0.07,
+            "se": 0.2528,
+            "ci95_low": -0.6359,
+            "ci95_high": 0.3191,
+            "p_two_sided": 0.85011,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": -0.1623,
+            "se": 0.3926,
+            "ci95_low": -0.9635,
+            "ci95_high": 0.5813,
+            "p_two_sided": 0.70513,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_weighted_cz_fluid": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_split_pilot_upca": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_afa_cmi_persplit": {
+            "diff_mean": 0.9414,
+            "se": 0.5476,
+            "ci95_low": -0.0924,
+            "ci95_high": 2.0589,
+            "p_two_sided": 0.07239
+          },
+          "upca_vs_afa_direct_voi_persplit": {
+            "diff_mean": 0.6601,
+            "se": 0.5368,
+            "ci95_low": -0.3726,
+            "ci95_high": 1.7297,
+            "p_two_sided": 0.21778
+          },
+          "upca_vs_afa_cmi_majority": {
+            "diff_mean": 0.4967,
+            "se": 0.7674,
+            "ci95_low": -1.0244,
+            "ci95_high": 1.9995,
+            "p_two_sided": 0.48935,
+            "exact_tie": 0.0
+          }
+        },
+        "query_cost_multiplier_sweep": [
+          {
+            "cost_multiplier": 0.5,
+            "upca_panel_cost_cfp": 0.00781,
+            "all_m_panel_cost_cfp": 0.01281,
+            "nb_stage1": 10.9509,
+            "nb_full_100pct_all_m": 12.1566,
+            "nb_full_100pct_locked": 12.0526,
+            "nb_boundary_uncertainty_matched_q": 11.9431,
+            "nb_boundary_uncertainty_20pct": 12.1406,
+            "nb_global_cmi_gbdt": 12.2432,
+            "nb_upca_fluid": 12.0751,
+            "upca_query_rate": 0.3902,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": -0.0815,
+              "se": 0.354,
+              "ci95_low": -0.8147,
+              "ci95_high": 0.5784,
+              "p_two_sided": 0.85831,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.1242,
+              "se": 0.7206,
+              "ci95_low": -0.2592,
+              "ci95_high": 2.5794,
+              "p_two_sided": 0.11599,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 1.0,
+            "upca_panel_cost_cfp": 0.01562,
+            "all_m_panel_cost_cfp": 0.02563,
+            "nb_stage1": 10.9509,
+            "nb_full_100pct_all_m": 11.7603,
+            "nb_full_100pct_locked": 11.811,
+            "nb_boundary_uncertainty_matched_q": 11.8688,
+            "nb_boundary_uncertainty_20pct": 12.0923,
+            "nb_global_cmi_gbdt": 12.1846,
+            "nb_upca_fluid": 12.0223,
+            "upca_query_rate": 0.3376,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.262,
+              "se": 0.3518,
+              "ci95_low": -0.4689,
+              "ci95_high": 0.9252,
+              "p_two_sided": 0.43696,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.0713,
+              "se": 0.726,
+              "ci95_low": -0.3242,
+              "ci95_high": 2.5476,
+              "p_two_sided": 0.13119,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 1.5,
+            "upca_panel_cost_cfp": 0.02344,
+            "all_m_panel_cost_cfp": 0.03844,
+            "nb_stage1": 10.9509,
+            "nb_full_100pct_all_m": 11.364,
+            "nb_full_100pct_locked": 11.5693,
+            "nb_boundary_uncertainty_matched_q": 11.807,
+            "nb_boundary_uncertainty_20pct": 12.044,
+            "nb_global_cmi_gbdt": 12.1234,
+            "nb_upca_fluid": 11.9551,
+            "upca_query_rate": 0.303,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.5911,
+              "se": 0.3478,
+              "ci95_low": -0.1211,
+              "ci95_high": 1.2452,
+              "p_two_sided": 0.09439,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.0042,
+              "se": 0.7159,
+              "ci95_low": -0.3608,
+              "ci95_high": 2.4348,
+              "p_two_sided": 0.15718,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 2.0,
+            "upca_panel_cost_cfp": 0.03125,
+            "all_m_panel_cost_cfp": 0.05125,
+            "nb_stage1": 10.9509,
+            "nb_full_100pct_all_m": 10.9677,
+            "nb_full_100pct_locked": 11.3277,
+            "nb_boundary_uncertainty_matched_q": 11.7622,
+            "nb_boundary_uncertainty_20pct": 11.9956,
+            "nb_global_cmi_gbdt": 12.0671,
+            "nb_upca_fluid": 11.8996,
+            "upca_query_rate": 0.2791,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.9319,
+              "se": 0.3532,
+              "ci95_low": 0.2084,
+              "ci95_high": 1.5938,
+              "p_two_sided": 0.0164,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.9487,
+              "se": 0.7171,
+              "ci95_low": -0.448,
+              "ci95_high": 2.3707,
+              "p_two_sided": 0.18018,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 3.0,
+            "upca_panel_cost_cfp": 0.04688,
+            "all_m_panel_cost_cfp": 0.07687,
+            "nb_stage1": 10.9509,
+            "nb_full_100pct_all_m": 10.1751,
+            "nb_full_100pct_locked": 10.8444,
+            "nb_boundary_uncertainty_matched_q": 11.8413,
+            "nb_boundary_uncertainty_20pct": 11.899,
+            "nb_global_cmi_gbdt": 12.1784,
+            "nb_upca_fluid": 11.8538,
+            "upca_query_rate": 0.2398,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 1.6787,
+              "se": 0.3493,
+              "ci95_low": 0.9572,
+              "ci95_high": 2.3325,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.9028,
+              "se": 0.7255,
+              "ci95_low": -0.4999,
+              "ci95_high": 2.3556,
+              "p_two_sided": 0.21018,
+              "exact_tie": 0.0
+            }
+          }
+        ],
+        "holm_6task_supplement": {
+          "upca_vs_stage1": 0.41037,
+          "upca_vs_full_100pct_all_m": 1.0,
+          "upca_vs_global_cmi_gbdt": 1.0
+        }
+      },
+      "elapsed_sec": 244.7
+    },
+    "bwh_stent_cabg_010_ecg_only": {
+      "task_id": "bwh_stent_cabg_010_ecg_only",
+      "label": "5. BWH 10d Stent/CABG (Arrival ECG)",
+      "n_train": 39050,
+      "n_cal": 6329,
+      "n_test": 5779,
+      "n_test_patients": 5340,
+      "test_events": 87,
+      "eval_prevalence": 0.01505,
+      "cost_schedule": {
+        "base_c_query": 0.02,
+        "reference_bundle_weight": 1.2,
+        "overhead_share": 0.25,
+        "c_overhead": 0.005,
+        "c_unit": 0.0125
+      },
+      "locked_panels_tr0": {
+        "all_m_channels": [
+          "ch_ecg_ischemia_flags",
+          "ch_ecg_rhythm_struct",
+          "ch_ecg_waveform"
+        ],
+        "global_cmi": [
+          "ch_ecg_ischemia_flags",
+          "ch_ecg_rhythm_struct"
+        ],
+        "weighted_cz": [
+          "ch_ecg_ischemia_flags",
+          "ch_ecg_waveform"
+        ],
+        "ipw_cz": [
+          "ch_ecg_ischemia_flags",
+          "ch_ecg_waveform"
+        ],
+        "offset_cz_stage_a": [
+          "ch_ecg_ischemia_flags",
+          "ch_ecg_waveform"
+        ],
+        "split_pilot_upca": [
+          "ch_ecg_ischemia_flags"
+        ],
+        "upca_fluid": [
+          "ch_ecg_ischemia_flags"
+        ],
+        "upca_fluid_flat_legacy": [
+          "ch_ecg_ischemia_flags",
+          "ch_ecg_waveform"
+        ]
+      },
+      "stage_b_scheduled_prune_log_tr0": [
+        {
+          "tested_drop": "ch_ecg_ischemia_flags",
+          "active_size": 2,
+          "solo_routed_gain": 0.8835,
+          "z_solo": 2.893,
+          "marginal_bundle_gain": 0.7153,
+          "z_marg": 2.686,
+          "pruned_candidate": false
+        },
+        {
+          "tested_drop": "ch_ecg_waveform",
+          "active_size": 2,
+          "solo_routed_gain": 0.3454,
+          "z_solo": 1.156,
+          "marginal_bundle_gain": 0.1772,
+          "z_marg": 0.653,
+          "pruned_candidate": true
+        },
+        {
+          "tested_drop": "ch_ecg_ischemia_flags",
+          "active_size": 1,
+          "solo_routed_gain": 0.8835,
+          "z_solo": 2.893,
+          "marginal_bundle_gain": 0.8835,
+          "z_marg": 2.893,
+          "pruned_candidate": false
+        }
+      ],
+      "canonical_scheduled": {
+        "arms": {
+          "stage1": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": 2.9306,
+            "snb_routed": 0.1947,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0476,
+            "auprc_routed": 0.0476,
+            "auroc_full": 0.7889
+          },
+          "full_100pct_all_m_gbdt": {
+            "selected": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.02563,
+            "nb_routed": 4.0164,
+            "snb_routed": 0.2668,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.02563,
+            "auprc_full": 0.1775,
+            "auprc_routed": 0.1775,
+            "auroc_full": 0.8523
+          },
+          "full_100pct_locked_panel": {
+            "selected": [
+              "ch_ecg_ischemia_flags"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_routed": 4.2946,
+            "snb_routed": 0.2853,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.01,
+            "auprc_full": 0.1458,
+            "auprc_routed": 0.1458,
+            "auroc_full": 0.8343
+          },
+          "boundary_uncertainty_matched_q": {
+            "selected": [
+              "ch_ecg_ischemia_flags"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_routed": 3.776,
+            "query_rate": 0.3004
+          },
+          "global_cmi_gbdt": {
+            "selected": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct"
+            ],
+            "panel_cost_cfp": 0.015,
+            "nb_routed": 4.7457,
+            "snb_routed": 0.3152,
+            "query_rate": 0.302,
+            "mean_cost_cfp": 0.00453,
+            "auprc_full": 0.1662,
+            "auprc_routed": 0.1143,
+            "auroc_full": 0.8373
+          },
+          "global_cmi_fluid": {
+            "selected": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct"
+            ],
+            "panel_cost_cfp": 0.015,
+            "nb_routed": 4.904,
+            "snb_routed": 0.3258,
+            "query_rate": 0.2912,
+            "mean_cost_cfp": 0.00437,
+            "auprc_full": 0.153,
+            "auprc_routed": 0.1047,
+            "auroc_full": 0.8541
+          },
+          "weighted_cz_fluid": {
+            "selected": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.02063,
+            "nb_routed": 4.007,
+            "snb_routed": 0.2662,
+            "query_rate": 0.3708,
+            "mean_cost_cfp": 0.00765,
+            "auprc_full": 0.1601,
+            "auprc_routed": 0.1372,
+            "auroc_full": 0.8534
+          },
+          "split_pilot_upca_fluid": {
+            "selected": [
+              "ch_ecg_ischemia_flags"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_routed": 3.9205,
+            "snb_routed": 0.2604,
+            "query_rate": 0.3004,
+            "mean_cost_cfp": 0.003,
+            "auprc_full": 0.1458,
+            "auprc_routed": 0.1061,
+            "auroc_full": 0.8343
+          },
+          "upca_fluid": {
+            "selected": [
+              "ch_ecg_ischemia_flags"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_routed": 3.9205,
+            "snb_routed": 0.2604,
+            "query_rate": 0.3004,
+            "mean_cost_cfp": 0.003,
+            "auprc_full": 0.1458,
+            "auprc_routed": 0.1061,
+            "auroc_full": 0.8343
+          },
+          "afa_covert_cmi": {
+            "nb_routed": 4.6136,
+            "snb_routed": 0.3065,
+            "query_rate": 0.4501,
+            "null_channel_query_rate": 0.0211
+          },
+          "afa_direct_voi": {
+            "nb_routed": 2.9306,
+            "snb_routed": 0.1947,
+            "query_rate": 0.0,
+            "null_channel_query_rate": 0.0
+          }
+        },
+        "specialist_diagnostics_upca": {
+          "beta_cz": 0.3235,
+          "kappa_star": 20.0,
+          "rms_r_cz": 0.1382,
+          "rms_r_cz_zone": 0.1585,
+          "decision_flip_rate_vs_glob": 0.0241
+        },
+        "skipped_case_disagreement_upca": {
+          "n_total": 5779,
+          "n_skipped": 4043,
+          "n_skipped_patients": 3795,
+          "skip_rate": 0.6996,
+          "flip_count": 45,
+          "flip_rate": 0.01113,
+          "flip_ub95_clopper_pearson": 0.01425,
+          "flip_ub95_patient_cluster": 0.01397,
+          "neg_to_pos_count": 34,
+          "neg_to_pos_rate": 0.00841,
+          "neg_to_pos_ub95_cluster": 0.01089,
+          "pos_to_neg_count": 11,
+          "pos_to_neg_rate": 0.00272,
+          "pos_to_neg_ub95_cluster": 0.00419,
+          "skipped_events_total": 35,
+          "skipped_events_below_tau": 19,
+          "skipped_events_above_tau": 16,
+          "harmful_flip_count": 15,
+          "beneficial_flip_count": 30,
+          "missed_event_escalation_count": 4,
+          "missed_event_escalation_rate": 0.00099,
+          "missed_event_escalation_ub95_cluster": 0.00196,
+          "realized_abs_decision_nb_diff_per_1k": 0.5905,
+          "theoretical_nb_diff_bound_emp_per_1k": 7.7868,
+          "theoretical_nb_diff_bound_ub95_per_1k": 9.7724,
+          "risk_diff_bound_ub95_raw_cost": 0.31594
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 0.99,
+            "se": 0.8183,
+            "ci95_low": -0.5995,
+            "ci95_high": 2.6106,
+            "p_two_sided": 0.22458,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_all_m": {
+            "diff_mean": -0.0959,
+            "se": 0.931,
+            "ci95_low": -1.9431,
+            "ci95_high": 1.7098,
+            "p_two_sided": 0.93031,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_locked": {
+            "diff_mean": -0.3741,
+            "se": 0.3523,
+            "ci95_low": -1.119,
+            "ci95_high": 0.2041,
+            "p_two_sided": 0.24638,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty": {
+            "diff_mean": 0.1445,
+            "se": 0.2485,
+            "ci95_low": -0.3748,
+            "ci95_high": 0.6555,
+            "p_two_sided": 0.63314,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": -0.8251,
+            "se": 0.6466,
+            "ci95_low": -2.1334,
+            "ci95_high": 0.4237,
+            "p_two_sided": 0.19878,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": -0.9835,
+            "se": 0.7016,
+            "ci95_low": -2.4211,
+            "ci95_high": 0.3457,
+            "p_two_sided": 0.14519,
+            "exact_tie": 0.0
+          },
+          "upca_vs_weighted_cz": {
+            "diff_mean": -0.0865,
+            "se": 0.8248,
+            "ci95_low": -1.716,
+            "ci95_high": 1.5084,
+            "p_two_sided": 0.92551,
+            "exact_tie": 0.0
+          },
+          "upca_vs_covert_cmi": {
+            "diff_mean": -0.6931,
+            "se": 0.7592,
+            "ci95_low": -2.19,
+            "ci95_high": 0.7703,
+            "p_two_sided": 0.36056,
+            "exact_tie": 0.0
+          },
+          "upca_vs_direct_voi_afa": {
+            "diff_mean": 0.99,
+            "se": 0.8106,
+            "ci95_low": -0.5999,
+            "ci95_high": 2.6025,
+            "p_two_sided": 0.21918,
+            "exact_tie": 0.0
+          }
+        }
+      },
+      "r10_common_panel_and_triad": {
+        "n_splits": 10,
+        "arms": {
+          "stage1": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 3.1304,
+            "snb_bagged": 0.2079,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0608,
+            "auprc_routed": 0.0608,
+            "per_split_mean_nb": 2.728,
+            "per_split_se_nb": 0.1418
+          },
+          "all_m_gbdt": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.02563,
+            "nb_bagged": 4.2501,
+            "snb_bagged": 0.2823,
+            "nb_100pct_panel": 4.3341,
+            "query_rate": 0.3745,
+            "mean_cost_cfp": 0.0096,
+            "auprc_full": 0.1853,
+            "auprc_routed": 0.1727,
+            "auroc_full": 0.8603,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            }
+          },
+          "global_cmi_gbdt": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct"
+            ],
+            "panel_cost_cfp": 0.015,
+            "nb_bagged": 4.5237,
+            "snb_bagged": 0.3005,
+            "nb_100pct_panel": 4.8268,
+            "query_rate": 0.3461,
+            "mean_cost_cfp": 0.00519,
+            "auprc_full": 0.1684,
+            "auprc_routed": 0.1474,
+            "auroc_full": 0.8474,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 3.8451,
+            "per_split_se_nb": 0.1815,
+            "sym_ens_nb": 4.7718,
+            "sym_ens_query_rate": 0.3192,
+            "union_panel_ids": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "union_panel_cost_cfp": 0.02563,
+            "union_panel_rerouted_nb": 4.3824,
+            "union_panel_rerouted_q": 0.3381,
+            "union_panel_fixedq_billed_nb": 4.3452,
+            "legacy_unbilled_flat_union_nb": 4.4075,
+            "r10_selected_channel_counts": {
+              "ch_ecg_ischemia_flags": 10,
+              "ch_ecg_waveform": 5,
+              "ch_ecg_rhythm_struct": 2
+            }
+          },
+          "global_cmi_fluid": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct"
+            ],
+            "panel_cost_cfp": 0.015,
+            "nb_bagged": 4.6491,
+            "snb_bagged": 0.3088,
+            "nb_100pct_panel": 4.9445,
+            "query_rate": 0.3411,
+            "mean_cost_cfp": 0.00512,
+            "auprc_full": 0.1703,
+            "auprc_routed": 0.1558,
+            "auroc_full": 0.8488,
+            "specialist_diagnostics": {
+              "beta_cz": 0.2601,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.1084,
+              "rms_r_cz_zone": 0.1183,
+              "decision_flip_rate_vs_glob": 0.0157,
+              "beta_cz_se": 0.0361,
+              "rms_r_cz_se": 0.0176
+            },
+            "per_split_mean_nb": 3.9158,
+            "per_split_se_nb": 0.1609,
+            "sym_ens_nb": 4.5513,
+            "sym_ens_query_rate": 0.3123,
+            "union_panel_ids": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "union_panel_cost_cfp": 0.02563,
+            "union_panel_rerouted_nb": 4.336,
+            "union_panel_rerouted_q": 0.3336,
+            "union_panel_fixedq_billed_nb": 4.4762,
+            "legacy_unbilled_flat_union_nb": 4.538,
+            "r10_selected_channel_counts": {
+              "ch_ecg_ischemia_flags": 10,
+              "ch_ecg_waveform": 5,
+              "ch_ecg_rhythm_struct": 2
+            }
+          },
+          "weighted_cz_fluid": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.02063,
+            "nb_bagged": 4.7281,
+            "snb_bagged": 0.3141,
+            "nb_100pct_panel": 4.7474,
+            "query_rate": 0.3843,
+            "mean_cost_cfp": 0.00793,
+            "auprc_full": 0.1815,
+            "auprc_routed": 0.1715,
+            "auroc_full": 0.8542,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0107,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.0041,
+              "rms_r_cz_zone": 0.0041,
+              "decision_flip_rate_vs_glob": 0.0006,
+              "beta_cz_se": 0.0107,
+              "rms_r_cz_se": 0.0041
+            },
+            "per_split_mean_nb": 3.8735,
+            "per_split_se_nb": 0.0981,
+            "sym_ens_nb": 4.8772,
+            "sym_ens_query_rate": 0.2946,
+            "union_panel_ids": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "union_panel_cost_cfp": 0.02563,
+            "union_panel_rerouted_nb": 4.5126,
+            "union_panel_rerouted_q": 0.3044,
+            "union_panel_fixedq_billed_nb": 4.6564,
+            "legacy_unbilled_flat_union_nb": 4.7134,
+            "r10_selected_channel_counts": {
+              "ch_ecg_ischemia_flags": 10,
+              "ch_ecg_rhythm_struct": 1,
+              "ch_ecg_waveform": 2
+            }
+          },
+          "split_pilot_upca_fluid": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_bagged": 4.8418,
+            "snb_bagged": 0.3216,
+            "nb_100pct_panel": 5.0778,
+            "query_rate": 0.3444,
+            "mean_cost_cfp": 0.00344,
+            "auprc_full": 0.1408,
+            "auprc_routed": 0.1257,
+            "auroc_full": 0.8387,
+            "specialist_diagnostics": {
+              "beta_cz": 0.2769,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.1036,
+              "rms_r_cz_zone": 0.1144,
+              "decision_flip_rate_vs_glob": 0.0167,
+              "beta_cz_se": 0.0331,
+              "rms_r_cz_se": 0.0144
+            }
+          },
+          "upca_fluid": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_bagged": 4.8418,
+            "snb_bagged": 0.3216,
+            "nb_100pct_panel": 5.0778,
+            "query_rate": 0.3444,
+            "mean_cost_cfp": 0.00344,
+            "auprc_full": 0.1408,
+            "auprc_routed": 0.1257,
+            "auroc_full": 0.8387,
+            "specialist_diagnostics": {
+              "beta_cz": 0.2769,
+              "kappa_star": 20.0,
+              "rms_r_cz": 0.1036,
+              "rms_r_cz_zone": 0.1144,
+              "decision_flip_rate_vs_glob": 0.0167,
+              "beta_cz_se": 0.0331,
+              "rms_r_cz_se": 0.0144
+            },
+            "per_split_mean_nb": 3.8042,
+            "per_split_se_nb": 0.1951,
+            "sym_ens_nb": 4.6198,
+            "sym_ens_query_rate": 0.2526,
+            "union_panel_ids": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct"
+            ],
+            "union_panel_cost_cfp": 0.015,
+            "union_panel_rerouted_nb": 4.7656,
+            "union_panel_rerouted_q": 0.313,
+            "union_panel_fixedq_billed_nb": 4.7762,
+            "legacy_unbilled_flat_union_nb": 4.7313,
+            "r10_selected_channel_counts": {
+              "ch_ecg_ischemia_flags": 9,
+              "ch_ecg_rhythm_struct": 3
+            }
+          },
+          "full_100pct_all_m_gbdt": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags",
+              "ch_ecg_rhythm_struct",
+              "ch_ecg_waveform"
+            ],
+            "panel_cost_cfp": 0.02563,
+            "nb_bagged": 4.3341,
+            "snb_bagged": 0.2879,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.02563,
+            "auprc_full": 0.1853
+          },
+          "full_100pct_locked_panel": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_bagged": 5.0778,
+            "query_rate": 1.0
+          },
+          "boundary_uncertainty_matched_q": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_bagged": 5.1022,
+            "query_rate": 0.3444
+          },
+          "boundary_uncertainty_20pct": {
+            "locked_panel": [
+              "ch_ecg_ischemia_flags"
+            ],
+            "panel_cost_cfp": 0.01,
+            "nb_bagged": 4.3191,
+            "query_rate": 0.2
+          }
+        },
+        "afa_channel_billed_r10": {
+          "cmi": {
+            "per_split_mean_nb": 4.1561,
+            "per_split_se_nb": 0.1726,
+            "per_split_mean_query_rate": 0.5954,
+            "per_split_mean_null_query_rate": 0.042,
+            "majority_mask_nb": 3.0341,
+            "majority_mask_query_rate": 0.6231,
+            "majority_mask_mean_cost_cfp": 0.0125
+          },
+          "direct_voi": {
+            "per_split_mean_nb": 4.1137,
+            "per_split_se_nb": 0.1801,
+            "per_split_mean_query_rate": 0.4182,
+            "per_split_mean_null_query_rate": 0.0325,
+            "majority_mask_nb": 3.392,
+            "majority_mask_query_rate": 0.4454,
+            "majority_mask_mean_cost_cfp": 0.00878
+          }
+        },
+        "skipped_case_disagreement_common_bagged": {
+          "n_total": 5779,
+          "n_skipped": 3789,
+          "n_skipped_patients": 3551,
+          "skip_rate": 0.6556,
+          "flip_count": 18,
+          "flip_rate": 0.00475,
+          "flip_ub95_clopper_pearson": 0.00704,
+          "flip_ub95_patient_cluster": 0.00663,
+          "neg_to_pos_count": 18,
+          "neg_to_pos_rate": 0.00475,
+          "neg_to_pos_ub95_cluster": 0.00663,
+          "pos_to_neg_count": 0,
+          "pos_to_neg_rate": 0.0,
+          "pos_to_neg_ub95_cluster": 0.00084,
+          "skipped_events_total": 19,
+          "skipped_events_below_tau": 17,
+          "skipped_events_above_tau": 2,
+          "harmful_flip_count": 3,
+          "beneficial_flip_count": 15,
+          "missed_event_escalation_count": 3,
+          "missed_event_escalation_rate": 0.00079,
+          "missed_event_escalation_ub95_cluster": 0.00218,
+          "realized_abs_decision_nb_diff_per_1k": 0.4388,
+          "theoretical_nb_diff_bound_emp_per_1k": 3.1147,
+          "theoretical_nb_diff_bound_ub95_per_1k": 4.3455,
+          "risk_diff_bound_ub95_raw_cost": 0.14049
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 1.7113,
+            "se": 0.7341,
+            "ci95_low": 0.3274,
+            "ci95_high": 3.1924,
+            "p_two_sided": 0.0182,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_100pct_all_m": {
+            "diff_mean": 0.5077,
+            "se": 0.8317,
+            "ci95_low": -1.1163,
+            "ci95_high": 2.1302,
+            "p_two_sided": 0.53815,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_100pct_locked": {
+            "diff_mean": -0.236,
+            "se": 0.301,
+            "ci95_low": -0.9205,
+            "ci95_high": 0.2828,
+            "p_two_sided": 0.41156,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty_matched_q": {
+            "diff_mean": -0.2604,
+            "se": 0.2481,
+            "ci95_low": -0.7985,
+            "ci95_high": 0.1049,
+            "p_two_sided": 0.26837,
+            "exact_tie": 0.0
+          },
+          "upca_vs_boundary_uncertainty_20pct": {
+            "diff_mean": 0.5227,
+            "se": 0.3885,
+            "ci95_low": -0.1836,
+            "ci95_high": 1.3562,
+            "p_two_sided": 0.16358,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": 0.3181,
+            "se": 0.466,
+            "ci95_low": -0.6034,
+            "ci95_high": 1.2531,
+            "p_two_sided": 0.47495,
+            "exact_tie": 0.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": 0.1927,
+            "se": 0.4594,
+            "ci95_low": -0.7191,
+            "ci95_high": 1.1192,
+            "p_two_sided": 0.67233,
+            "exact_tie": 0.0
+          },
+          "upca_vs_weighted_cz_fluid": {
+            "diff_mean": 0.1137,
+            "se": 0.7253,
+            "ci95_low": -1.302,
+            "ci95_high": 1.5554,
+            "p_two_sided": 0.88511,
+            "exact_tie": 0.0
+          },
+          "upca_vs_split_pilot_upca": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_afa_cmi_persplit": {
+            "diff_mean": 0.6856,
+            "se": 0.5628,
+            "ci95_low": -0.3883,
+            "ci95_high": 1.8195,
+            "p_two_sided": 0.21518
+          },
+          "upca_vs_afa_direct_voi_persplit": {
+            "diff_mean": 0.728,
+            "se": 0.5637,
+            "ci95_low": -0.3519,
+            "ci95_high": 1.8696,
+            "p_two_sided": 0.19078
+          },
+          "upca_vs_afa_cmi_majority": {
+            "diff_mean": 1.8076,
+            "se": 0.6841,
+            "ci95_low": 0.4262,
+            "ci95_high": 3.0808,
+            "p_two_sided": 0.0126,
+            "exact_tie": 0.0
+          }
+        },
+        "query_cost_multiplier_sweep": [
+          {
+            "cost_multiplier": 0.5,
+            "upca_panel_cost_cfp": 0.005,
+            "all_m_panel_cost_cfp": 0.01281,
+            "nb_stage1": 3.1304,
+            "nb_full_100pct_all_m": 4.7304,
+            "nb_full_100pct_locked": 5.2324,
+            "nb_boundary_uncertainty_matched_q": 5.1386,
+            "nb_boundary_uncertainty_20pct": 4.35,
+            "nb_global_cmi_gbdt": 4.5642,
+            "nb_upca_fluid": 4.8621,
+            "upca_query_rate": 0.384,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.1318,
+              "se": 0.8373,
+              "ci95_low": -1.5045,
+              "ci95_high": 1.7916,
+              "p_two_sided": 0.87971,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.7317,
+              "se": 0.745,
+              "ci95_low": 0.3145,
+              "ci95_high": 3.2284,
+              "p_two_sided": 0.0166,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 1.0,
+            "upca_panel_cost_cfp": 0.01,
+            "all_m_panel_cost_cfp": 0.02563,
+            "nb_stage1": 3.1304,
+            "nb_full_100pct_all_m": 4.3341,
+            "nb_full_100pct_locked": 5.0778,
+            "nb_boundary_uncertainty_matched_q": 5.1022,
+            "nb_boundary_uncertainty_20pct": 4.3191,
+            "nb_global_cmi_gbdt": 4.5237,
+            "nb_upca_fluid": 4.8418,
+            "upca_query_rate": 0.3444,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.5077,
+              "se": 0.8494,
+              "ci95_low": -1.1739,
+              "ci95_high": 2.1669,
+              "p_two_sided": 0.54155,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.7113,
+              "se": 0.7387,
+              "ci95_low": 0.2755,
+              "ci95_high": 3.1804,
+              "p_two_sided": 0.018,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 1.5,
+            "upca_panel_cost_cfp": 0.015,
+            "all_m_panel_cost_cfp": 0.03844,
+            "nb_stage1": 3.1304,
+            "nb_full_100pct_all_m": 3.9377,
+            "nb_full_100pct_locked": 4.9231,
+            "nb_boundary_uncertainty_matched_q": 4.7397,
+            "nb_boundary_uncertainty_20pct": 4.2882,
+            "nb_global_cmi_gbdt": 4.4929,
+            "nb_upca_fluid": 4.993,
+            "upca_query_rate": 0.3111,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 1.0553,
+              "se": 0.8562,
+              "ci95_low": -0.6293,
+              "ci95_high": 2.7202,
+              "p_two_sided": 0.21338,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.8626,
+              "se": 0.7243,
+              "ci95_low": 0.478,
+              "ci95_high": 3.3349,
+              "p_two_sided": 0.0068,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 2.0,
+            "upca_panel_cost_cfp": 0.02,
+            "all_m_panel_cost_cfp": 0.05125,
+            "nb_stage1": 3.1304,
+            "nb_full_100pct_all_m": 3.5414,
+            "nb_full_100pct_locked": 4.7685,
+            "nb_boundary_uncertainty_matched_q": 4.706,
+            "nb_boundary_uncertainty_20pct": 4.2572,
+            "nb_global_cmi_gbdt": 4.4617,
+            "nb_upca_fluid": 4.7756,
+            "upca_query_rate": 0.2878,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 1.2342,
+              "se": 0.8733,
+              "ci95_low": -0.4775,
+              "ci95_high": 3.0034,
+              "p_two_sided": 0.15558,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.6452,
+              "se": 0.7065,
+              "ci95_low": 0.3082,
+              "ci95_high": 3.0778,
+              "p_two_sided": 0.0148,
+              "exact_tie": 0.0
+            }
+          },
+          {
+            "cost_multiplier": 3.0,
+            "upca_panel_cost_cfp": 0.03,
+            "all_m_panel_cost_cfp": 0.07687,
+            "nb_stage1": 3.1304,
+            "nb_full_100pct_all_m": 2.7488,
+            "nb_full_100pct_locked": 4.4592,
+            "nb_boundary_uncertainty_matched_q": 4.4849,
+            "nb_boundary_uncertainty_20pct": 4.1954,
+            "nb_global_cmi_gbdt": 4.0988,
+            "nb_upca_fluid": 4.4029,
+            "upca_query_rate": 0.2436,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 1.654,
+              "se": 0.9031,
+              "ci95_low": -0.1431,
+              "ci95_high": 3.3802,
+              "p_two_sided": 0.07219,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 1.2725,
+              "se": 0.6546,
+              "ci95_low": 0.0113,
+              "ci95_high": 2.6061,
+              "p_two_sided": 0.046,
+              "exact_tie": 0.0
+            }
+          }
+        ],
+        "holm_6task_supplement": {
+          "upca_vs_stage1": 0.091,
+          "upca_vs_full_100pct_all_m": 1.0,
+          "upca_vs_global_cmi_gbdt": 1.0
+        }
+      },
+      "elapsed_sec": 342.5
+    },
+    "ntuh_pre_arrest_sca_pi002": {
+      "task_id": "ntuh_pre_arrest_sca_pi002",
+      "label": "6. NTUH Pre-Arrest SCA (pi=2.0%)",
+      "n_train": 9525,
+      "n_cal": 3595,
+      "n_test": 3651,
+      "n_test_patients": 2203,
+      "test_events": 84,
+      "eval_prevalence": 0.02,
+      "cost_schedule": {
+        "base_c_query": 0.02,
+        "reference_bundle_weight": 1.2,
+        "overhead_share": 0.25,
+        "c_overhead": 0.005,
+        "c_unit": 0.0125
+      },
+      "locked_panels_tr0": {
+        "all_m_channels": [
+          "ch_ant_v1v4",
+          "ch_lat_i_avl_v5v6",
+          "ch_inf_ii_iii_avf",
+          "ch_avr",
+          "ch_ecg_diag_stmts",
+          "ch_waveform_12lead_median"
+        ],
+        "global_cmi": [],
+        "weighted_cz": [],
+        "ipw_cz": [
+          "ch_ant_v1v4"
+        ],
+        "offset_cz_stage_a": [],
+        "split_pilot_upca": [],
+        "upca_fluid": [],
+        "upca_fluid_flat_legacy": []
+      },
+      "stage_b_scheduled_prune_log_tr0": [],
+      "canonical_scheduled": {
+        "arms": {
+          "stage1": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": -0.0434,
+            "snb_routed": -0.0022,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0327,
+            "auprc_routed": 0.0327,
+            "auroc_full": 0.6319
+          },
+          "full_100pct_all_m_gbdt": {
+            "selected": [
+              "ch_ant_v1v4",
+              "ch_lat_i_avl_v5v6",
+              "ch_inf_ii_iii_avf",
+              "ch_avr",
+              "ch_ecg_diag_stmts",
+              "ch_waveform_12lead_median"
+            ],
+            "panel_cost_cfp": 0.04688,
+            "nb_routed": -1.7394,
+            "snb_routed": -0.087,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.04688,
+            "auprc_full": 0.066,
+            "auprc_routed": 0.066,
+            "auroc_full": 0.6894
+          },
+          "full_100pct_locked_panel": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": -0.0434,
+            "snb_routed": -0.0022,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0327,
+            "auprc_routed": 0.0327,
+            "auroc_full": 0.6319
+          },
+          "boundary_uncertainty_matched_q": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": -0.0434,
+            "query_rate": 0.0
+          },
+          "global_cmi_gbdt": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": -0.0434,
+            "snb_routed": -0.0022,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0327,
+            "auprc_routed": 0.0327,
+            "auroc_full": 0.6319
+          },
+          "global_cmi_fluid": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": -0.0434,
+            "snb_routed": -0.0022,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0327,
+            "auprc_routed": 0.0327,
+            "auroc_full": 0.6319
+          },
+          "weighted_cz_fluid": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": -0.0434,
+            "snb_routed": -0.0022,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0327,
+            "auprc_routed": 0.0327,
+            "auroc_full": 0.6319
+          },
+          "split_pilot_upca_fluid": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": -0.0434,
+            "snb_routed": -0.0022,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0327,
+            "auprc_routed": 0.0327,
+            "auroc_full": 0.6319
+          },
+          "upca_fluid": {
+            "selected": [],
+            "panel_cost_cfp": 0.0,
+            "nb_routed": -0.0434,
+            "snb_routed": -0.0022,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0327,
+            "auprc_routed": 0.0327,
+            "auroc_full": 0.6319
+          },
+          "afa_covert_cmi": {
+            "nb_routed": 0.2886,
+            "snb_routed": 0.0144,
+            "query_rate": 0.0375,
+            "null_channel_query_rate": 0.0203
+          },
+          "afa_direct_voi": {
+            "nb_routed": 0.0438,
+            "snb_routed": 0.0022,
+            "query_rate": 0.04,
+            "null_channel_query_rate": 0.0058
+          }
+        },
+        "specialist_diagnostics_upca": {
+          "beta_cz": 0.0,
+          "kappa_star": 0.0,
+          "rms_r_cz": 0.0,
+          "rms_r_cz_zone": 0.0,
+          "decision_flip_rate_vs_glob": 0.0
+        },
+        "skipped_case_disagreement_upca": {
+          "n_total": 3651,
+          "n_skipped": 3651,
+          "n_skipped_patients": 2203,
+          "skip_rate": 1.0,
+          "flip_count": 0,
+          "flip_rate": 0.0,
+          "flip_ub95_clopper_pearson": 0.00082,
+          "flip_ub95_patient_cluster": 0.00136,
+          "neg_to_pos_count": 0,
+          "neg_to_pos_rate": 0.0,
+          "neg_to_pos_ub95_cluster": 0.00136,
+          "pos_to_neg_count": 0,
+          "pos_to_neg_rate": 0.0,
+          "pos_to_neg_ub95_cluster": 0.00136,
+          "skipped_events_total": 84,
+          "skipped_events_below_tau": 84,
+          "skipped_events_above_tau": 0,
+          "harmful_flip_count": 0,
+          "beneficial_flip_count": 0,
+          "missed_event_escalation_count": 0,
+          "missed_event_escalation_rate": 0.0,
+          "missed_event_escalation_ub95_cluster": 0.00136,
+          "realized_abs_decision_nb_diff_per_1k": 0.0,
+          "theoretical_nb_diff_bound_emp_per_1k": 0.0,
+          "theoretical_nb_diff_bound_ub95_per_1k": 1.3589,
+          "risk_diff_bound_ub95_raw_cost": 0.02582
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_full_all_m": {
+            "diff_mean": 1.696,
+            "se": 0.5343,
+            "ci95_low": 0.5489,
+            "ci95_high": 2.635,
+            "p_two_sided": 0.0058,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_locked": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_boundary_uncertainty": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_weighted_cz": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_covert_cmi": {
+            "diff_mean": -0.3319,
+            "se": 0.3369,
+            "ci95_low": -1.0811,
+            "ci95_high": 0.1766,
+            "p_two_sided": 0.27457,
+            "exact_tie": 0.0
+          },
+          "upca_vs_direct_voi_afa": {
+            "diff_mean": -0.0872,
+            "se": 0.2424,
+            "ci95_low": -0.6176,
+            "ci95_high": 0.2133,
+            "p_two_sided": 0.76692,
+            "exact_tie": 0.0
+          }
+        }
+      },
+      "r10_common_panel_and_triad": {
+        "n_splits": 10,
+        "arms": {
+          "stage1": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 0.1803,
+            "snb_bagged": 0.009,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0379,
+            "auprc_routed": 0.0379,
+            "per_split_mean_nb": -0.0411,
+            "per_split_se_nb": 0.0705
+          },
+          "all_m_gbdt": {
+            "locked_panel": [
+              "ch_ant_v1v4",
+              "ch_lat_i_avl_v5v6",
+              "ch_inf_ii_iii_avf",
+              "ch_avr",
+              "ch_ecg_diag_stmts",
+              "ch_waveform_12lead_median"
+            ],
+            "panel_cost_cfp": 0.04688,
+            "nb_bagged": -0.0236,
+            "snb_bagged": -0.0012,
+            "nb_100pct_panel": -1.4,
+            "query_rate": 0.0357,
+            "mean_cost_cfp": 0.00168,
+            "auprc_full": 0.0793,
+            "auprc_routed": 0.0362,
+            "auroc_full": 0.7152,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            }
+          },
+          "global_cmi_gbdt": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 0.1803,
+            "snb_bagged": 0.009,
+            "nb_100pct_panel": 0.1803,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0379,
+            "auprc_routed": 0.0379,
+            "auroc_full": 0.68,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 0.007,
+            "per_split_se_nb": 0.0876,
+            "sym_ens_nb": -0.0464,
+            "sym_ens_query_rate": 0.0288,
+            "union_panel_ids": [
+              "ch_ant_v1v4",
+              "ch_avr",
+              "ch_inf_ii_iii_avf",
+              "ch_lat_i_avl_v5v6"
+            ],
+            "union_panel_cost_cfp": 0.03125,
+            "union_panel_rerouted_nb": -0.0655,
+            "union_panel_rerouted_q": 0.0046,
+            "union_panel_fixedq_billed_nb": -0.0432,
+            "legacy_unbilled_flat_union_nb": -0.0329,
+            "r10_selected_channel_counts": {
+              "ch_avr": 3,
+              "ch_inf_ii_iii_avf": 1,
+              "ch_ant_v1v4": 1,
+              "ch_lat_i_avl_v5v6": 1
+            }
+          },
+          "global_cmi_fluid": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 0.1803,
+            "snb_bagged": 0.009,
+            "nb_100pct_panel": 0.1803,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0379,
+            "auprc_routed": 0.0379,
+            "auroc_full": 0.68,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 0.2473,
+            "per_split_se_nb": 0.1468,
+            "sym_ens_nb": 0.1536,
+            "sym_ens_query_rate": 0.0448,
+            "union_panel_ids": [
+              "ch_ant_v1v4",
+              "ch_avr",
+              "ch_inf_ii_iii_avf",
+              "ch_lat_i_avl_v5v6"
+            ],
+            "union_panel_cost_cfp": 0.03125,
+            "union_panel_rerouted_nb": 0.2106,
+            "union_panel_rerouted_q": 0.0079,
+            "union_panel_fixedq_billed_nb": 0.1552,
+            "legacy_unbilled_flat_union_nb": 0.1694,
+            "r10_selected_channel_counts": {
+              "ch_avr": 3,
+              "ch_inf_ii_iii_avf": 1,
+              "ch_ant_v1v4": 1,
+              "ch_lat_i_avl_v5v6": 1
+            }
+          },
+          "weighted_cz_fluid": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 0.1803,
+            "snb_bagged": 0.009,
+            "nb_100pct_panel": 0.1803,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0379,
+            "auprc_routed": 0.0379,
+            "auroc_full": 0.68,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": 0.021,
+            "per_split_se_nb": 0.0767,
+            "sym_ens_nb": -0.0275,
+            "sym_ens_query_rate": 0.021,
+            "union_panel_ids": [
+              "ch_avr",
+              "ch_inf_ii_iii_avf",
+              "ch_waveform_12lead_median"
+            ],
+            "union_panel_cost_cfp": 0.02813,
+            "union_panel_rerouted_nb": 0.1798,
+            "union_panel_rerouted_q": 0.0003,
+            "union_panel_fixedq_billed_nb": 0.1737,
+            "legacy_unbilled_flat_union_nb": 0.1756,
+            "r10_selected_channel_counts": {
+              "ch_avr": 1,
+              "ch_waveform_12lead_median": 1,
+              "ch_inf_ii_iii_avf": 1
+            }
+          },
+          "split_pilot_upca_fluid": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 0.1803,
+            "snb_bagged": 0.009,
+            "nb_100pct_panel": 0.1803,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0379,
+            "auprc_routed": 0.0379,
+            "auroc_full": 0.68,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            }
+          },
+          "upca_fluid": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 0.1803,
+            "snb_bagged": 0.009,
+            "nb_100pct_panel": 0.1803,
+            "query_rate": 0.0,
+            "mean_cost_cfp": 0.0,
+            "auprc_full": 0.0379,
+            "auprc_routed": 0.0379,
+            "auroc_full": 0.68,
+            "specialist_diagnostics": {
+              "beta_cz": 0.0,
+              "kappa_star": 0.0,
+              "rms_r_cz": 0.0,
+              "rms_r_cz_zone": 0.0,
+              "decision_flip_rate_vs_glob": 0.0,
+              "beta_cz_se": 0.0,
+              "rms_r_cz_se": 0.0
+            },
+            "per_split_mean_nb": -0.0566,
+            "per_split_se_nb": 0.063,
+            "sym_ens_nb": 0.1929,
+            "sym_ens_query_rate": 0.0029,
+            "union_panel_ids": [
+              "ch_inf_ii_iii_avf"
+            ],
+            "union_panel_cost_cfp": 0.01188,
+            "union_panel_rerouted_nb": 0.1803,
+            "union_panel_rerouted_q": 0.0,
+            "union_panel_fixedq_billed_nb": 0.1803,
+            "legacy_unbilled_flat_union_nb": 0.1803,
+            "r10_selected_channel_counts": {
+              "ch_inf_ii_iii_avf": 1
+            }
+          },
+          "full_100pct_all_m_gbdt": {
+            "locked_panel": [
+              "ch_ant_v1v4",
+              "ch_lat_i_avl_v5v6",
+              "ch_inf_ii_iii_avf",
+              "ch_avr",
+              "ch_ecg_diag_stmts",
+              "ch_waveform_12lead_median"
+            ],
+            "panel_cost_cfp": 0.04688,
+            "nb_bagged": -1.4,
+            "snb_bagged": -0.07,
+            "query_rate": 1.0,
+            "mean_cost_cfp": 0.04688,
+            "auprc_full": 0.0793
+          },
+          "full_100pct_locked_panel": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 0.1803,
+            "query_rate": 0.0
+          },
+          "boundary_uncertainty_matched_q": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 0.1803,
+            "query_rate": 0.0
+          },
+          "boundary_uncertainty_20pct": {
+            "locked_panel": [],
+            "panel_cost_cfp": 0.0,
+            "nb_bagged": 0.1803,
+            "query_rate": 0.0
+          }
+        },
+        "afa_channel_billed_r10": {
+          "cmi": {
+            "per_split_mean_nb": -0.0796,
+            "per_split_se_nb": 0.0725,
+            "per_split_mean_query_rate": 0.0282,
+            "per_split_mean_null_query_rate": 0.0151,
+            "majority_mask_nb": -0.0586,
+            "majority_mask_query_rate": 0.0013,
+            "majority_mask_mean_cost_cfp": 2e-05
+          },
+          "direct_voi": {
+            "per_split_mean_nb": -0.1096,
+            "per_split_se_nb": 0.0818,
+            "per_split_mean_query_rate": 0.0312,
+            "per_split_mean_null_query_rate": 0.0032,
+            "majority_mask_nb": 0.1803,
+            "majority_mask_query_rate": 0.0,
+            "majority_mask_mean_cost_cfp": 0.0
+          }
+        },
+        "skipped_case_disagreement_common_bagged": {
+          "n_total": 3651,
+          "n_skipped": 3651,
+          "n_skipped_patients": 2203,
+          "skip_rate": 1.0,
+          "flip_count": 0,
+          "flip_rate": 0.0,
+          "flip_ub95_clopper_pearson": 0.00082,
+          "flip_ub95_patient_cluster": 0.00136,
+          "neg_to_pos_count": 0,
+          "neg_to_pos_rate": 0.0,
+          "neg_to_pos_ub95_cluster": 0.00136,
+          "pos_to_neg_count": 0,
+          "pos_to_neg_rate": 0.0,
+          "pos_to_neg_ub95_cluster": 0.00136,
+          "skipped_events_total": 84,
+          "skipped_events_below_tau": 83,
+          "skipped_events_above_tau": 1,
+          "harmful_flip_count": 0,
+          "beneficial_flip_count": 0,
+          "missed_event_escalation_count": 0,
+          "missed_event_escalation_rate": 0.0,
+          "missed_event_escalation_ub95_cluster": 0.00136,
+          "realized_abs_decision_nb_diff_per_1k": 0.0,
+          "theoretical_nb_diff_bound_emp_per_1k": 0.0,
+          "theoretical_nb_diff_bound_ub95_per_1k": 1.3589,
+          "risk_diff_bound_ub95_raw_cost": 0.02582
+        },
+        "bootstraps_10k_patient_cluster": {
+          "upca_vs_stage1": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_full_100pct_all_m": {
+            "diff_mean": 1.5803,
+            "se": 0.6342,
+            "ci95_low": 0.279,
+            "ci95_high": 2.742,
+            "p_two_sided": 0.0208,
+            "exact_tie": 0.0
+          },
+          "upca_vs_full_100pct_locked": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_boundary_uncertainty_matched_q": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_boundary_uncertainty_20pct": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_global_cmi_gbdt": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_global_cmi_fluid": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_weighted_cz_fluid": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_split_pilot_upca": {
+            "diff_mean": 0.0,
+            "se": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0,
+            "p_two_sided": 1.0,
+            "exact_tie": 1.0
+          },
+          "upca_vs_afa_cmi_persplit": {
+            "diff_mean": 0.2598,
+            "se": 0.0957,
+            "ci95_low": 0.0853,
+            "ci95_high": 0.4637,
+            "p_two_sided": 0.0032
+          },
+          "upca_vs_afa_direct_voi_persplit": {
+            "diff_mean": 0.2898,
+            "se": 0.1021,
+            "ci95_low": 0.0963,
+            "ci95_high": 0.5007,
+            "p_two_sided": 0.004
+          },
+          "upca_vs_afa_cmi_majority": {
+            "diff_mean": 0.2389,
+            "se": 0.2425,
+            "ci95_low": 0.0002,
+            "ci95_high": 0.7221,
+            "p_two_sided": 0.0118,
+            "exact_tie": 0.0
+          }
+        },
+        "query_cost_multiplier_sweep": [
+          {
+            "cost_multiplier": 0.5,
+            "upca_panel_cost_cfp": 0.0,
+            "all_m_panel_cost_cfp": 0.02344,
+            "nb_stage1": 0.1803,
+            "nb_full_100pct_all_m": -0.1665,
+            "nb_full_100pct_locked": 0.1803,
+            "nb_boundary_uncertainty_matched_q": 0.1803,
+            "nb_boundary_uncertainty_20pct": 0.1803,
+            "nb_global_cmi_gbdt": 0.1803,
+            "nb_upca_fluid": 0.1803,
+            "upca_query_rate": 0.0,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 0.3467,
+              "se": 0.6322,
+              "ci95_low": -0.9563,
+              "ci95_high": 1.5104,
+              "p_two_sided": 0.53755,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.0,
+              "se": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0,
+              "p_two_sided": 1.0,
+              "exact_tie": 1.0
+            }
+          },
+          {
+            "cost_multiplier": 1.0,
+            "upca_panel_cost_cfp": 0.0,
+            "all_m_panel_cost_cfp": 0.04688,
+            "nb_stage1": 0.1803,
+            "nb_full_100pct_all_m": -1.4,
+            "nb_full_100pct_locked": 0.1803,
+            "nb_boundary_uncertainty_matched_q": 0.1803,
+            "nb_boundary_uncertainty_20pct": 0.1803,
+            "nb_global_cmi_gbdt": 0.1803,
+            "nb_upca_fluid": 0.1803,
+            "upca_query_rate": 0.0,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 1.5803,
+              "se": 0.6281,
+              "ci95_low": 0.2636,
+              "ci95_high": 2.7402,
+              "p_two_sided": 0.024,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.0,
+              "se": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0,
+              "p_two_sided": 1.0,
+              "exact_tie": 1.0
+            }
+          },
+          {
+            "cost_multiplier": 1.5,
+            "upca_panel_cost_cfp": 0.0,
+            "all_m_panel_cost_cfp": 0.07031,
+            "nb_stage1": 0.1803,
+            "nb_full_100pct_all_m": -2.6336,
+            "nb_full_100pct_locked": 0.1803,
+            "nb_boundary_uncertainty_matched_q": 0.1803,
+            "nb_boundary_uncertainty_20pct": 0.1803,
+            "nb_global_cmi_gbdt": 0.1803,
+            "nb_upca_fluid": 0.1803,
+            "upca_query_rate": 0.0,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 2.8138,
+              "se": 0.6384,
+              "ci95_low": 1.4708,
+              "ci95_high": 3.9755,
+              "p_two_sided": 0.0004,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.0,
+              "se": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0,
+              "p_two_sided": 1.0,
+              "exact_tie": 1.0
+            }
+          },
+          {
+            "cost_multiplier": 2.0,
+            "upca_panel_cost_cfp": 0.0,
+            "all_m_panel_cost_cfp": 0.09375,
+            "nb_stage1": 0.1803,
+            "nb_full_100pct_all_m": -3.8671,
+            "nb_full_100pct_locked": 0.1803,
+            "nb_boundary_uncertainty_matched_q": 0.1803,
+            "nb_boundary_uncertainty_20pct": 0.1803,
+            "nb_global_cmi_gbdt": 0.1803,
+            "nb_upca_fluid": 0.1803,
+            "upca_query_rate": 0.0,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 4.0474,
+              "se": 0.6372,
+              "ci95_low": 2.7433,
+              "ci95_high": 5.2363,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.0,
+              "se": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0,
+              "p_two_sided": 1.0,
+              "exact_tie": 1.0
+            }
+          },
+          {
+            "cost_multiplier": 3.0,
+            "upca_panel_cost_cfp": 0.0,
+            "all_m_panel_cost_cfp": 0.14062,
+            "nb_stage1": 0.1803,
+            "nb_full_100pct_all_m": -6.3342,
+            "nb_full_100pct_locked": 0.1803,
+            "nb_boundary_uncertainty_matched_q": 0.1803,
+            "nb_boundary_uncertainty_20pct": 0.1803,
+            "nb_global_cmi_gbdt": 0.1803,
+            "nb_upca_fluid": 0.1803,
+            "upca_query_rate": 0.0,
+            "boot_upca_vs_full_all_m": {
+              "diff_mean": 6.5145,
+              "se": 0.6361,
+              "ci95_low": 5.1909,
+              "ci95_high": 7.6744,
+              "p_two_sided": 0.0002,
+              "exact_tie": 0.0
+            },
+            "boot_upca_vs_stage1": {
+              "diff_mean": 0.0,
+              "se": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0,
+              "p_two_sided": 1.0,
+              "exact_tie": 1.0
+            }
+          }
+        ],
+        "holm_6task_supplement": {
+          "upca_vs_stage1": 1.0,
+          "upca_vs_full_100pct_all_m": 0.0832,
+          "upca_vs_global_cmi_gbdt": 1.0
+        }
+      },
+      "elapsed_sec": 212.7
+    }
+  },
+  "unique_primary_encounters_reconciliation": {
+    "stanford_mcmed_2h_unique_visits": 89395,
+    "stanford_mcmed_2h_discharged_subset_visits": 51736,
+    "bwh_ed_ecg_unique_visits": 51158,
+    "ntuh_pre_arrest_unique_visits": 16771,
+    "total_unique_primary_visits": 157324,
+    "supplementary_ntuh_post_rosc_visits": 818
+  },
+  "elapsed_sec": 2834.4
+}

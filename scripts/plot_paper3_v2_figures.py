@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
@@ -108,41 +109,37 @@ def plot_fig1_envelope_and_regime(res: dict) -> None:
     ax_b.set_xticklabels(b_labels, fontsize=7.8)
     ax_b.set_ylabel("Deployed Net Benefit (/1,000)")
     ax_b.set_title(f"B. E5 Deployed Utility (B=1 dNB = {e5['paired_delta_nb_b1_mean']:+.2f})")
-    for bar, val in zip(bars, b_vals):
-        ax_b.text(bar.get_x() + bar.get_width() / 2, val + (0.08 if val >= 0 else -0.22), f"{val:+.2f}", ha="center", va="bottom", fontsize=7.8, fontweight="bold")
-    ymin_b, ymax_b = min(b_vals) - 0.5, max(b_vals) + 0.6
+    for bar, val, err in zip(bars, b_vals, b_errs):
+        ypos = (val + err + 0.08) if val >= 0 else (val - err - 0.28)
+        ax_b.text(bar.get_x() + bar.get_width() / 2, ypos, f"{val:+.2f}", ha="center", va="bottom", fontsize=7.8, fontweight="bold")
+    ymin_b, ymax_b = min(b_vals) - 0.6, max(b_vals) + 0.85
     ax_b.set_ylim(ymin_b, ymax_b)
 
-    # Panel C: Matched Pilot Weighting Dilemma on Stanford ICU/Death vs Admission (Fluid Backbone Held Fixed!)
+    # Panel C: Primary 500-Pilot Two-Phase Discovery Concordance Across rho_pilot in {0.15, 0.20, 0.30}
     ax_c = fig.add_subplot(gs[0, 2])
-    icu_arms = pt["mcmed_critical_icu_death"]["arms"]
-    adm_arms = pt["mcmed_hospital_admission"]["arms"]
-    icu_s1 = icu_arms["stage1"]["nb_routed"]
-    adm_s1 = adm_arms["stage1"]["nb_routed"]
-    methods_c = ["Weighted-Pilot\n(0.05 Floor)", "IPW-Pilot\n(Raw w_HT)", "Offset Stage A\n(Breslow-Cain)", "UPCA-Fluid\n(Stage A+B)"]
-    keys_c = ["weighted_pilot_cz_fluid", "ipw_pilot_cz_fluid", "offset_pilot_cz_stage_a_fluid", "upca_fluid"]
-    d_icu = [icu_arms[k]["nb_routed"] - icu_s1 for k in keys_c]
-    d_adm = [adm_arms[k]["nb_routed"] - adm_s1 for k in keys_c]
-    se_icu = pt["mcmed_critical_icu_death"]["bootstraps_10k_patient_cluster"]["upca_vs_stage1"]["boot_se"]
-    se_adm = pt["mcmed_hospital_admission"]["bootstraps_10k_patient_cluster"]["upca_vs_stage1"]["boot_se"]
-
-    xc = np.arange(len(methods_c))
-    wc = 0.35
-    ax_c.bar(xc - wc / 2, d_icu, wc, yerr=1.96 * se_icu, capsize=3, color=C_UPCA, alpha=0.90, label="Stanford ICU/Death (Rare 2.2%)")
-    ax_c_r = ax_c.twinx()
-    ax_c_r.spines["top"].set_visible(False)
-    ax_c_r.bar(xc + wc / 2, d_adm, wc, yerr=1.96 * se_adm, capsize=3, color=C_GOOD, alpha=0.82, label="Stanford Admission (28.8%)")
-    ax_c.axhline(0.0, color="black", linewidth=0.7)
-    ax_c.set_ylim(-0.5, 2.75)
-    ax_c_r.set_ylim(-2.5, 15.2)
+    eff = res["clinical"]["two_phase_efficiency_r15"]["rho_sensitivity_repeated_pilots"]
+    rhos_lbl = ["rho=0.15\n(200 pilots)", "rho=0.20 Primary\n(500 pilots)", "rho=0.30\n(200 pilots)"]
+    rho_keys = ["rho_0.15", "rho_0.20", "rho_0.30"]
+    xc = np.arange(len(rho_keys))
+    wc = 0.26
+    for off_c, mk, mlbl, mcol in [
+        (-wc, "weighted_005", "Weighted-Pilot CZ (0.05)", C_WCZ),
+        (0.0, "ipw_wht", "IPW-Pilot CZ (w_HT)", C_IPW),
+        (wc, "offset_bc_gbdt", "UPCA Offset (Breslow-Cain)", C_UPCA),
+    ]:
+        rates = [eff[rk]["top1_concordance"][mk]["rate"] * 100.0 for rk in rho_keys]
+        cis = [eff[rk]["top1_concordance"][mk]["ci95_clopper_pearson"] for rk in rho_keys]
+        yerr_c = np.array([
+            [max(0.0, rates[i] - cis[i][0] * 100.0) for i in range(3)],
+            [max(0.0, cis[i][1] * 100.0 - rates[i]) for i in range(3)],
+        ])
+        ax_c.bar(xc + off_c, rates, wc, yerr=yerr_c, capsize=3, color=mcol, alpha=0.90, label=mlbl)
     ax_c.set_xticks(xc)
-    ax_c.set_xticklabels(methods_c, fontsize=7.4)
-    ax_c.set_ylabel("ICU/Death dNB vs Stage-1 (/1k)", color=C_UPCA)
-    ax_c_r.set_ylabel("Admission dNB vs Stage-1 (/1k)", color=C_GOOD)
-    ax_c.set_title("C. Matched Pilot Weighting (+Fluid)")
-    h1, l1 = ax_c.get_legend_handles_labels()
-    h2, l2 = ax_c_r.get_legend_handles_labels()
-    ax_c.legend(h1 + h2, l1 + l2, loc="upper left", frameon=True, framealpha=0.94, fontsize=7.1)
+    ax_c.set_xticklabels(rhos_lbl, fontsize=7.8)
+    ax_c.set_ylim(40, 114)
+    ax_c.set_ylabel("Top-1 Oracle Concordance (%) [95% CP]")
+    ax_c.set_title("C. Repeated-Pilot Concordance (McNemar p=4.7e-12)")
+    ax_c.legend(loc="lower right", frameon=True, framealpha=0.94, fontsize=7.0)
 
     # Bottom Row (Panels D1, D2, D3): 4D Operating-Envelope Heatmaps across rho in {0.10, 0.22, 0.40} (pi_CZ = 0.40)
     sigmas = [1.5, 2.5, 3.5]
@@ -216,29 +213,35 @@ def plot_fig2_dca_and_comparators(res: dict) -> None:
         if idx == 0:
             ax.legend(loc="upper right", frameon=True, framealpha=0.92, fontsize=7.0)
 
-    # Bottom Left (cols 0..1): Paired 10,000-Rep Patient-Cluster Bootstrap Differences with 95% CIs
+    # Bottom Left (cols 0..1): R=10 Primary Deployable Bagged VOI & Covert-AFA 10k Patient-Cluster Bootstrap Differences
     ax_bl = fig.add_subplot(gs[2, :2])
     short_names = ["Stanford\nICU/Death", "Stanford\nAdmission", "Stanford\n72h Bounce", "BWH 30d\nDeath", "BWH 10d\nStent/CABG", "NTUH\nPre-Arrest"]
     x = np.arange(len(TASK_ORDER))
-    w = 0.26
+    w = 0.21
 
-    for offset, bkey, lbl, col in [
-        (-w, "upca_vs_stage1", "UPCA vs. Stage-1", C_UPCA),
-        (0.0, "upca_vs_global_cmi_fluid", "UPCA vs. Global-CMI + Fluid", C_GLOB),
-        (w, "upca_vs_weighted_pilot_cz_fluid", "UPCA vs. Weighted-Pilot CZ + Fluid", C_WCZ),
-    ]:
-        means = [pt[k]["bootstraps_10k_patient_cluster"][bkey]["diff_mean"] for k, _ in TASK_ORDER]
-        lo = [pt[k]["bootstraps_10k_patient_cluster"][bkey]["ci95_low"] for k, _ in TASK_ORDER]
-        hi = [pt[k]["bootstraps_10k_patient_cluster"][bkey]["ci95_high"] for k, _ in TASK_ORDER]
+    series_bl = [
+        (-1.5 * w, "r10", "bagged_upca_vs_stage1", "R=10 Bagged UPCA vs. Stage-1", C_UPCA),
+        (-0.5 * w, "r10", "bagged_upca_vs_weighted_cz", "R=10 Bagged UPCA vs. Weighted-CZ", C_WCZ),
+        (0.5 * w, "r10", "bagged_upca_vs_global_cmi_gbdt", "R=10 Bagged UPCA vs. CMI+GBDT", C_GLOB),
+        (1.5 * w, "can", "upca_vs_covert_afa", "UPCA vs. Covert-AFA (Greedy CMI)", C_GOOD),
+    ]
+    for offset, src_t, bkey, lbl, col in series_bl:
+        if src_t == "r10":
+            b_objs = [pt[k]["r10_estimator_triad"]["bootstraps_10k_patient_cluster"][bkey] for k, _ in TASK_ORDER]
+        else:
+            b_objs = [pt[k]["bootstraps_10k_patient_cluster"][bkey] for k, _ in TASK_ORDER]
+        means = [b["diff_mean"] for b in b_objs]
+        lo = [b["ci95_low"] for b in b_objs]
+        hi = [b["ci95_high"] for b in b_objs]
         yerr = np.array([[max(0.0, means[i] - lo[i]) for i in range(6)], [max(0.0, hi[i] - means[i]) for i in range(6)]])
-        ax_bl.bar(x + offset, means, w, yerr=yerr, capsize=3, color=col, alpha=0.90, label=lbl)
+        ax_bl.bar(x + offset, means, w, yerr=yerr, capsize=2.5, color=col, alpha=0.90, label=lbl)
 
     ax_bl.axhline(0.0, color="black", linewidth=0.8)
     ax_bl.set_xticks(x)
     ax_bl.set_xticklabels(short_names)
     ax_bl.set_ylabel("Paired dNB (/1,000) [10k Patient-Cluster 95% CI]")
-    ax_bl.set_title("G. Unconfounded Paired Net Benefit Differences (Exact Ties Shown at 0.00)")
-    ax_bl.legend(loc="upper left", frameon=False, ncol=3, fontsize=7.8)
+    ax_bl.set_title("G. Deployable Bagged VOI (R=10) & Covert-AFA Paired Differences")
+    ax_bl.legend(loc="upper right", frameon=False, ncol=2, fontsize=7.2)
 
     # Bottom Right (col 2): Both AUPRC_full and AUPRC_routed Side-by-Side (`R14, R22`)
     ax_br = fig.add_subplot(gs[2, 2])

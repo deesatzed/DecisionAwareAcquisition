@@ -150,11 +150,11 @@ def selective_label_audit(
         ps = p[mask]
         qs = q[mask]
         if len(ys) == 0 or len(np.unique(ys)) < 2:
-            return {"n": int(len(ys)), "events": int(ys.sum()), "auroc": None, "auprc": None, "nb": None}
+            return {"n": len(ys), "events": int(ys.sum()), "auroc": None, "auprc": None, "nb": None}
         nb = float(np.mean(per_record_net_utility(ys, ps, qs, tau_star, cost_fp, cost_fn, query_cost)))
         flagged = ps >= tau_star
         return {
-            "n": int(len(ys)),
+            "n": len(ys),
             "events": int(ys.sum()),
             "prevalence": float(ys.mean()),
             "auroc": float(roc_auc_score(ys, ps)),

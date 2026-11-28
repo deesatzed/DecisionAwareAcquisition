@@ -21,6 +21,9 @@ os.environ.setdefault("OMP_NUM_THREADS", "4")
 os.environ.setdefault("OPENBLAS_NUM_THREADS", "4")
 os.environ.setdefault("MKL_NUM_THREADS", "4")
 
+import sys
+from pathlib import Path
+
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
@@ -28,14 +31,12 @@ from scipy.special import expit, logit
 from scipy.stats import beta as beta_dist
 from scipy.stats import chi2, norm
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import average_precision_score, roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import SplineTransformer
 
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "collision_zone_ed" / "src"))
+_SRC_DIR = str(Path(__file__).resolve().parents[1])
+if _SRC_DIR not in sys.path:
+    sys.path.insert(0, _SRC_DIR)
 
 from collision_zone.three_predicates import (
     ChannelDef,
@@ -58,7 +59,6 @@ from collision_zone.three_predicates import (
     two_phase_ht_mean_and_se,
 )
 
-
 # ---------------------------------------------------------------------------
 # 1. Case-Control Target-Prevalence Adjustment (NTUH R17)
 # ---------------------------------------------------------------------------
@@ -69,7 +69,6 @@ def case_control_prevalence_weights(y: np.ndarray, pi_target: float) -> np.ndarr
     yv = np.asarray(y, dtype=int)
     n = len(yv)
     n1 = max(1, int(np.sum(yv == 1)))
-    n0 = max(1, int(np.sum(yv == 0)))
     y_bar = n1 / float(n)
     w = np.where(yv == 1, pi_target / y_bar, (1.0 - pi_target) / (1.0 - y_bar))
     return w * (n / float(np.sum(w)))
@@ -163,7 +162,7 @@ def patient_cluster_bootstrap_diff(
             "ci95_low": 0.0,
             "ci95_high": 0.0,
             "p_two_sided": 1.0,
-            "n_clusters": int(len(np.unique(cluster_ids))),
+            "n_clusters": len(np.unique(cluster_ids)),
             "n_boot": int(n_boot),
             "exact_tie": 1.0,
         }
@@ -442,7 +441,7 @@ def compute_calibration_metrics(
         lr_sp = LogisticRegression(C=2.0, solver="lbfgs", max_iter=500)
         lr_sp.fit(x_sp, yv, sample_weight=wv)
         p_cal_smooth = lr_sp.predict_proba(x_sp)[:, 1]
-    except Exception:
+    except (ValueError, RuntimeError, np.linalg.LinAlgError):
         p_cal_smooth = expit(np.clip(lr_slope.intercept_[0] + cal_slope * ell, -25.0, 25.0))
 
     abs_err = np.abs(p_cal_smooth - pv)
@@ -456,7 +455,7 @@ def compute_calibration_metrics(
     grid_p = np.unique(np.quantile(pv, np.linspace(0.01, 0.99, 60)))
     try:
         grid_obs = lr_sp.predict_proba(sp.transform(logit(grid_p).reshape(-1, 1)))[:, 1]
-    except Exception:
+    except (ValueError, RuntimeError, np.linalg.LinAlgError):
         grid_obs = expit(np.clip(lr_slope.intercept_[0] + cal_slope * logit(grid_p), -25.0, 25.0))
 
     q_edges = np.quantile(pv, np.linspace(0.0, 1.0, n_bins + 1))
@@ -783,7 +782,7 @@ def discover_stage_a_ablation(
         ]
         if not passing:
             best_i = int(np.argmax([x[1] for x in cand_stats]))
-            ch_b, g_b, se_b, z_b, _ = cand_stats[best_i]
+            _ch_b, g_b, se_b, z_b, _ = cand_stats[best_i]
             steps_log.append(DiscoveryStepLog(step, None, float(g_b), float(se_b), float(z_b), float(p_holm[best_i]), 0.0))
             break
         winner = max(passing, key=lambda item: item[1] / max(item[0].cost, 1e-6))

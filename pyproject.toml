@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "decision-aware-acquisition"
-version = "2.0.0"
+version = "2.2.0"
 description = "Decision-Aware Clinical Feature Acquisition with Two-Phase Sampling and Pre-Purchase Policy Screening (UPCA-Fluid)"
 readme = "README.md"
 requires-python = ">=3.11"

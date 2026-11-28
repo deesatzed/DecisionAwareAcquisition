@@ -235,7 +235,7 @@ def build_bwh_audited() -> dict[str, Any]:
     ecg_link = pd.read_csv(bwh / "ecg-ed-enc.csv", low_memory=False)
     ecg_idx = pd.read_csv(bwh / "ecg-npy-index.csv", low_memory=False)
 
-    n_raw_enc = int(len(enc))
+    n_raw_enc = len(enc)
     mod = enc[enc["exclude_modeling"] == 0].copy().reset_index(drop=True)
     mod["start_dt"] = pd.to_datetime(mod["start_datetime"], errors="coerce", utc=True)
     mod["end_dt"] = pd.to_datetime(mod["end_datetime"], errors="coerce", utc=True)
@@ -307,7 +307,7 @@ def build_bwh_audited() -> dict[str, Any]:
         "waveform_tensor_spec": f"ecg-waveform.npy physical shape {list(wf_mmap.shape)} (3 recorded waveform leads x 1000 samples @ 100 Hz; 100% present) + automated 12-lead Muse scalar intervals/flags in ecg-metadata.csv",
         "parquet_path": str(out_path),
         "n_raw_encounters": n_raw_enc,
-        "n_modeling_encounters": int(len(df)),
+        "n_modeling_encounters": len(df),
         "n_unique_patients": int(df["patient_ngsci_id"].nunique()),
         "splits_encounters": {k: int(v) for k, v in df["split"].value_counts().items()},
         "splits_patients": {
@@ -343,7 +343,7 @@ def build_bwh_audited() -> dict[str, Any]:
             "no_10d_stress_or_cath_test": int(((df["split"] == "test") & (df["test_010_day"] == 0)).sum()),
             "no_sameday_troponin_all": int((df["trop_drawn_sameday"] == 0).sum()),
             "no_sameday_troponin_test": int(((df["split"] == "test") & (df["trop_drawn_sameday"] == 0)).sum()),
-            "complete_sameday_troponin_all": int(len(trop_sub)),
+            "complete_sameday_troponin_all": len(trop_sub),
             "complete_sameday_troponin_splits": {k: int(v) for k, v in trop_sub["split"].value_counts().items()},
             "complete_troponin_death_030_test_rate": round(
                 float(trop_sub.loc[trop_sub["split"] == "test", "death_030_day"].mean()), 5
@@ -364,7 +364,7 @@ def build_mcmed_audited() -> dict[str, Any]:
     print("\n[2/3] Building Audited Stanford MC-MED Cohort (`mcmed-stanford-multi/v1`)...")
     mc = RAW_ROOT / "mcmed-stanford-multi" / "v1"
     visits_raw = pd.read_csv(mc / "visits.csv", low_memory=False)
-    n_visits_raw = int(len(visits_raw))
+    n_visits_raw = len(visits_raw)
 
     split_map: dict[int, str] = {}
     for sname, fname in [
@@ -378,7 +378,7 @@ def build_mcmed_audited() -> dict[str, Any]:
 
     visits = visits_raw[visits_raw["CSN"].map(split_map).notna()].copy().reset_index(drop=True)
     visits["split"] = visits["CSN"].map(split_map)
-    n_split_chrono = int(len(visits))
+    n_split_chrono = len(visits)
     assert len(set(visits.loc[visits["split"] == "train", "MRN"]) & set(visits.loc[visits["split"] == "test", "MRN"])) == 0
     assert len(set(visits.loc[visits["split"] == "cal", "MRN"]) & set(visits.loc[visits["split"] == "test", "MRN"])) == 0
 
@@ -566,7 +566,7 @@ def build_mcmed_audited() -> dict[str, Any]:
     rads_res_hr = (rads_res_dt - rads_arr).dt.total_seconds() / 3600.0
     n_rad_ord_le2h = int(((rads_ord_hr >= -2.0) & (rads_ord_hr <= 2.0)).sum())
     rads_2h = rads[rads_res_dt.notna() & (rads_res_hr >= -2.0) & (rads_res_hr <= 2.0)].copy()
-    n_rad_res_le2h = int(len(rads_2h))
+    n_rad_res_le2h = len(rads_2h)
 
     study_u = rads_2h["Study"].astype(str).str.upper()
     imp_u = rads_2h["Impression"].fillna("").astype(str).str.upper()
@@ -671,7 +671,7 @@ def build_mcmed_audited() -> dict[str, Any]:
     cdw_by_payor = {}
     for grp, sub in mc_2h.groupby("payor_clean"):
         cdw_by_payor[str(grp)] = {
-            "n_visits": int(len(sub)),
+            "n_visits": len(sub),
             "has_prior_cdw_pmh_rate": round(float(sub["has_prior_cdw_pmh"].mean()), 4),
             "has_prior_cdw_meds_rate": round(float(sub["has_prior_cdw_meds"].mean()), 4),
             "has_any_prior_cdw_rate": round(float(sub["has_any_prior_cdw"].mean()), 4),
@@ -679,7 +679,7 @@ def build_mcmed_audited() -> dict[str, Any]:
     cdw_by_race = {}
     for grp, sub in mc_2h.groupby("race_clean"):
         cdw_by_race[str(grp)] = {
-            "n_visits": int(len(sub)),
+            "n_visits": len(sub),
             "has_prior_cdw_pmh_rate": round(float(sub["has_prior_cdw_pmh"].mean()), 4),
             "has_prior_cdw_meds_rate": round(float(sub["has_prior_cdw_meds"].mean()), 4),
             "has_any_prior_cdw_rate": round(float(sub["has_any_prior_cdw"].mean()), 4),
@@ -695,13 +695,13 @@ def build_mcmed_audited() -> dict[str, Any]:
             "n_raw_visits_csv": n_visits_raw,
             "n_official_split_chrono": n_split_chrono,
             "n_excluded_dispo_or_admit_le_2h": int(n_split_chrono - len(mc_2h)),
-            "n_strict_2h_landmark": int(len(mc_2h)),
+            "n_strict_2h_landmark": len(mc_2h),
             "n_strict_2h_unique_mrns": int(mc_2h["MRN"].nunique()),
             "splits_2h_visits": {k: int(v) for k, v in mc_2h["split"].value_counts().items()},
             "splits_2h_mrns": {s: int(mc_2h.loc[mc_2h["split"] == s, "MRN"].nunique()) for s in ["train", "cal", "test"]},
-            "n_strict_2h_discharged": int(len(mc_2h_disch)),
+            "n_strict_2h_discharged": len(mc_2h_disch),
             "splits_2h_discharged": {k: int(v) for k, v in mc_2h_disch["split"].value_counts().items()},
-            "n_all_discharged_sensitivity": int(len(disch_all)),
+            "n_all_discharged_sensitivity": len(disch_all),
             "splits_all_discharged_sensitivity": {k: int(v) for k, v in disch_all["split"].value_counts().items()},
         },
         "leakage_remediation_counts": {
@@ -912,7 +912,7 @@ def build_ntuh_audited() -> dict[str, Any]:
         (sg_m["ecg_timetag"] == "[0]pre")
         & (sg_m["year"].astype(str).isin(["2015-16", "2017", "2018", "2019"]))
     ].copy()
-    n_sg_pre_raw_2015_19 = int(len(sg_pre_cand))
+    n_sg_pre_raw_2015_19 = len(sg_pre_cand)
     acq_pre = pd.to_datetime(sg_pre_cand["acquisition_datetime_offset"], errors="coerce")
     rosc_pre = pd.to_datetime(sg_pre_cand["rosc_datetime_offset"], errors="coerce")
     lead_hours = (rosc_pre - acq_pre).dt.total_seconds() / 3600.0
@@ -967,7 +967,7 @@ def build_ntuh_audited() -> dict[str, Any]:
 
     # --- 3B. Supplementary Post-ROSC Cohort (`ecg_timetag == '[1]ROSC'` strictly, fixed hyphenated year parser) ---
     sg_rosc_traces = sg_m[sg_m["ecg_timetag"] == "[1]ROSC"].copy()
-    n_rosc_raw_traces = int(len(sg_rosc_traces))
+    n_rosc_raw_traces = len(sg_rosc_traces)
     n_rosc_raw_pats = int(sg_rosc_traces["patient_ngsci_id"].nunique())
 
     rosc_outcomes = pd.read_csv(ntuh / "study-group" / "rosc-outcomes.csv", low_memory=False)
@@ -1018,7 +1018,7 @@ def build_ntuh_audited() -> dict[str, Any]:
     for s in ["train", "cal", "test"]:
         sub = df_cc[df_cc["split"] == s]
         cc_split_summary[s] = {
-            "n_ecgs": int(len(sub)),
+            "n_ecgs": len(sub),
             "n_patients": int(sub["patient_ngsci_id"].nunique()),
             "n_case_ecgs": int(sub["y_pre_arrest"].sum()),
             "n_case_patients": int(sub.loc[sub["y_pre_arrest"] == 1, "patient_ngsci_id"].nunique()),
@@ -1030,7 +1030,7 @@ def build_ntuh_audited() -> dict[str, Any]:
     for s in ["train", "cal", "test"]:
         sub = df_rosc[df_rosc["split"] == s]
         rosc_split_summary[s] = {
-            "n_traces": int(len(sub)),
+            "n_traces": len(sub),
             "n_patients": int(sub["patient_ngsci_id"].nunique()),
             "survival_rate": round(float(sub["y_survive"].mean()), 4),
             "cpc12_rate": round(float(sub["y_good_neuro_cpc12"].mean()), 4),
@@ -1041,7 +1041,7 @@ def build_ntuh_audited() -> dict[str, Any]:
         "pre_arrest_case_control_2015_2019": {
             "parquet_path": str(out_cc_path),
             "design": "2015-2019 case-control pre-arrest SCA cohort (`study-group [0]pre` strictly prior to `rosc_datetime_offset` vs `control-group` non-arrest patients; zero patient overlap)",
-            "n_total_ecgs": int(len(df_cc)),
+            "n_total_ecgs": len(df_cc),
             "n_total_patients": int(df_cc["patient_ngsci_id"].nunique()),
             "n_case_ecgs": int(df_cc["y_pre_arrest"].sum()),
             "n_case_patients": int(df_cc.loc[df_cc["y_pre_arrest"] == 1, "patient_ngsci_id"].nunique()),
@@ -1061,7 +1061,7 @@ def build_ntuh_audited() -> dict[str, Any]:
             "design": "Strictly `[1]ROSC` post-arrest ECGs with hyphenated years (`2011-14`, `2015-16`, `2017` -> train; `2018` -> cal; `2019` -> test)",
             "n_raw_1rosc_traces": n_rosc_raw_traces,
             "n_raw_1rosc_patients": n_rosc_raw_pats,
-            "n_analyzed_traces": int(len(df_rosc)),
+            "n_analyzed_traces": len(df_rosc),
             "n_analyzed_patients": int(df_rosc["patient_ngsci_id"].nunique()),
             "splits": rosc_split_summary,
         },
